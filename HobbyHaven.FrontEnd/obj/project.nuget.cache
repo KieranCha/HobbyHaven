@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9nqyX9rPSTkvUH0DABLPInH05YnZ/xMjcGAy7dR9dAHk+rvzyQwm/6kJpCB8zxJX/eX079/DiYdV0XzOeNUx5g==",
+  "dgSpecHash": "9eyRuqx7ml/iZWoUmSCK5vpn8JRmjrpS1yP8CBnnU6cY4wUPbT0bC5BDADVzl2qlFpVsyCy+6MbXpSS8kJfaYw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\harry\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+  "projectFilePath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\harry\\.nuget\\packages\\microsoft.aspnetcore.authorization\\7.0.2\\microsoft.aspnetcore.authorization.7.0.2.nupkg.sha512",
     "C:\\Users\\harry\\.nuget\\packages\\microsoft.aspnetcore.components\\7.0.2\\microsoft.aspnetcore.components.7.0.2.nupkg.sha512",

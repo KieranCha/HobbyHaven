@@ -1806,11 +1806,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\harry\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+      "projectUniqueName": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
       "projectName": "HobbyHaven.FrontEnd",
-      "projectPath": "C:\\Users\\harry\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+      "projectPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
       "packagesPath": "C:\\Users\\harry\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\harry\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
+      "outputPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\harry\\AppData\\Roaming\\NuGet\\NuGet.Config",

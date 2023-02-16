@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\harry\\source\\repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
+      "projectUniqueName": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
       "projectName": "HobbyHaven.Shared",
-      "projectPath": "C:\\Users\\harry\\source\\repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
+      "projectPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
       "packagesPath": "C:\\Users\\harry\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\harry\\source\\repos\\HobbyHaven\\HobbyHaven.Shared\\obj\\",
+      "outputPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.Shared\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\harry\\AppData\\Roaming\\NuGet\\NuGet.Config",
