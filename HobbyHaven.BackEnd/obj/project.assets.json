@@ -460,19 +460,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\harry\\.nuget\\packages\\": {}
+    "C:\\Users\\kiera\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.BackEnd\\HobbyHaven.BackEnd.csproj",
+      "projectUniqueName": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.BackEnd\\HobbyHaven.BackEnd.csproj",
       "projectName": "HobbyHaven.BackEnd",
-      "projectPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.BackEnd\\HobbyHaven.BackEnd.csproj",
-      "packagesPath": "C:\\Users\\harry\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.BackEnd\\obj\\",
+      "projectPath": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.BackEnd\\HobbyHaven.BackEnd.csproj",
+      "packagesPath": "C:\\Users\\kiera\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.BackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\harry\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\kiera\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

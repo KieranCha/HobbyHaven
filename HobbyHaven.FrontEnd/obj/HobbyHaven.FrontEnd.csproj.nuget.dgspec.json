@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj": {}
+    "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj": {}
   },
   "projects": {
-    "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj": {
+    "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+        "projectUniqueName": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
         "projectName": "HobbyHaven.FrontEnd",
-        "projectPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
-        "packagesPath": "C:\\Users\\harry\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
+        "projectPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+        "packagesPath": "C:\\Users\\kiera\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\harry\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\kiera\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -61,6 +61,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
+              "version": "[7.0.2, 7.0.2]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
