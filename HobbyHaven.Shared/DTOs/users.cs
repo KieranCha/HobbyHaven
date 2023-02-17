@@ -6,5 +6,3 @@
     public List<string> Hobbies { get; set; } // List of hobbies havens the user is enrolled in.
 }
 
-// Ibaeree
-/// AAAAAAAAAAAAAAAAAA
