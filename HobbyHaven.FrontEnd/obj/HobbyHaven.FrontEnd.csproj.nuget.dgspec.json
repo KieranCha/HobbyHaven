@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj": {}
+    "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj": {
+    "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+        "projectUniqueName": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
         "projectName": "HobbyHaven.FrontEnd",
-        "projectPath": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+        "projectPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
         "packagesPath": "C:\\Users\\kiera\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
+        "outputPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kiera\\AppData\\Roaming\\NuGet\\NuGet.Config",

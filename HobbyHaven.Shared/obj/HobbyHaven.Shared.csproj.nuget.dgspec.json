@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj": {}
+    "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj": {
+    "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
         "projectName": "HobbyHaven.Shared",
-        "projectPath": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
+        "projectPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
         "packagesPath": "C:\\Users\\kiera\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.Shared\\obj\\",
+        "outputPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kiera\\AppData\\Roaming\\NuGet\\NuGet.Config",
