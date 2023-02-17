@@ -198,16 +198,16 @@
       "mscorlib.dll": "sha256-T52Qf1cS\/UysEoWOoE2ptEJEXfGpanQX5KNLyDiLv1E=",
       "netstandard.dll": "sha256-p32h5P3QmHJ\/FGoeE6m7f5g\/8ng2PSPGZktHyMadvIs=",
       "System.Private.CoreLib.dll": "sha256-6MwQcyKbqBsoZYOcD9fQJ4iKcn1qMmWRWVEkU2LLCb0=",
-      "HobbyHaven.FrontEnd.dll": "sha256-ZqvfCdXfBqvG4sQB2bUQP6Ciozk8d5hm7Fy20+K89II="
+      "HobbyHaven.FrontEnd.dll": "sha256-SepSnfG7s8oVx9BmcldVxAC3f3lwzme0GNJ6FOmN\/mo="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
-      "HobbyHaven.FrontEnd.pdb": "sha256-PidYk0VQIHd6HwTy+fLe5Y7K86aN5b3vTz6nD9JJAak="
+      "HobbyHaven.FrontEnd.pdb": "sha256-JdP+VZU\/2qvpX+mwbmowe\/qGdrryr+hVMIStkqbZ9HU="
     },
     "runtime": {
-      "dotnet.7.0.2.tt5z2s8frk.js": "sha256-4mh03qTse0uNR+dQ6ydExm4jJXph0RE8zGNCtF0jiNA=",
+      "dotnet.7.0.2.32fo40cb22.js": "sha256-4mh03qTse0uNR+dQ6ydExm4jJXph0RE8zGNCtF0jiNA=",
       "dotnet.timezones.blat": "sha256-ics+RIevvtH3z9plMxv4\/GSMK9+LKYd9sy3FRRI5qTI=",
       "dotnet.wasm": "sha256-U4Yv0mEAN9gesUDNM9s6uB3RdekdPqtggt1OsytNIQM=",
       "icudt.dat": "sha256-DXO3tJHXDOV4qgW\/w8ooggAgZdAVpa5ZllYYAQWpYIk=",

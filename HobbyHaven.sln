@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HobbyHaven.FrontEnd", "HobbyHaven.FrontEnd\HobbyHaven.FrontEnd.csproj", "{5146451B-B42F-463F-8F54-DB47BB539DFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HobbyHaven.FrontEnd", "HobbyHaven.FrontEnd\HobbyHaven.FrontEnd.csproj", "{5146451B-B42F-463F-8F54-DB47BB539DFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HobbyHaven.BackEnd", "HobbyHaven.BackEnd\HobbyHaven.BackEnd.csproj", "{805DADE0-02F7-460E-974E-981DFAB377C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HobbyHaven.BackEnd", "HobbyHaven.BackEnd\HobbyHaven.BackEnd.csproj", "{805DADE0-02F7-460E-974E-981DFAB377C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HobbyHaven.Shared", "HobbyHaven.Shared\HobbyHaven.Shared.csproj", "{CC8539E2-D20E-462B-902D-86159E35D0F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HobbyHaven.Shared", "HobbyHaven.Shared\HobbyHaven.Shared.csproj", "{CC8539E2-D20E-462B-902D-86159E35D0F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

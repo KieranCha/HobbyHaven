@@ -1,0 +1,26 @@
+﻿@page "/"
+@layout EmptyLayout
+
+
+<form>
+    <div class="userLogin">
+        <input type="text" placeholder="Enter username" @bind="username">
+    </div>
+    <div class="userLogin">
+        <input type="password" placeholder="Enter Password" @bind="password">
+    </div>
+    @if ((username != null) && (password != null))
+    {
+        <button  class="userLogin" onclick="login"> Login </button>
+    }
+    <button> No account? Create one</button>
+    <!-- Implemt redirect to sign up page here-->
+</form>
+
+
+@code {
+    string? password, username;
+    // Calls to API, to get user details to login
+    // Will pass password and username in
+}
+
