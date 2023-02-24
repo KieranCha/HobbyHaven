@@ -1654,3 +1654,7 @@ C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\obj\Debug\net7.0\Hobb
 C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\obj\Debug\net7.0\refint\HobbyHaven.FrontEnd.dll
 C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\obj\Debug\net7.0\HobbyHaven.FrontEnd.pdb
 C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\obj\Debug\net7.0\ref\HobbyHaven.FrontEnd.dll
+C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\bin\Debug\net7.0\wwwroot\_framework\MudBlazor.dll
+C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\bin\Debug\net7.0\wwwroot\_framework\MudBlazor.dll.gz
+C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\bin\Debug\net7.0\MudBlazor.dll
+C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\obj\Debug\net7.0\build-gz\2mL34tO4.gz

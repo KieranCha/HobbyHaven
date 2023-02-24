@@ -24,6 +24,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/Pages/SignupPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2lnbnVwUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/Shared/EmptyLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEVtcHR5TGF5b3V0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 

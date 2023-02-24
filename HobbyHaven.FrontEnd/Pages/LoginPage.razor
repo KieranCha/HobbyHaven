@@ -1,26 +1,41 @@
 ﻿@page "/"
 @layout EmptyLayout
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
 
+<MudText Typo="Typo.h1" Color="Color.Warning" Align="Align.Center">Hobby Haven</MudText>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="6" sm="4" >
+        <MudCard Class="pa-4">
+            <MudForm @ref="form">
+                <MudTextField T="string" Label="Username" Variant="Variant.Outlined" @bind-Value="username" 
+                Required="true" RequiredError="Username must be entered!"/>
+                <MudTextField T="string" Label="Password" Variant="Variant.Outlined" @bind-Value="password" InputType="InputType.Password" 
+                Required="true" RequiredError="Password must be entered! "/>
 
-<form>
-    <div class="userLogin">
-        <input type="text" placeholder="Enter username" @bind="username">
-    </div>
-    <div class="userLogin">
-        <input type="password" placeholder="Enter Password" @bind="password">
-    </div>
-    @if ((username != null) && (password != null))
-    {
-        <button  class="userLogin" onclick="login"> Login </button>
-    }
-    <button> No account? Create one</button>
-    <!-- Implemt redirect to sign up page here-->
-</form>
+                @if (username != null && password != null) { loginUnavailable = false; }
+                <MudButton Disabled=@loginUnavailable OnClick="checkUser" Variant="Variant.Filled" FullWidth="true" Color="Color.Primary" > Login </MudButton>
 
+                @if (userEntry) { NavigationManager.NavigateTo("sign-up");  } <!--- Redirecting to signup is temporary! (Just no other pages atm) --->
+            </MudForm>
+        </MudCard>
+        <MudLink Align="right" href="/sign-up"> No Account? Create one! </MudLink>
+    </MudItem>
+</MudGrid>
 
 @code {
     string? password, username;
-    // Calls to API, to get user details to login
+    bool userEntry;
+    bool loginUnavailable = true;
+    MudForm? form;
+
+    // Just example, will be made properly functional when user database is created 
+    private async Task checkUser()
+    {
+        userEntry = false;
+        if (!userEntry) { Snackbar.Add("Username or password incorrect ☹️", Severity.Error); }
+    }
+    // Calls to API go here, to get user details to login
     // Will pass password and username in
 }
 

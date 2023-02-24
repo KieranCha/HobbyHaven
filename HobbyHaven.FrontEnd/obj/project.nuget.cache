@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "c5vunk4xzbi0ksNSNMgdsiqlygL7Qpo5NXHxwaYWWAXTA0IVEdbqFwY5QK8qUjGembsWgnHk9nUR5MaVcB2Yyg==",
+  "dgSpecHash": "wjQfWq0pconI+hkKzu/r721iS3bwhRoyjQ7ggh4zKWYpOOxma2ch+hH9LjAVDUqowJpdfqnJjPvK01qUhpvi5g==",
   "success": true,
   "projectFilePath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
   "expectedPackageFiles": [
@@ -28,6 +28,7 @@
     "C:\\Users\\kiera\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "C:\\Users\\kiera\\.nuget\\packages\\microsoft.jsinterop\\7.0.2\\microsoft.jsinterop.7.0.2.nupkg.sha512",
     "C:\\Users\\kiera\\.nuget\\packages\\microsoft.jsinterop.webassembly\\7.0.2\\microsoft.jsinterop.webassembly.7.0.2.nupkg.sha512",
+    "C:\\Users\\kiera\\.nuget\\packages\\mudblazor\\6.1.9\\mudblazor.6.1.9.nupkg.sha512",
     "C:\\Users\\kiera\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512",
     "C:\\Users\\kiera\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\kiera\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",

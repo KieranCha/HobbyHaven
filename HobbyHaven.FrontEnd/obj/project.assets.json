@@ -419,6 +419,29 @@
           }
         }
       },
+      "MudBlazor/6.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "7.0.1",
+          "Microsoft.AspNetCore.Components.Web": "7.0.1"
+        },
+        "compile": {
+          "lib/net7.0/MudBlazor.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/MudBlazor.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/MudBlazor.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/MudBlazor.props": {}
+        }
+      },
       "System.IO.Pipelines/7.0.0": {
         "type": "package",
         "compile": {
@@ -893,6 +916,29 @@
           "lib/net7.0/Microsoft.JSInterop.WebAssembly.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "MudBlazor/6.1.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "7.0.1",
+          "Microsoft.AspNetCore.Components.Web": "7.0.1"
+        },
+        "compile": {
+          "lib/net7.0/MudBlazor.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/MudBlazor.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/MudBlazor.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/MudBlazor.props": {}
         }
       },
       "System.IO.Pipelines/7.0.0": {
@@ -1664,6 +1710,29 @@
         "microsoft.jsinterop.webassembly.nuspec"
       ]
     },
+    "MudBlazor/6.1.9": {
+      "sha512": "Vvdqrow3NX+yxl3gJYaKxsQXohA2N7t9a9NVzctnWy2oghU610bYcOXfP80exw/ygfGXovh9GHcQD/0VV6ohPw==",
+      "type": "package",
+      "path": "mudblazor/6.1.9",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "Nuget.png",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "build/MudBlazor.props",
+        "buildMultiTargeting/MudBlazor.props",
+        "buildTransitive/MudBlazor.props",
+        "lib/net6.0/MudBlazor.dll",
+        "lib/net6.0/MudBlazor.xml",
+        "lib/net7.0/MudBlazor.dll",
+        "lib/net7.0/MudBlazor.xml",
+        "mudblazor.6.1.9.nupkg.sha512",
+        "mudblazor.nuspec",
+        "staticwebassets/MudBlazor.min.css",
+        "staticwebassets/MudBlazor.min.js"
+      ]
+    },
     "System.IO.Pipelines/7.0.0": {
       "sha512": "jRn6JYnNPW6xgQazROBLSfpdoczRw694vO5kKvMcNnpXuolEixUyw6IBuBs2Y2mlSX/LdLvyyWmfXhaI3ND1Yg==",
       "type": "package",
@@ -1797,7 +1866,8 @@
   "projectFileDependencyGroups": {
     "net7.0": [
       "Microsoft.AspNetCore.Components.WebAssembly >= 7.0.2",
-      "Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 7.0.2"
+      "Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 7.0.2",
+      "MudBlazor >= 6.1.9"
     ]
   },
   "packageFolders": {
@@ -1806,11 +1876,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+      "projectUniqueName": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
       "projectName": "HobbyHaven.FrontEnd",
-      "projectPath": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+      "projectPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
       "packagesPath": "C:\\Users\\kiera\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kiera\\Source\\Repos\\HobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
+      "outputPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kiera\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1847,6 +1917,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[7.0.2, )"
+          },
+          "MudBlazor": {
+            "target": "Package",
+            "version": "[6.1.9, )"
           }
         },
         "imports": [
