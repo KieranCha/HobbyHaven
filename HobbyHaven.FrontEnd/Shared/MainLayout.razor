@@ -6,7 +6,7 @@
 
 <MudLayout>
     <MudAppBar Color="Color.Warning">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => menuToggle())" />
+        <MudIconButton Icon="@menuIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => menuToggle())" />
         <MudSpacer />
         <MudText Typo="Typo.h4"> Hobby Haven </MudText>
     </MudAppBar>
@@ -20,8 +20,14 @@
 
 @code {
     bool openNavMenu = false;
+    string menuIcon = Icons.Material.Filled.Menu;
     private void menuToggle()
     {
         openNavMenu = !openNavMenu;
+        if (openNavMenu)  menuIcon = Icons.Material.Filled.MenuOpen; 
+        else  menuIcon = Icons.Material.Filled.Menu; 
     }
+
+    
 }
+

@@ -1,7 +1,125 @@
 ﻿@page "/sign-up"
 @layout EmptyLayout
-<MudText> soon </MudText>
+@using System.Text.RegularExpressions
+@inject NavigationManager NavigationManager
+
+<MudText Typo="Typo.h1" Color="Color.Warning" Align="Align.Center">Hobby Haven</MudText>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="6" sm="4" >
+        <MudCard Class="pa-4">
+            <MudText Typo="Typo.h5" Align="Align.Left">Sign up here!</MudText>
+            <MudForm @ref="form">
+                <MudTextField T="string" Label="Username" Variant="Variant.Outlined" @bind-Value="username"
+                              Required="true" RequiredError="Username must be entered!" />
+                @if (true) checkUsername(username); 
+
+                <MudTextField T="string" Label="Password" Variant="Variant.Outlined" @bind-Value="password" InputType="@passInputType"
+                              Adornment="Adornment.End" AdornmentIcon="@passVisIcon" OnAdornmentClick="showPassword" AdornmentAriaLabel="Show Password"
+                              Required="true" RequiredError="Password must be entered! " />
+                @if (true) CheckPasswordStrength(password); 
+                @if (!passwordStrong) 
+                {
+                    @foreach (var error in ErrorList) 
+                    {
+                        <MudText Typo="Typo.body2" Color="Color.Error">@error</MudText>
+                    }
+                }
+      
+                <MudTextField T="string" Label="Enter password again" Variant="Variant.Outlined" @bind-Value="passwordCheck"
+                              Adornment="Adornment.End" AdornmentIcon="@sameCheckIcon" AdornmentColor="@sameIconColor"
+                              InputType="InputType.Password" Required="true" RequiredError="Password must be replicated! "/>
+                @if (true) CheckPasswordSame(); 
+
+                @if (usernameAvailable && passwordsMatch && passwordStrong && password != null && username != null )  signupUnavailable = false; 
+                <MudButton Disabled=@signupUnavailable OnClick="createUserAndLogin"  Variant="Variant.Filled" FullWidth="true" Color="Color.Primary"> Login </MudButton>
+            </MudForm>
+        </MudCard>
+    </MudItem>
+</MudGrid>
 
 @code {
-    string? username,password;
+    string? username, password, passwordCheck;
+    string passVisIcon = Icons.Material.Filled.VisibilityOff;
+    string sameCheckIcon = Icons.Material.Filled.Clear;
+    bool passwordsMatch, usernameAvailable, isShow = false;
+    bool passwordStrong, signupUnavailable = true;
+    Color sameIconColor = Color.Error;
+    InputType passInputType = InputType.Password;
+    MudForm? form;
+    List<string> ErrorList = new();
+
+    private void CheckPasswordSame()
+    {
+        if (password == null || passwordCheck == null)  return; 
+        else if (password == passwordCheck)
+        {
+            passwordsMatch = true;   
+            sameIconColor = Color.Success;
+            sameCheckIcon = Icons.Material.Filled.Check;
+        }
+        else if (password != passwordCheck)
+        {
+            passwordsMatch = false;
+            sameIconColor = Color.Error;
+            sameCheckIcon = Icons.Material.Filled.Clear;
+        }
+    }
+
+    private void CheckPasswordStrength(string password)
+    {
+        ErrorList.Clear();
+        if (password == null)  return; 
+
+        if (password.Length < 8 || !Regex.IsMatch(password, @"[A-Z]") || !Regex.IsMatch(password, @"[a-z]") || !Regex.IsMatch(password, @"[0-9]"))
+        {
+            passwordStrong = false;
+            if (password.Length < 8)  ErrorList.Add("Password must be at least of length 8");
+            if (!Regex.IsMatch(password, @"[A-Z]"))  ErrorList.Add("Password must contain at least one capital letter"); 
+            if (!Regex.IsMatch(password, @"[a-z]"))  ErrorList.Add("Password must contain at least one lowercase letter"); 
+            if (!Regex.IsMatch(password, @"[0-9]"))  ErrorList.Add("Password must contain at least one digit"); 
+        }
+        else { passwordStrong = true;  }
+
+        /*
+            if (passwordStrong)
+            {
+            strongIconColor = Color.Success;
+            strongCheckIcon = Icons.Material.Filled.Check;
+        }
+        else
+            {
+            strongIconColor = Color.Error;
+            strongCheckIcon = Icons.Material.Filled.Clear;
+        } */
+    }
+
+    private void showPassword()
+    {
+        if (isShow)
+        {
+            isShow = false;
+            passVisIcon = Icons.Material.Filled.VisibilityOff;
+            passInputType = InputType.Password;
+        }
+        else 
+        {
+            isShow = true;
+            passVisIcon = Icons.Material.Filled.Visibility;
+            passInputType = InputType.Text;
+        }
+    }
+
+    // Here will be API stuff
+    private void checkUsername(string username)
+    {
+        // Pass to API and check if username take
+        usernameAvailable = true;
+    }
+    private void createUserAndLogin()
+    {
+        // Pass to API and save to JSON file of users
+        //Redirect to log in to 
+        NavigationManager.NavigateTo("");
+
+    }
 }

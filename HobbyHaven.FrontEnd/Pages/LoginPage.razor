@@ -13,10 +13,10 @@
                 <MudTextField T="string" Label="Password" Variant="Variant.Outlined" @bind-Value="password" InputType="InputType.Password" 
                 Required="true" RequiredError="Password must be entered! "/>
 
-                @if (username != null && password != null) { loginUnavailable = false; }
+                @if (username != null && password != null)  loginUnavailable = false; 
                 <MudButton Disabled=@loginUnavailable OnClick="checkUser" Variant="Variant.Filled" FullWidth="true" Color="Color.Primary" > Login </MudButton>
 
-                @if (userEntry) { NavigationManager.NavigateTo("sign-up");  } <!--- Redirecting to signup is temporary! (Just no other pages atm) --->
+                @if (userEntry)  NavigationManager.NavigateTo("sign-up");   <!--- Redirecting to signup is temporary! (Just no other pages atm) --->
             </MudForm>
         </MudCard>
         <MudLink Align="right" href="/sign-up"> No Account? Create one! </MudLink>
@@ -33,7 +33,7 @@
     private async Task checkUser()
     {
         userEntry = false;
-        if (!userEntry) { Snackbar.Add("Username or password incorrect ☹️", Severity.Error); }
+        if (!userEntry) Snackbar.Add("Username or password incorrect ☹️", Severity.Error); 
     }
     // Calls to API go here, to get user details to login
     // Will pass password and username in
