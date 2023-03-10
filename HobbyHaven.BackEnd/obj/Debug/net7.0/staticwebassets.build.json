@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vkrIh6eMDWa4TN7QM1xNlFBXdzYIqVv8CNW3/YBBH6Y=",
+  "Hash": "9im/kxWGu6hyHdeYmfxSGtHYgyf3Kvb4h9j43ohkV7w=",
   "Source": "HobbyHaven.BackEnd",
   "BasePath": "_content/HobbyHaven.BackEnd",
   "Mode": "Default",
@@ -9,10 +9,10 @@
   "DiscoveryPatterns": [],
   "Assets": [
     {
-      "Identity": "C:\\Users\\kiera\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\MudBlazor.min.css",
+      "Identity": "C:\\Users\\Neary\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\MudBlazor.min.css",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "C:\\Users\\kiera\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\",
+      "ContentRoot": "C:\\Users\\Neary\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.css",
       "AssetKind": "All",
@@ -23,13 +23,13 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\kiera\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\MudBlazor.min.css"
+      "OriginalItemSpec": "C:\\Users\\Neary\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\MudBlazor.min.css"
     },
     {
-      "Identity": "C:\\Users\\kiera\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\MudBlazor.min.js",
+      "Identity": "C:\\Users\\Neary\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\MudBlazor.min.js",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "C:\\Users\\kiera\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\",
+      "ContentRoot": "C:\\Users\\Neary\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.js",
       "AssetKind": "All",
@@ -40,7 +40,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\kiera\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\MudBlazor.min.js"
+      "OriginalItemSpec": "C:\\Users\\Neary\\.nuget\\packages\\mudblazor\\6.1.9\\staticwebassets\\MudBlazor.min.js"
     }
   ]
 }

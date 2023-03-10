@@ -9,41 +9,37 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = HobbyHaven.FrontEnd
 build_property.RootNamespace = HobbyHaven.FrontEnd
-build_property.ProjectDir = C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd\
+build_property.ProjectDir = C:\Users\Neary\Documents\Documents\Projects\Github\HobbyHaven\HobbyHaven.FrontEnd\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\kiera\source\repos\HobbyHaven\HobbyHaven.FrontEnd
+build_property.MSBuildProjectDirectory = C:\Users\Neary\Documents\Documents\Projects\Github\HobbyHaven\HobbyHaven.FrontEnd
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/App.razor]
+[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/Pages/LoginPage.razor]
+[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Pages/LoginPage.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/Pages/SignupPage.razor]
+[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Pages/SignupPage.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2lnbnVwUGFnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/Shared/EmptyLayout.razor]
+[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Shared/EmptyLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEVtcHR5TGF5b3V0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/Shared/SurveyPrompt.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/_Imports.razor]
+[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/Shared/MainLayout.razor]
+[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-fvpi5x4w9z
 
-[C:/Users/kiera/source/repos/HobbyHaven/HobbyHaven.FrontEnd/Shared/NavMenu.razor]
+[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-valfglt2ad

@@ -1,17 +1,22 @@
-﻿namespace HobbyHaven.Shared.DTOs.Hobbies
+﻿using HobbyHaven.Shared.DTOs.Hobbies;
+
+namespace HobbyHaven.Shared.DTOs.User
 {
-    class Haven
+    public class DTOUser
     {
-        public string Name { get; set; }
-        public List<Hobby> AssociatedHobbies { get; set; } = new(); // List of hobbies havens the user is enrolled in.
-        public int Id { get; set; } // Unique id for the hobby haven
-        public string location { get; set; }
+        public string Username { get; set; }
+        public long Id { get; set; } // Randomly generated unique identifier assigned to each user.
+        public string? ProfilePicture { get; set; } = null; // Profile picture image url.
+        public List<string> PersonalityTags { get; set; } = new(); // Tags used to match the users personality/characteristics to a hobby.
+        public List<DTOHaven> Havens { get; set; } = new(); // List of hobbies havens the user is enrolled in
+        public string Bio { get; set; } = "";
     }
 
-    class Hobby
+    public class DTOCreateUser
     {
-        public string Name { get; set; }
-        public int Id { get; set; }
-        public List<string> PersonalityTags { get; set; } = new();
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
     }
+
 }

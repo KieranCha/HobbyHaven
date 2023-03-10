@@ -1871,19 +1871,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kiera\\.nuget\\packages\\": {}
+    "C:\\Users\\Neary\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+      "projectUniqueName": "C:\\Users\\Neary\\Documents\\Documents\\Projects\\Github\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
       "projectName": "HobbyHaven.FrontEnd",
-      "projectPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
-      "packagesPath": "C:\\Users\\kiera\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kiera\\source\\repos\\HobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
+      "projectPath": "C:\\Users\\Neary\\Documents\\Documents\\Projects\\Github\\HobbyHaven\\HobbyHaven.FrontEnd\\HobbyHaven.FrontEnd.csproj",
+      "packagesPath": "C:\\Users\\Neary\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Neary\\Documents\\Documents\\Projects\\Github\\HobbyHaven\\HobbyHaven.FrontEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\kiera\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Neary\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1937,7 +1937,7 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-            "version": "[7.0.2, 7.0.2]"
+            "version": "[7.0.0, 7.0.0]"
           }
         ],
         "frameworkReferences": {
@@ -1945,7 +1945,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {
