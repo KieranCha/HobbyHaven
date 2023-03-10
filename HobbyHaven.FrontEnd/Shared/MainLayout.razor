@@ -8,7 +8,7 @@
     <MudAppBar Color="Color.Warning">
         <MudIconButton Icon="@menuIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => menuToggle())" />
         <MudSpacer />
-        <MudText Typo="Typo.h4"> Hobby Haven </MudText>
+        <MudButton  Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/"> Hobby Haven </MudButton>
     </MudAppBar>
     <MudDrawer @bind-Open="@openNavMenu">
         <NavMenu/>

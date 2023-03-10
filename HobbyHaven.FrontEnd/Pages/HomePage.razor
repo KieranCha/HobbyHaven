@@ -1,0 +1,87 @@
+﻿@page "/"
+@layout HomeLayout
+@inject NavigationManager NavigationManager
+
+
+<MudCarousel Class="mud-width-full" Style="height:200px;" 
+             ShowArrows="true" ShowBullets="false" AutoCycle="true" TData="object">
+    <MudCarouselItem Transition="Transition.Fade" Style="text-align:center" Color="Color.Tertiary">
+        <MudText Typo="Typo.h1" Style="color:darkorange"> Welcome </MudText>
+        <MudText Typo="Typo.h4" Style="color:black"> To your Haven for Hobbies</MudText>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Fade" Style="text-align:center" Color="Color.Tertiary">
+        <MudText Typo="Typo.h1" Style="color:darkorange">Find Hobbies</MudText>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Fade" Style="text-align:center" Color="Color.Tertiary">
+        <MudText Typo="Typo.h1" Style="color:darkorange">Find Havens</MudText>
+    </MudCarouselItem>
+</MudCarousel>
+<MudTabs Position="Position.Top" Centered="true" Outlined="true">
+    <MudTabPanel Text="Who are we?">
+        <MudContainer Style="text-align:center">
+            <MudText Typo="Typo.h2" Style="color:darkorange"> Who is Hobby Haven? </MudText>
+            <MudText Typo="Typo.h6"> Hobby Haven is THE number one way to meet people with your hobbies and tastes. </MudText>
+            <MudText Typo="Typo.h6"> At Hobby Haven we aim to let you know your community at a new level by providing </MudText>
+            <MudText Typo="Typo.h6"> you the means to explore and learn about your areas through our Havens, meeting </MudText>
+            <MudText Typo="Typo.h6"> spots for people you share hobbies with.  </MudText>
+        </MudContainer>
+    </MudTabPanel>
+    <MudTabPanel Text="What about you?">
+        <MudContainer Style="text-align:center">
+            <MudText Typo="Typo.h2" Style="color:darkorange"> How do we do it? </MudText>
+            <MudText Typo="Typo.h6"> All you have to do is describe yourself to us and we'll automatically find </MudText>
+            <MudText Typo="Typo.h6"> Hobbies that match your taste, all you have to do say your interested and </MudText>
+            <MudText Typo="Typo.h6"> and we'll alert you of Havens near you to meet people with the same hobby </MudText>
+            <MudText Typo="Typo.h6"> We feature a wide variety of unique hobbies, enjoyed all around the world</MudText>
+        </MudContainer>
+    </MudTabPanel>
+    <MudTabPanel Text="Where are we?">
+        <MudContainer Style="text-align:center">
+            <MudText Typo="Typo.h2" Style="color:darkorange"> Where do we do it? </MudText>
+            <MudText Typo="Typo.h6"> Hobbies each have matching Havens that are in your area, each area should </MudText>
+            <MudText Typo="Typo.h6"> adaquete havens for every hobby, these Havens are verified by our admin team.</MudText>
+            <MudText Typo="Typo.h6"> This means you can feel safe meeting with people around your area knowing</MudText>
+            <MudText Typo="Typo.h6"> each Haven is checked thoroughly and made sure to be safe. </MudText>
+        </MudContainer>
+    </MudTabPanel>
+    <MudTabPanel Text="How do you do it?">
+        <MudContainer Style="text-align:center">
+            <MudText Typo="Typo.h2" Style="color:darkorange"> What if there are no Havens? </MudText>
+            <MudText Typo="Typo.h6"> As a user you can fill out a form to suggest to our admins venues near you </MudText>
+            <MudText Typo="Typo.h6"> To be Havens, our Admins run a check on this area to make sure its safe for </MudText>
+            <MudText Typo="Typo.h6"> all of our users, once approved that Haven is now operational and can be used </MudText>
+            <MudText Typo="Typo.h6"> to meet and practice your Hobbies with your local community! </MudText>
+        </MudContainer>
+
+    </MudTabPanel>
+</MudTabs>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6"/>
+
+<MudGrid Spacing="3" Justify="Justify.Center">
+    <MudItem>
+        <MudPaper>
+            <MudImage Src="https://media.vanityfair.com/photos/62fa88ecd703349a746d4ea2/master/pass/vf-822-superbad-making-of-005.jpg" Width="200" Height="200"/>
+            <MudText Align="Align.Center"> Havens verified by our team </MudText>
+        </MudPaper>
+    </MudItem>
+    <MudItem>
+        <MudPaper>
+            <MudImage Src="https://d3i71xaburhd42.cloudfront.net/79edd4ef425984eba198c3905a79f21a817b81de/25-Figure1-1.png" Width="200" Height="200" />
+            <MudText Align="Align.Center"> Know your community</MudText>
+        </MudPaper>
+    </MudItem>
+    <MudItem>
+        <MudPaper>
+            <MudImage Src="https://img.freepik.com/premium-photo/diverse-group-young-people-hanging-out-urban-city-setting-with-boombox_236854-45184.jpg" Width ="200" Height="200"/>
+            <MudText Align="Align.Center"> Hobbies tailored for you </MudText>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+
+
+@code {
+
+}

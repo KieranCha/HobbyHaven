@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Color="Color.Warning">
+        <MudText Style="color:floralwhite;width:240px;height:60px;font-size:30px"> Hobby Haven </MudText>
+        <MudSpacer />
+        <MudButton Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/log-in"> Log In </MudButton>
+        <MudDivider Vertical="true" FlexItem="true" />
+        <MudButton Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/sign-up"> Sign Up </MudButton>
+    </MudAppBar>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+
+}
