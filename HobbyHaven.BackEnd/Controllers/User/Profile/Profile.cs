@@ -12,7 +12,7 @@ namespace HobbyHaven.BackEnd.Controllers.Profile
         [HttpGet]
         public ActionResult<DTOUser> GetUserProfile([FromQuery] string profile) // Create the user account
         {
-            User user = new(int.Parse(profile), true);
+            User user = new(long.Parse(profile), true);
 
             return user.DTOUser;
         }

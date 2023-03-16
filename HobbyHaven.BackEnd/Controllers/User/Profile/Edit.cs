@@ -8,20 +8,12 @@ namespace HobbyHaven.BackEnd.Controllers.Profile
 {
     [Route("api/user/profile")]
     [ApiController]
-    public class UserProfile : ControllerBase
+    public class EditProfile : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<DTOUser> GetUserProfile([FromQuery] long profile) 
-        {
-            User user = new(profile, true);
-
-            return user.DTOUser;
-        }
-
         [HttpPut]
         public IActionResult EditUserProfile([FromBody] Dictionary<string, string> changes)
         {
-            List<string> permitted_changes = new List<string>() { "BIO", "USERNAME", "PROFILEPICTURE" };
+            List<string> permitted_changes = new List<string>() { "Bio", "Username", "ProfilePicture" };
             string? token = Request.Headers["Authorization"];
 
             User user = new(token, true);
@@ -35,7 +27,7 @@ namespace HobbyHaven.BackEnd.Controllers.Profile
 
             foreach (KeyValuePair<string, string> pair in changes)
             {
-                if (permitted_changes.Contains(pair.Key.ToUpper()))
+                if (permitted_changes.Contains(pair.Key))
                 {
                     PropertyInfo property = type.GetProperty(pair.Key);
                     if (property != null)
