@@ -9,37 +9,61 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = HobbyHaven.FrontEnd
 build_property.RootNamespace = HobbyHaven.FrontEnd
-build_property.ProjectDir = C:\Users\Neary\Documents\Documents\Projects\Github\HobbyHaven\HobbyHaven.FrontEnd\
+build_property.ProjectDir = C:\Users\harry\source\repos\AzureHobbyHaven\HobbyHaven.FrontEnd\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Neary\Documents\Documents\Projects\Github\HobbyHaven\HobbyHaven.FrontEnd
+build_property.MSBuildProjectDirectory = C:\Users\harry\source\repos\AzureHobbyHaven\HobbyHaven.FrontEnd
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/App.razor]
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Pages/LoginPage.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlLnJhem9y
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Pages/HavenPages/HavenMap.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSGF2ZW5QYWdlc1xIYXZlbk1hcC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Pages/SignupPage.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2lnbnVwUGFnZS5yYXpvcg==
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Pages/HavenPages/SuggestHaven.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSGF2ZW5QYWdlc1xTdWdnZXN0SGF2ZW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Shared/EmptyLayout.razor]
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Pages/HobbyPages/SuggestedHobbies.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9iYnlQYWdlc1xTdWdnZXN0ZWRIb2JiaWVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Pages/HobbyPages/UsersHobbies.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9iYnlQYWdlc1xVc2Vyc0hvYmJpZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Pages/HomePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZVBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Pages/LoginPages/LoginPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlc1xMb2dpblBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Pages/LoginPages/SignupPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlc1xTaWdudXBQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Shared/EmptyLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEVtcHR5TGF5b3V0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/_Imports.razor]
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Shared/HomeLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEhvbWVMYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Shared/MainLayout.razor]
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-fvpi5x4w9z
 
-[C:/Users/Neary/Documents/Documents/Projects/Github/HobbyHaven/HobbyHaven.FrontEnd/Shared/NavMenu.razor]
+[C:/Users/harry/source/repos/AzureHobbyHaven/HobbyHaven.FrontEnd/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-valfglt2ad

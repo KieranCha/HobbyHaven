@@ -5,7 +5,7 @@
         public bool Exists { get; set; } = false;
         public bool Admin { get; set; } = false;
         public string Token { get; set; }
-        public long? id { get; set; } = null;
+        public long? Id { get; set; } = null;
     }
 
     public class LoginInformation
