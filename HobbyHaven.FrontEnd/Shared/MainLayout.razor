@@ -1,12 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
+
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
+<MudLayout> 
     <MudAppBar Color="Color.Warning">
-        <MudIconButton Icon="@menuIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => menuToggle())" />
+        <AuthorizeView>
+            <Authorized>
+                <MudIconButton Icon="@menuIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => menuToggle())" />
+            </Authorized>
+        </AuthorizeView>
         <MudSpacer />
         <MudButton  Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/"> Hobby Haven </MudButton>
     </MudAppBar>
@@ -27,7 +32,6 @@
         if (openNavMenu)  menuIcon = Icons.Material.Filled.MenuOpen; 
         else  menuIcon = Icons.Material.Filled.Menu; 
     }
-
-    
+   
 }
 

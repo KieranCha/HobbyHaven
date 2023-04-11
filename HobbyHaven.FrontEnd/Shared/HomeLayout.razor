@@ -6,17 +6,30 @@
 
 <MudLayout>
     <MudAppBar Color="Color.Warning">
+        <AuthorizeView>
+            <Authorized>
+                <MudIconButton Icon="@menuIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => menuToggle())" />
+            </Authorized>
+        </AuthorizeView>
         <MudText Style="color:floralwhite;width:240px;height:60px;font-size:30px"> Hobby Haven </MudText>
         <MudSpacer />
-        <MudButton Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/log-in"> Log In </MudButton>
-        <MudDivider Vertical="true" FlexItem="true" />
-        <MudButton Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/sign-up"> Sign Up </MudButton>
+        <AccessControl />
     </MudAppBar>
+    <MudDrawer @bind-Open="@openNavMenu">
+        <NavMenu />
+    </MudDrawer>
     <MudMainContent>
         @Body
     </MudMainContent>
 </MudLayout>
 
 @code {
-
+    bool openNavMenu = false;
+    string menuIcon = Icons.Material.Filled.Menu;
+    private void menuToggle()
+    {
+        openNavMenu = !openNavMenu;
+        if (openNavMenu) menuIcon = Icons.Material.Filled.MenuOpen;
+        else menuIcon = Icons.Material.Filled.Menu;
+    }
 }

@@ -1,0 +1,27 @@
+﻿@* Client/Shared/AccessControl.razor *@
+
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+
+<AuthorizeView>
+    <Authorized>
+        <MudText Style="color:floralwhite;width:240px;height:60px;font-size:24px;top:50%;"> Hi,  @context.User.Identity.Name.Split('@')[0] </MudText>
+        <MudDivider Vertical="true"/>
+        <MudButton Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" @onclick="BeginSignOut">Log out</MudButton>
+    </Authorized>
+    <NotAuthorized>
+        <MudButton Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/authentication/login"> Log In </MudButton>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+    
+}

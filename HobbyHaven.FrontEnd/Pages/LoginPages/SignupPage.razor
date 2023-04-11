@@ -1,7 +1,12 @@
 ﻿@page "/sign-up"
 @layout EmptyLayout
 @using System.Text.RegularExpressions
+@inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+
+
 
 <MudText Typo="Typo.h1" Color="Color.Warning" Align="Align.Center">Hobby Haven</MudText>
 <MudGrid Justify="Justify.Center">
@@ -11,12 +16,15 @@
             <MudForm @ref="form">
                 <MudTextField T="string" Label="Username" Variant="Variant.Outlined" @bind-Value="username"
                               Required="true" RequiredError="Username must be entered!" />
-                @if (true) checkUsername(username); 
+
+                <MudTextField T="string" Label="Email" Variant="Variant.Outlined" @bind-Value="email"
+                              Adornment="Adornment.End" AdornmentIcon="@validEmailIcon" AdornmentColor="@validEmailColor"
+                              Required="true" RequiredError="Email must be entered!"/>
+                @if (email != null) checkEmailValid(email);
 
                 <MudTextField T="string" Label="Password" Variant="Variant.Outlined" @bind-Value="password" InputType="@passInputType"
-                              Adornment="Adornment.End" AdornmentIcon="@passVisIcon" OnAdornmentClick="showPassword" AdornmentAriaLabel="Show Password"
                               Required="true" RequiredError="Password must be entered! " />
-                @if (true) CheckPasswordStrength(password); 
+                @if (password != null) CheckPasswordStrength(password); 
                 @if (!passwordStrong) 
                 {
                     @foreach (var error in ErrorList) 
@@ -28,30 +36,68 @@
                 <MudTextField T="string" Label="Enter password again" Variant="Variant.Outlined" @bind-Value="passwordCheck"
                               Adornment="Adornment.End" AdornmentIcon="@sameCheckIcon" AdornmentColor="@sameIconColor"
                               InputType="InputType.Password" Required="true" RequiredError="Password must be replicated! "/>
-                @if (true) CheckPasswordSame(); 
+                @if (passwordCheck != null) CheckPasswordSame(); 
 
-                @if (usernameAvailable && passwordsMatch && passwordStrong && password != null && username != null )  signupUnavailable = false; 
-                <MudButton Disabled=@signupUnavailable OnClick="createUserAndLogin"  Variant="Variant.Filled" FullWidth="true" Color="Color.Primary"> Login </MudButton>
+                @if (validEmail && passwordsMatch && passwordStrong && password != null && username != null)
+                {
+                    signupUnavailable = false;
+                }
+                else signupUnavailable = true;
+                <MudButton Disabled=@signupUnavailable OnClick="(async() => {await createUserAndLogin(); })" Variant="Variant.Filled" FullWidth="true" Color="Color.Primary"> Create account </MudButton>
             </MudForm>
         </MudCard>
     </MudItem>
 </MudGrid>
 
 @code {
-    string? username, password, passwordCheck;
+    // Adornment="Adornment.End" AdornmentIcon="@passVisIcon" OnAdornmentClick="showPassword" AdornmentAriaLabel="Show Password"
+    string? username, password, email, passwordCheck;
     string passVisIcon = Icons.Material.Filled.VisibilityOff;
-    string sameCheckIcon = Icons.Material.Filled.Clear;
-    bool passwordsMatch, usernameAvailable, isShow = false;
+    string sameCheckIcon, validEmailIcon = Icons.Material.Filled.Clear;
+    bool passwordsMatch, isShow, validEmail = false;
     bool passwordStrong, signupUnavailable = true;
-    Color sameIconColor = Color.Error;
+    Color sameIconColor, validEmailColor = Color.Error;
     InputType passInputType = InputType.Password;
     MudForm? form;
     List<string> ErrorList = new();
 
+
+
+    private void checkEmailValid(string email)
+    {
+        if (email.Contains("@") && Regex.IsMatch(email[0].ToString(), @"^[a-zA-Z0-9_]+$"))
+        {
+            int index = email.IndexOf("@");
+            try
+            {
+                if (Regex.IsMatch(email[index + 1].ToString(), @"^[a-zA-Z0-9]+$") && (email.EndsWith(".com") || email.EndsWith(".co.uk") || email.EndsWith(".gov") || email.EndsWith(".net") || email.EndsWith(".org")))
+                {
+                    validEmail = true;
+                    validEmailIcon = Icons.Material.Filled.Check;
+                    validEmailColor = Color.Success;
+                }
+                else changeEmailIcon();
+            }
+            catch (IndexOutOfRangeException)
+            {
+                changeEmailIcon();
+            }
+        }
+        else changeEmailIcon();
+    }
+
+    private void changeEmailIcon()
+    {
+        validEmail = false;
+        validEmailIcon = Icons.Material.Filled.Clear;
+        validEmailColor = Color.Error;
+
+    }
+
     private void CheckPasswordSame()
     {
-        if (password == null || passwordCheck == null)  return; 
-        else if (password == passwordCheck)
+
+        if (password == passwordCheck)
         {
             passwordsMatch = true;   
             sameIconColor = Color.Success;
@@ -68,8 +114,6 @@
     private void CheckPasswordStrength(string password)
     {
         ErrorList.Clear();
-        if (password == null)  return; 
-
         if (password.Length < 8 || !Regex.IsMatch(password, @"[A-Z]") || !Regex.IsMatch(password, @"[a-z]") || !Regex.IsMatch(password, @"[0-9]"))
         {
             passwordStrong = false;
@@ -79,18 +123,6 @@
             if (!Regex.IsMatch(password, @"[0-9]"))  ErrorList.Add("Password must contain at least one digit"); 
         }
         else { passwordStrong = true;  }
-
-        /*
-            if (passwordStrong)
-            {
-            strongIconColor = Color.Success;
-            strongCheckIcon = Icons.Material.Filled.Check;
-        }
-        else
-            {
-            strongIconColor = Color.Error;
-            strongCheckIcon = Icons.Material.Filled.Clear;
-        } */
     }
 
     private void showPassword()
@@ -109,17 +141,23 @@
         }
     }
 
-    // Here will be API stuff
-    private void checkUsername(string username)
+    public async Task createUserAndLogin()
     {
-        // Pass to API and check if username take
-        usernameAvailable = true;
-    }
-    private void createUserAndLogin()
-    {
-        // Pass to API and save to JSON file of users
-        //Redirect to log in to 
-        NavigationManager.NavigateTo("/log-in");
+        // /api/user HTTPpost  
+        string url = "https://localhost:44357/api/user/";
 
+        IEnumerable<KeyValuePair<string, string>> payload = new[]
+            {
+                new KeyValuePair<string, string>("Username", username),
+                new KeyValuePair<string, string>("Email", email),
+                new KeyValuePair<string, string>("Password", password)
+            };
+
+        var formContent = new FormUrlEncodedContent(payload);
+
+        var client = ClientFactory.CreateClient();
+        var response = await client.PostAsync(url, formContent);
+        if (response.IsSuccessStatusCode) NavigationManager.NavigateTo("/log-in");
+        else Snackbar.Add("Account already exsists!", Severity.Error);
     }
 }
