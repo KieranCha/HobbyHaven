@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 
-<MudThemeProvider />
+<MudThemeProvider Theme="newFont" @bind-IsDarkMode="@darkModeToggle" @ref="@ThemeProvider" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -24,6 +24,8 @@
 </MudLayout>
 
 @code {
+    MudThemeProvider ThemeProvider;
+    bool darkModeToggle;
     bool openNavMenu = false;
     string menuIcon = Icons.Material.Filled.Menu;
     private void menuToggle()
@@ -32,6 +34,24 @@
         if (openNavMenu)  menuIcon = Icons.Material.Filled.MenuOpen; 
         else  menuIcon = Icons.Material.Filled.Menu; 
     }
-   
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            darkModeToggle = await ThemeProvider.GetSystemPreference();
+            StateHasChanged();
+        }
+    }
+    MudTheme newFont = new MudTheme()
+        {
+            Typography = new Typography()
+            {
+                Default = new Default()
+                {
+                    FontFamily = new[] { "Segoe UI" }
+                }
+            }
+        };
 }
 

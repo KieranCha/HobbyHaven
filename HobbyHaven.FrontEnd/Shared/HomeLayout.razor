@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="newFont" @bind-IsDarkMode="@darkModeToggle" @ref="@MudThemeProvider"/>
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -11,7 +11,7 @@
                 <MudIconButton Icon="@menuIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => menuToggle())" />
             </Authorized>
         </AuthorizeView>
-        <MudText Style="color:floralwhite;width:240px;height:60px;font-size:30px"> Hobby Haven </MudText>
+        <MudText Style="color:floralwhite;width:240px;height:60px;font-size:30px;font-weight:bold;" Align="Align.Center" > HOBBY HAVEN </MudText>
         <MudSpacer />
         <AccessControl />
     </MudAppBar>
@@ -24,12 +24,33 @@
 </MudLayout>
 
 @code {
+    NavMenu _navMenu;
+    bool darkModeToggle;
     bool openNavMenu = false;
     string menuIcon = Icons.Material.Filled.Menu;
+    MudThemeProvider MudThemeProvider;
     private void menuToggle()
     {
         openNavMenu = !openNavMenu;
         if (openNavMenu) menuIcon = Icons.Material.Filled.MenuOpen;
         else menuIcon = Icons.Material.Filled.Menu;
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            darkModeToggle = await MudThemeProvider.GetSystemPreference();
+            StateHasChanged();
+        }
+    }
+    MudTheme newFont = new MudTheme()
+        {
+            Typography = new Typography()
+            {
+                Default = new Default()
+                {
+                    FontFamily = new[] { "Segoe UI" }
+                }
+            }
+        };
 }

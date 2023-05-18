@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-<MudThemeProvider />
+<MudThemeProvider Theme="newFont" @bind-IsDarkMode="darkModeToggle" @ref="ThemeProvider"/>
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudLayout>
@@ -8,3 +8,26 @@
     </MudMainContent>
 </MudLayout>
 
+@code
+{
+    bool darkModeToggle;
+    MudThemeProvider ThemeProvider;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            darkModeToggle = await ThemeProvider.GetSystemPreference();
+            StateHasChanged();
+        }
+    }
+    MudTheme newFont = new MudTheme()
+        {
+            Typography = new Typography()
+            {
+                Default = new Default()
+                {
+                    FontFamily = new[] { "Segoe UI" }
+                }
+            }
+        };
+}
