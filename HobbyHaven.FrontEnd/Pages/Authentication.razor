@@ -1,12 +1,12 @@
-﻿@* Client/Pages/Authentication.razor *@
-
-@page "/authentication/{action}"
+﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Microsoft.Extensions.Configuration
 
 @inject NavigationManager Navigation
 @inject IConfiguration Configuration
 
+<PageTitle>@getTitle()</PageTitle>
+    <MudProgressCircular Color="Color.Warning" Indeterminate="true" Style="height:70px;width:70px;position:absolute;top:calc(50vh);left:calc(50vw);" Class="ma-auto" />
 <RemoteAuthenticatorView Action="@Action">
     <LogOut>
         @{
@@ -20,4 +20,8 @@
 
 @code {
     [Parameter] public string Action { get; set; }
+    public string getTitle()
+    {
+        return char.ToUpper(Action[0]) + Action.Substring(1);
+    }
 }

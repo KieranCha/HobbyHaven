@@ -3,11 +3,17 @@
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <Authorizing>
-                    <p>Determining session state, please wait...</p>
+                    <MudProgressCircular Color="Color.Warning" Indeterminate="true" Style="height:70px;width:70px;position:absolute;top:calc(50vh);left:calc(50vw);" Class="ma-auto" />
                 </Authorizing>
                 <NotAuthorized>
-                    <h1>Sorry</h1>
-                    <p>You're not authorized to reach this page. You need to log in.</p>
+                    <MudGrid Justify="Justify.Center">
+                        <MudItem>
+                            <MudCard Outlined="false" Elevation="0">
+                                <MudText Typo="Typo.h2" Color="Color.Warning" Align="Align.Center">Sorry!</MudText>
+                                <MudText Typo="Typo.h6" Align="Align.Center">You're not authorized to reach this page. You need to <MudLink Typo="Typo.h6" Href="/authentication/login">log in.</MudLink></MudText>
+                            </MudCard>
+                        </MudItem>
+                    </MudGrid>
                 </NotAuthorized>
             </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -15,7 +21,10 @@
         <NotFound>
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
+                <MudPaper Class="d-flex" Elevation="0">
+                    <MudText Typo="Typo.h1">Sorry, there's nothing at this address.</MudText>
+                    <MudImage Src="https://bluemoji.io/emoji/Blue/256/15.png" />
+                </MudPaper>
             </LayoutView>
         </NotFound>
     </Router>
