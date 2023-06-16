@@ -1,0 +1,71 @@
+﻿@page "/search-hobbies"
+@attribute [Authorize]
+@layout MainLayout
+
+
+<MudText Typo="Typo.h2" Align="Align.Center"> Here's all the <span style="color:orange;font-weight:bold;font-style:italic">Hobbies</span> we've got!</MudText>
+<MudDivider DividerType="DividerType.Middle" Class="my-6"/>
+
+
+<MudPaper Class="pa-16 ma-2">
+    <MudTable Items="@searchHobbies()" Loading="@(hobbies.Count==0)" LoadingProgressColor="Color.Warning">
+        <ToolBarContent>
+            <MudTextField Variant="Variant.Outlined" Label="Search" @bind-Value="searchQuery" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" Immediate="true"/>
+        </ToolBarContent>
+
+        <RowTemplate>
+            <MudTd>
+                <MudText Typo="Typo.h6"> @context.name </MudText>
+                <MudText Typo="Typo.subtitle1"> @context.name is @context.PTs[0], @context.PTs[1]</MudText>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudPaper>
+
+
+@code {
+    protected override void OnInitialized()
+    {
+        createHobbies();
+    }
+
+
+    Random ran = new Random();
+    string searchQuery;
+
+    // lists to hold examples
+    List<string> exampleHobbies = new()
+    {
+        "Skating", "Camping", "Kayaking", "Climbing", "Golf", "Football", "Basketball", "Running", "Cycling", "Bodybuilding", "Swimming", "Machining", "Scuba Diving", "Collecting ", "LARPing", "Music listening", "Music playing", "Modern films", "Old films", "Exploration"
+    };
+    List<string> examplePTs = new()
+    {
+        "fun", "lighthearted", "serious", "longterm", "unserious", "social", "energetic", "calm", "amatuer", "professional"
+    };
+
+    List<hobby> hobbies = new List<hobby>();
+
+    class hobby
+    {
+        public string name;
+        public List<string> PTs = new();
+    }
+
+    public void createHobbies()
+    {
+        for (int x = 0; x < exampleHobbies.Count; x++)
+        {
+            // populate hobbies list with hobby objects to be searched for
+            hobby newHobby = new hobby();
+            newHobby.name = exampleHobbies[x];
+            for (int y = 0; y < 2; y++) newHobby.PTs.Add(examplePTs[ran.Next(examplePTs.Count)]);
+            hobbies.Add(newHobby);
+        }
+    }
+
+    private IEnumerable<hobby> searchHobbies()
+    {
+        if (searchQuery == null && searchQuery != string.Empty) return hobbies;
+        return hobbies.Where(x => x.name.ToLower().Contains(searchQuery.ToLower()) || x.PTs.Contains(searchQuery.ToLower()));
+    }
+}

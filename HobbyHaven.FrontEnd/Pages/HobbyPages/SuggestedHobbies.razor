@@ -2,8 +2,48 @@
 @attribute [Authorize]
 @layout MainLayout
 
-<MudText Typo="Typo.h1"> Placeholder </MudText>
+
+
+<MudText Typo="Typo.h3"> Here's some <span style="color:orange;font-weight:bold;font-style:italic">Hobbies</span> we think you'd love! </MudText>
+
+<MudGrid>
+    @foreach (string hobby in suggestedHobbies) {
+        <MudItem>
+            <MudPaper Outlined="true" Square="true"> 
+                <MudPaper Class="pa-16 ma-2" Elevation="3">image</MudPaper>
+                <MudText Typo="Typo.h6"> @hobby </MudText>
+                <MudText Typo="Typo.subtitle1">@hobby is @hobby/10</MudText>
+            </MudPaper>
+        </MudItem>
+    }
+</MudGrid>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+<MudText Typo="Typo.h4"> Not what your looking for? <MudLink Href="/search-hobbies" Typo="Typo.h4"> Search! </MudLink></MudText>
 
 @code {
+    protected override void OnInitialized()
+    {
+        suggestHobbies();
+    }
+
+    Random rand = new Random();
+    List<string> exampleHobbies = new()
+    {
+        "Skating", "Camping", "Kayaking", "Climbing", "Golf", "Football", "Basketball", "Running", "Cycling", "Bodybuilding", "Swimming"
+    };
+    List<string> suggestedHobbies = new();
+
+    private void suggestHobbies(int suggestQuantity = 7)
+    {
+        // populate random list of "Suggested" hobbies
+        // In final build this'll compare user PTs (Personality Tags)
+        // to hobby PTs to find suitable hobbies for a user.
+        for (int i = 0; i < suggestQuantity; i++)
+        {
+            int randIndex = rand.Next(exampleHobbies.Count);
+            suggestedHobbies.Add(exampleHobbies[randIndex]);
+        }
+    }
 
 }
