@@ -589,19 +589,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\harry\\.nuget\\packages\\": {}
+    "C:\\Users\\Neary\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
+      "projectUniqueName": "C:\\Users\\Neary\\Documents\\Documents\\Projects\\Github\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
       "projectName": "HobbyHaven.Shared",
-      "projectPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
-      "packagesPath": "C:\\Users\\harry\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\harry\\source\\repos\\AzureHobbyHaven\\HobbyHaven.Shared\\obj\\",
+      "projectPath": "C:\\Users\\Neary\\Documents\\Documents\\Projects\\Github\\HobbyHaven\\HobbyHaven.Shared\\HobbyHaven.Shared.csproj",
+      "packagesPath": "C:\\Users\\Neary\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Neary\\Documents\\Documents\\Projects\\Github\\HobbyHaven\\HobbyHaven.Shared\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\harry\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Neary\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -648,7 +648,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

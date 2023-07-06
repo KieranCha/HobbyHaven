@@ -1,0 +1,360 @@
+﻿@page "/admin/users/view"
+@inject NavigationManager NavigationManager
+@inject HttpClient httpClient
+@inject NavigationManager NavManager
+@layout AdminLayout
+@inject IAccessTokenProvider AccessTokenProvider
+@inject HttpClient HttpClient
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@using Microsoft.AspNetCore.WebUtilities
+@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+
+<!-- https://chrissainty.com/working-with-query-strings-in-blazor/ -->
+
+<div style="width:30%;margin:auto;margin-top:50px;">
+    <h1>User</h1>
+    <MudCard>
+        <MudForm Model="@user">
+            <MudCardContent>
+                <MudTextField @bind-Value="user.Id"
+                              For="@(() => user.Id)"
+                              Immediate="true"
+                              Label="ID"
+                              ReadOnly="true" />
+
+            </MudCardContent>
+
+            <MudExpansionPanel Text="Personality tags">
+                <MudAutocomplete T="string" Label="Personality tag" @bind-Value="addTagValue" SearchFunc="@searchTag" AdornmentIcon="@Icons.Material.Filled.Add" AdornmentColor="Color.Primary" OnAdornmentClick="@(async() => await addTag())"></MudAutocomplete>
+                <MudTable Items="@user.PersonalityTags" Dense="false" Bordered="true" Striped="true" Style="margin-top: 10px;" @bind-SelectedItem="@selectedPersonalityTag">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>ID</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name" Style="@($"color:{((selectedPersonalityTag != null && selectedPersonalityTag.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Name</MudTd>
+                        <MudTd DataLabel="ID" Style="@($"color:{((selectedPersonalityTag != null && selectedPersonalityTag.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Id</MudTd>
+                    </RowTemplate>
+                </MudTable>
+                <div style="margin-top: 10px;">
+                    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(async () => {removeTag(); })">Remove</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="" OnClick="@(() => {openTag(); })">View</MudButton>
+                </div>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Text="Hobbies">
+                <MudAutocomplete T="string" Label="Hobby" @bind-Value="addHobbyValue" SearchFunc="@searchHobby" AdornmentIcon="@Icons.Material.Filled.Add" AdornmentColor="Color.Primary" OnAdornmentClick="@(async() => await addHobby())"></MudAutocomplete>
+                <MudTable Items="@user.Hobbies" Dense="false" Bordered="true" Striped="true" Style="margin-top: 10px;" @bind-SelectedItem="@selectedHobby">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>ID</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name" Style="@($"color:{((selectedHobby != null && selectedHobby.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Name</MudTd>
+                        <MudTd DataLabel="ID" Style="@($"color:{((selectedHobby != null && selectedHobby.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Id</MudTd>
+                    </RowTemplate>
+                </MudTable>
+                <div style="margin-top: 10px;">
+                    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(async () => {removeHobby(); })">Remove</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="" OnClick="@(() => {openHobby(); })">View</MudButton>
+                </div>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Text="Havens">
+            </MudExpansionPanel>
+        </MudForm>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Class="" OnClick="@(async () => await deleteUser())">Delete</MudButton>
+            <MudButton Variant="Variant.Filled" Style="margin-left: 10px;" Color="Color.Warning" Class="" OnClick="@(async () => {})">Suspend</MudButton>
+            <!--<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await editUser())">Confirm edit</MudButton>-->
+        </MudCardActions>
+    </MudCard>
+
+    <MudCard Style="margin-top: 70px;padding:10px;">
+        <pre>@(new MarkupString(JsonConvert.SerializeObject(user, Formatting.Indented).Replace("\n", "<br />")))</pre>
+    </MudCard>
+
+</div>
+
+
+
+@code {
+    public string? token = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        if ((await AccessTokenProvider.RequestAccessToken()).TryGetToken(out var _token)) token = _token.Value;
+
+        // Load user settings
+
+
+
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _userId))
+        {
+            userId = _userId;
+        }
+
+        if (userId == null)
+        {
+            NavManager.NavigateTo("/admin/users/all");
+        }
+
+
+        HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/users/{userId}/view");
+
+        user = await response.Content.ReadFromJsonAsync<DTOAdminUserView>();
+
+        if (user == null)
+        {
+            NavManager.NavigateTo("/admin/users/all");
+        }
+
+        // Load personality tags
+
+        response = await HttpClient.GetAsync($"https://localhost:44357/api/personality-tags/all");
+
+        allPersonalityTags = await response.Content.ReadFromJsonAsync<List<DTOPersonalityTag>>();
+
+        if (user.PersonalityTags.Count >= 1)
+        {
+            selectedPersonalityTag = user.PersonalityTags[0];
+        }
+
+        // Load Hobbies
+
+        response = await HttpClient.GetAsync($"https://localhost:44357/api/hobbies/all");
+
+        allHobbies = await response.Content.ReadFromJsonAsync<List<DTOHobby>>();
+
+        if (user.Hobbies.Count >= 1)
+        {
+            selectedHobby = user.Hobbies[0];
+        }
+
+    }
+
+
+
+
+    public string userId = null;
+
+    DTOAdminUserView user = new()
+    {
+        Id = null
+    };
+
+    // Personality tag management
+
+    public List<DTOPersonalityTag> allPersonalityTags;
+    public DTOPersonalityTag selectedPersonalityTag;
+    public string addTagValue;
+
+    private async Task<IEnumerable<string>> searchTag(string value)
+    {
+
+        List<string> names = new();
+        List<string> ids = new();
+
+        foreach (DTOPersonalityTag tag in allPersonalityTags) { names.Add(tag.Name); ids.Add(Convert.ToString(tag.Id)); }
+
+        if (string.IsNullOrEmpty(value)) return names;
+
+        names.AddRange(ids);
+        return names.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private void openTag()
+    {
+        if (selectedPersonalityTag != null)
+        {
+            NavManager.NavigateTo($"/admin/personality-tags/view?ID={selectedPersonalityTag.Id}");
+        }
+    }
+
+    private async Task addTag()
+    {
+
+        DTOPersonalityTag? chosen = null;
+        foreach (DTOPersonalityTag tag in allPersonalityTags)
+        {
+            if (tag.Name == addTagValue || Convert.ToString(tag.Id) == addTagValue)
+            {
+                chosen = tag;
+                break;
+            }
+        }
+
+        bool alreadyExists = false;
+
+        foreach (DTOPersonalityTag tag in user.PersonalityTags)
+        {
+            if (tag.Id == chosen.Id)
+            {
+                alreadyExists = true;
+                break;
+            }
+        }
+
+        if (chosen == null || alreadyExists )
+        {
+            return;
+        } else
+        {
+
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.Id}/profile/personality-tags/{chosen.Id}/add", null);
+
+            user.PersonalityTags.Add(chosen);
+
+        };
+
+    }
+
+    private async Task removeTag()
+    {
+
+        if (selectedPersonalityTag!=null)
+        {
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.Id}/profile/personality-tags/{selectedPersonalityTag.Id}/remove", null);
+            user.PersonalityTags.Remove(selectedPersonalityTag);
+            StateHasChanged();
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+    // hobby management
+
+    public List<DTOHobby> allHobbies;
+    public DTOHobby selectedHobby;
+    public string addHobbyValue;
+
+    private async Task<IEnumerable<string>> searchHobby(string value)
+    {
+
+        List<string> names = new();
+        List<string> ids = new();
+
+        foreach (DTOHobby hobby in allHobbies) { names.Add(hobby.Name); ids.Add(Convert.ToString(hobby.Id)); }
+
+        if (string.IsNullOrEmpty(value)) return names;
+
+        names.AddRange(ids);
+        return names.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private void openHobby()
+    {
+        if (selectedHobby != null)
+        {
+            NavManager.NavigateTo($"/admin/hobbies/view?ID={selectedHobby.Id}");
+        }
+    }
+
+    private async Task addHobby()
+    {
+
+        DTOHobby? chosen = null;
+        foreach (DTOHobby hobby in allHobbies)
+        {
+            if (hobby.Name == addHobbyValue || Convert.ToString(hobby.Id) == addHobbyValue)
+            {
+                chosen = hobby;
+                break;
+            }
+        }
+
+        bool alreadyExists = false;
+
+        foreach (DTOHobby hobby in user.Hobbies)
+        {
+            if (hobby.Id == chosen.Id)
+            {
+                alreadyExists = true;
+                break;
+            }
+        }
+
+        if (chosen == null || alreadyExists)
+        {
+            return;
+        }
+        else
+        {
+
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.Id}/profile/hobbies/{chosen.Id}/add", null);
+
+            user.Hobbies.Add(chosen);
+
+        };
+
+    }
+
+    private async Task removeHobby()
+    {
+
+        if (selectedHobby != null)
+        {
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.Id}/profile/hobbies/{selectedHobby.Id}/remove", null);
+            user.Hobbies.Remove(selectedHobby);
+            StateHasChanged();
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public async Task editUser()
+    {
+
+        Dictionary<string, string> changes = new();
+
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync<Dictionary<string, string>>($"https://localhost:44357/api/administration/users/{userId}/edit", changes);
+
+        user = await response.Content.ReadFromJsonAsync<DTOAdminUserView>();
+    }
+
+    public async Task deleteUser()
+    {
+        HttpResponseMessage response = await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/users/{userId}/delete");
+
+        NavManager.NavigateTo("/admin/users/all");
+    }
+
+
+
+}

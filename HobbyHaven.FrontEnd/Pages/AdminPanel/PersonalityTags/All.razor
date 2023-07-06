@@ -1,0 +1,68 @@
+﻿@page "/admin/personality-tags/all"
+@inject NavigationManager NavManager
+@layout AdminLayout
+@using System.Net.Http.Json
+
+@inject HttpClient HttpClient
+
+<!-- https://mudblazor.com/components/table#table-with-pagination-and-filtering -->
+
+<div style="width:80%;margin:auto;margin-top:50px;">
+    <MudTable Items="@Elements" Dense="false" Bordered="true" Striped="true" Filter="(Element => FilterFunc(Element))" @bind-SelectedItem="selectedItem1" OnRowClick="@OpenPersonalityTag" T="DTOAdminPersonalityTagView">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Personality tags</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh>Id</MudTh>
+            <MudTh>Total users</MudTh>
+            <MudTh>Total hobbies</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Description">@(context.Description.Length < 30 ? context.Description : context.Description.Substring(0, 30)+"...")</MudTd>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="Total Users">@context.TotalUsers</MudTd>
+            <MudTd DataLabel="Total Hobbies">@context.TotalHobbies</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</div>
+
+@code {
+    private string searchString1 = "";
+    private DTOAdminPersonalityTagView selectedItem1 = null;
+    private HashSet<DTOAdminPersonalityTagView> selectedItems = new HashSet<DTOAdminPersonalityTagView>();
+
+
+
+
+    private IEnumerable<DTOAdminPersonalityTagView> Elements = new List<DTOAdminPersonalityTagView>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/personality-tags/all");
+        Elements = await response.Content.ReadFromJsonAsync<List<DTOAdminPersonalityTagView>>();
+    }
+
+    private bool FilterFunc(DTOAdminPersonalityTagView element)
+    {
+        if (string.IsNullOrWhiteSpace(searchString1)) return true;
+        if (element.Id.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
+        if (element.Name.Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
+        if (element.Description.Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
+        // if ($"{element.Number} {element.Position} {element.Molar}".Contains(searchString1)) return true;
+        return false;
+    }
+
+    public void OpenPersonalityTag(TableRowClickEventArgs<DTOAdminPersonalityTagView> ev)
+    {
+        NavManager.NavigateTo($"/admin/personality-tags/view?ID={ev.Item.Id}");
+    }
+
+}

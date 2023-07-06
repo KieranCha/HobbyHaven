@@ -1,0 +1,84 @@
+﻿@page "/admin/havens/view"
+@inject NavigationManager NavManager
+@layout AdminLayout
+@using Microsoft.AspNetCore.WebUtilities
+@using Newtonsoft.Json
+
+@inject HttpClient HttpClient
+
+<!-- https://chrissainty.com/working-with-query-strings-in-blazor/ -->
+
+<div style="width:30%;margin:auto;margin-top:50px;">
+	<h1>Haven</h1>
+	<MudCard>
+		<MudForm Model="@haven">
+			<MudCardContent>
+
+				<MudTextField @bind-Value="haven.Name"
+							  For="@(() => haven.Name)"
+							  Immediate="true"
+							  Label="Name" />
+
+				<MudTextField @bind-Value="haven.Description"
+							  For="@(() => haven.Description)"
+							  Immediate="true"
+							  Label="Description" 
+							  Lines="5" />
+
+
+				<MudTextField @bind-Value="haven.OwnerID"
+							  Text="@haven.OwnerID.ToString()"
+							  Immediate="true"
+							  ReadOnly="true"
+							  Label="Owner"/><br />
+
+				<MudTextField @bind-Value="haven.Address"
+							  Text="@haven.Address"
+							  Immediate="true"
+							  ReadOnly="true"
+							  Label="Selected address"/><br />
+
+				<div id="map" style="height:500px;width:100%;">
+				</div>
+
+			</MudCardContent>
+		</MudForm>
+	</MudCard>
+
+	<MudCard Style="margin-top: 70px;padding:10px;">
+		<pre>@(new MarkupString(JsonConvert.SerializeObject(haven, Formatting.Indented).Replace("\n", "<br />")))</pre>
+	</MudCard>
+</div>
+
+
+
+@code {
+    public long? havenID = null;
+
+	DTOAdminHavenView haven = new()
+	{
+		Name = "",
+		Description = "",
+		Location = "",
+		Address = null,
+		OwnerID = null
+	};
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
+		if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _hobby)) havenID = long.Parse(_hobby);
+
+		if (havenID == null) NavManager.NavigateTo("/admin/hobbies/all");
+
+
+        HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/havens/{havenID}/view");
+		haven = await response.Content.ReadFromJsonAsync<DTOAdminHavenView>();
+
+		if (haven == null) NavManager.NavigateTo("/admin/havens/all");
+
+    }
+
+}

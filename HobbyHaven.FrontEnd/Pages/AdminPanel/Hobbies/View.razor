@@ -1,0 +1,95 @@
+﻿@page "/admin/hobbies/view"
+@inject NavigationManager NavManager
+@layout AdminLayout
+@using Microsoft.AspNetCore.WebUtilities
+@using Newtonsoft.Json
+
+@inject HttpClient HttpClient
+
+<!-- https://chrissainty.com/working-with-query-strings-in-blazor/ -->
+
+<div style="width:30%;margin:auto;margin-top:50px;">
+    <h1>Hobby</h1>
+    <MudCard>
+        <MudForm Model="@hobby">
+            <MudCardContent>
+                <MudTextField @bind-Value="hobby.Id"
+                              For="@(() => hobby.Id)"
+                              Immediate="true"
+                              Label="ID"
+                              ReadOnly="true" />
+
+                <MudTextField @bind-Value="hobby.Name"
+                              For="@(() => hobby.Name)"
+                              Immediate="true"
+                              Label="Name" />
+
+                <MudTextField @bind-Value="hobby.Description"
+                              For="@(() => hobby.Description)"
+                              Immediate="true"
+                              Label="Description"
+                              Lines="5" />
+
+            </MudCardContent>
+        </MudForm>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Class="" OnClick="@(async () => await deleteHobby())">Delete</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await editHobby())">Confirm edit</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+    <MudCard Style="margin-top: 70px;padding:10px;">
+        <pre>@(new MarkupString(JsonConvert.SerializeObject(hobby, Formatting.Indented).Replace("\n", "<br />")))</pre>
+    </MudCard>
+
+</div>
+
+
+
+@code {
+    public long? hobbyID = null;
+
+    DTOAdminHobbyView hobby = new()
+        {
+            Name = "",
+            Id = null,
+            Description = ""
+        };
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _hobby)) hobbyID = long.Parse(_hobby);
+
+        if (hobbyID == null) NavManager.NavigateTo("/admin/hobbies/all");
+
+
+        HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/hobbies/{hobbyID}/view");
+        hobby = await response.Content.ReadFromJsonAsync<DTOAdminHobbyView>();
+
+        if (hobby == null) NavManager.NavigateTo("/admin/hobbies/all");
+
+    }
+
+    public async Task editHobby()
+    {
+
+        Dictionary<string, string> changes = new();
+
+        changes["Name"] = hobby.Name;
+        changes["Description"] = hobby.Description;
+
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync<Dictionary<string, string>>($"https://localhost:44357/api/administration/hobbies/{hobbyID}/edit", changes);;
+        hobby = await response.Content.ReadFromJsonAsync<DTOAdminHobbyView>();
+
+    }
+
+    public async Task deleteHobby()
+    {
+        HttpResponseMessage response = await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/hobbies/{hobbyID}/delete");
+        NavManager.NavigateTo("/admin/hobbies/all");
+    }
+
+}

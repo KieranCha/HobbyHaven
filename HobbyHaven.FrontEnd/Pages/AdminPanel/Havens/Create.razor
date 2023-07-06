@@ -1,0 +1,127 @@
+﻿@page "/admin/havens/create"
+@layout AdminLayout
+
+@inject NavigationManager NavManager
+@inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime
+
+@using Microsoft.AspNetCore.WebUtilities
+@using Newtonsoft.Json
+@using System.Net.Http.Json
+
+<PageTitle>Create a hobby</PageTitle>
+
+<div style="width:30%;margin:auto;margin-top:50px;">
+	<h1>Haven</h1>
+	<MudCard>
+		<MudForm Model="@haven">
+			<MudCardContent>
+
+				<MudTextField @bind-Value="haven.Name"
+							  For="@(() => haven.Name)"
+							  Immediate="true"
+							  Label="Name" />
+
+				<MudTextField @bind-Value="haven.Description"
+							  For="@(() => haven.Description)"
+							  Immediate="true"
+							  Label="Description" 
+							  Lines="5" />
+
+				<MudTextField @bind-Value="haven.Address"
+							  Text="@haven.Address"
+							  Immediate="true"
+							  ReadOnly="true"
+							  Label="Selected address"/><br />
+
+				<div id="map" style="height:500px;width:100%;">
+				</div>
+
+				<MudAutocomplete T="string" Label="Owner" @bind-Value="haven.OwnerID" SearchFunc="@searchUser" AdornmentIcon="@Icons.Material.Filled.Add" AdornmentColor="Color.Primary"></MudAutocomplete>
+
+				<MudCardActions>
+					<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await Submit())">Create</MudButton>
+				</MudCardActions>
+
+			</MudCardContent>
+		</MudForm>
+	</MudCard>
+</div>
+
+
+@code {
+	DTOAdminCreateHaven haven = new()
+	{
+		Name = "",
+		Description = "",
+		Location = "",
+		Address = null,
+		OwnerID = null
+	};
+
+
+	private async Task Submit()
+	{
+
+		if (haven.Address == null) return;
+
+		HttpResponseMessage response = await HttpClient.PostAsJsonAsync<DTOAdminCreateHaven>($"https://localhost:44357/api/administration/havens/create", haven);
+		DTOAdminHavenView created = await response.Content.ReadFromJsonAsync<DTOAdminHavenView>();
+
+		NavManager.NavigateTo($"/admin/havens/view/?ID={created.Id}");
+	}
+
+
+
+	public List<DTOAdminUserView> allUsers;
+	public string? setOwner;
+
+	protected override async Task OnInitializedAsync()
+	{
+		HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/users/all");
+		allUsers = await response.Content.ReadFromJsonAsync<List<DTOAdminUserView>>();
+	}
+
+	private async Task<IEnumerable<string>> searchUser(string value)
+	{
+
+		List<string> ids = new();
+
+		foreach (DTOAdminUserView user in allUsers) { ids.Add(Convert.ToString(user.Id)); }
+
+		if (string.IsNullOrEmpty(value)) return ids;
+
+		return ids.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+	}
+
+
+
+
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await JSRuntime.InvokeVoidAsync("initialize", DotNetObjectReference.Create(this));
+			StateHasChanged();
+		}
+
+	}
+
+	[JSInvokable("OnAddressSelected")]
+	public void OnAddressSelected(string address, string latLngString)
+	{
+		haven.Address = address;
+		haven.Location = latLngString;
+		StateHasChanged();
+	}
+
+
+
+
+}
+
+
+
+
+

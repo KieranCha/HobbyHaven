@@ -1,0 +1,64 @@
+﻿@inherits LayoutComponentBase
+
+@inject HttpClient HttpClient
+@inject IAccessTokenProvider AccessTokenProvider
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Color="Color.Warning">
+        <MudIconButton Icon="@menuIcon" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => menuToggle())" />
+        <MudSpacer />
+        <MudButton  Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/"> Hobby Haven </MudButton>
+    </MudAppBar>
+    <MudDrawer @bind-Open="@openNavMenu">
+        <MudPaper width="250px" Class="py-3">
+            <MudNavMenu Style="overflow-x: hidden;">
+                <MudText Typo="Typo.h6" Style="text-align: center;">Administrator</MudText>
+                <MudDivider Class="my-2" />
+                <MudNavGroup Title="Users" Icon="@Icons.Material.Outlined.Person">
+                    <MudNavLink Href="/admin/users/all">View users</MudNavLink>
+                </MudNavGroup>
+                <MudNavGroup Title="Personality tags" Icon="@Icons.Material.Outlined.Tag">
+                    <MudNavLink Href="/admin/personality-tags/all">View personality tags</MudNavLink>
+                    <MudNavLink Href="/admin/personality-tags/create">Create a personality tag</MudNavLink>
+                </MudNavGroup>
+                <MudNavGroup Title="Havens" Icon="@Icons.Material.Outlined.HolidayVillage">
+                    <MudNavLink Href="/admin/havens/all">View havens</MudNavLink>
+                    <MudNavLink Href="/admin/havens/create">Create haven</MudNavLink>
+                </MudNavGroup>
+                <MudNavGroup Title="Hobby" Icon="@Icons.Material.Filled.SportsCricket">
+                    <MudNavLink Href="/admin/hobbies/all">View hobbies</MudNavLink>
+                    <MudNavLink Href="/admin/hobbies/create">Create hobby</MudNavLink>
+                </MudNavGroup>
+            </MudNavMenu>
+        </MudPaper>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool openNavMenu = false;
+    string menuIcon = Icons.Material.Filled.Menu;
+    string token;
+
+    private void menuToggle()
+    {
+        openNavMenu = !openNavMenu;
+        if (openNavMenu) menuIcon = Icons.Material.Filled.MenuOpen;
+        else menuIcon = Icons.Material.Filled.Menu;
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if ((await AccessTokenProvider.RequestAccessToken()).TryGetToken(out var _token)) token = _token.Value;
+        HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+    }
+
+}

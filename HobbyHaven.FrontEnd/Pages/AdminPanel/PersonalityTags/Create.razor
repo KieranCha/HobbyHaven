@@ -1,0 +1,51 @@
+﻿@page "/admin/personality-tags/create"
+@inject NavigationManager NavManager
+@layout AdminLayout
+@using System.Net.Http.Json
+
+@inject HttpClient HttpClient
+
+<PageTitle>Create a personality tag</PageTitle>
+
+<div style="width:30%;margin:auto;margin-top:50px;">
+	<h1>Personality tag</h1>
+	<MudCard>
+		<MudForm Model="@personalityTag" >
+			<MudCardContent>
+				<MudTextField @bind-Value="personalityTag.Name"
+							  For="@(() => personalityTag.Name)"
+							  Immediate="true"
+							  Label="Name" />
+
+				<MudTextField @bind-Value="personalityTag.Description"
+							  For="@(() => personalityTag.Description)"
+							  Immediate="true"
+							  Label="Description" 
+							  Lines="5" />
+
+			</MudCardContent>
+		</MudForm>
+		<MudCardActions>
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await Submit())">Create</MudButton>
+		</MudCardActions>
+	</MudCard>
+</div>
+
+
+@code {
+	DTOAdminCreatePersonalityTag personalityTag = new()
+	{
+		Name = "",
+		Description = ""
+	};
+
+	private async Task Submit()
+	{
+
+		HttpResponseMessage response = await HttpClient.PostAsJsonAsync<DTOAdminCreatePersonalityTag>($"https://localhost:44357/api/administration/personality-tags/create", personalityTag);
+		DTOAdminPersonalityTagView tag = await response.Content.ReadFromJsonAsync<DTOAdminPersonalityTagView>();
+
+		NavManager.NavigateTo($"/admin/personality-tags/view/?ID={tag.Id}");
+	}
+
+}

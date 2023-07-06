@@ -1,32 +1,66 @@
-﻿using HobbyHaven.BackEnd.Database.Models.Hobbies;
-using HobbyHaven.BackEnd.Database.Models.Users;
+﻿using HobbyHaven.Shared.DTOs.Administration.Havens;
+using HobbyHaven.Shared.DTOs.Havens;
 using HobbyHaven.Shared.DTOs.Hobbies;
 
-namespace HobbyHaven.BackEnd.Database.Models.Havens
+namespace HobbyHaven.BackEnd.Database.Models
 {
-    public class Haven
+
+	public class Haven
     {
-        public string Name { get; set; } = "";
-        public string Description { get; set; } = "";
-        public List<Hobby> AssociatedHobbies { get; set; } = new();
-        public long Id { get; set; }
-        public string Location { get; set; } = "";
-        public User Owner { get; set; }
+        public Haven() { }
 
-        public DTOHaven DTOHaven { get
+        public Haven(DTOHaven haven)
+        {
+            HavenID = haven.Id;
+            Name = haven.Name;
+            Description = haven.Description;
+            Location = haven.Location;
+            Address = haven.Address;
+            OwnerID = haven.OwnerID;
+        }
+
+        public Haven(DTOAdminCreateHaven haven)
+        {
+            Name = haven.Name;
+            Description = haven.Description;   
+            Location = haven.Location;
+            Address = haven.Address;
+            OwnerID = haven.OwnerID;
+        }
+
+        public DTOAdminHavenView ToAdminDTO()
+        {
+            return new()
             {
-                DTOHaven tmpHaven = new();
-                tmpHaven.Name = Name;
-                tmpHaven.Description = Description;
-                tmpHaven.Id = Id;
-                tmpHaven.Location = Location;
-                tmpHaven.AssociatedHobbies = new();
+                Id = HavenID,
+                Name = Name,
+                Description = Description,
+                Location = Location,
+                Address = Address,
+                OwnerID = OwnerID
+            };
+        }
 
-                foreach (Hobby hobby in AssociatedHobbies)
-                    tmpHaven.AssociatedHobbies.Add(hobby.DTOHobby);
+        public DTOHaven ToDTO()
+        {
+            return new()
+            {
+                Id = HavenID,
+                Name = Name,
+                Description = Description,
+                Location = Location,
+                Address = Address,
+                OwnerID = OwnerID
+            };
+        }
 
-                return tmpHaven;
-            }
-            set { } }
+        public long HavenID { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+		public string OwnerID { get; set; } 
+
     }
+
 }

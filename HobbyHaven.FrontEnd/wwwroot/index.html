@@ -4,21 +4,25 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>HobbyHaven.FrontEnd</title>
+    <title>Hobbyhaven</title>
     <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="Frontend.styles.css" rel="stylesheet" />
+
     <link href="HobbyHaven.FrontEnd.styles.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
+
     <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        <div class="loading-progress-text">
+            <img src="https://localhost:44362/LoadingLogos/01.gif" id="spinny-boi"/>
+        </div>
     </div>
 
     <div id="blazor-error-ui">
@@ -26,9 +30,80 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="_framework/blazor.webassembly.js"></script>
-    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-    <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
+
+
 </body>
+
+<style>
+
+    .loading-progress-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 800px;
+    }
+
+
+</style>
+
+<script>
+    function initialize(dotNetObjRef) {
+
+        var latlng = new google.maps.LatLng(40.716948, -74.003563);
+
+        var options = {
+            zoom: 14, center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), options);
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(initialLocation);
+            });
+        }
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            var latLng = event.latLng;
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({ 'location': latLng }, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    var address;
+
+                    if (results[0]) {
+                        var address = results[0].formatted_address;
+                        var latLngString = latLng.lat() + ',' + latLng.lng();
+                        dotNetObjRef.invokeMethodAsync('OnAddressSelected', address, latLngString);
+                    } else {
+                        address = null;
+                    }
+                };
+            });
+        });
+
+    }
+
+</script>
+
+<script>
+
+    const element = document.getElementById("spinny-boi");
+
+    let x = Math.floor((Math.random() * 100) + 1);
+
+    if (x.toString().length == 1) x = `${0}${x}`
+    else x = x.toString();
+
+    element.src = `https://localhost:44362/LoadingLogos/${x}.gif`
+
+</script>
+
+<script src="_framework/blazor.webassembly.js"></script>
+<script src="_content/MudBlazor/MudBlazor.min.js"></script>
+<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDl4oWeTaEjNV_po9rFhDlJqOd9GElYyPE&v=3"></script>
 
 </html>

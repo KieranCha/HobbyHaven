@@ -1,0 +1,95 @@
+﻿@page "/admin/personality-tags/view"
+@inject NavigationManager NavManager
+@layout AdminLayout
+@using Microsoft.AspNetCore.WebUtilities
+@using Newtonsoft.Json
+
+@inject HttpClient HttpClient
+@inject IAccessTokenProvider AccessTokenProvider
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+<!-- https://chrissainty.com/working-with-query-strings-in-blazor/ -->
+
+<div style="width:30%;margin:auto;margin-top:50px;">
+    <h1>Personality tag</h1>
+    <MudCard>
+        <MudForm Model="@personalityTag">
+            <MudCardContent>
+                <MudTextField @bind-Value="personalityTag.Id"
+                              For="@(() => personalityTag.Id)"
+                              Immediate="true"
+                              Label="ID" 
+                              ReadOnly="true" />
+
+                <MudTextField @bind-Value="personalityTag.Name"
+                              For="@(() => personalityTag.Name)"
+                              Immediate="true"
+                              Label="Name" />
+
+                <MudTextField @bind-Value="personalityTag.Description"
+                              For="@(() => personalityTag.Description)"
+                              Immediate="true"
+                              Label="Description"
+                              Lines="5" />
+
+            </MudCardContent>
+        </MudForm>
+        <MudCardActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Class="" OnClick="@(async () => await deletePersonalityTag())">Delete</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await editPersonalityTag())">Confirm edit</MudButton>
+        </MudCardActions>
+    </MudCard>
+
+    <MudCard Style="margin-top: 70px;padding:10px;">
+        <pre>@(new MarkupString(JsonConvert.SerializeObject(personalityTag, Formatting.Indented).Replace("\n", "<br />")))</pre>
+    </MudCard>
+
+</div>
+
+
+
+@code {
+    public long? personalityTagId = null;
+
+    DTOAdminPersonalityTagView personalityTag = new()
+    {
+        Name = "",
+        Id = null,
+        Description = ""
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _personalityTag)) { personalityTagId = long.Parse(_personalityTag); }
+
+        if (personalityTagId == null) { NavManager.NavigateTo("/admin/personality-tags/all"); }
+
+        HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/personality-tags/{personalityTagId}/view");
+        personalityTag = await response.Content.ReadFromJsonAsync<DTOAdminPersonalityTagView>();
+
+        if (personalityTag == null) { NavManager.NavigateTo("/admin/personality-tags/all"); }
+
+    }
+
+    public async Task editPersonalityTag()
+    {
+
+        Dictionary<string, string> changes = new();
+
+        changes["Name"] = personalityTag.Name;
+        changes["Description"] = personalityTag.Description;
+
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync<Dictionary<string, string>>($"https://localhost:44357/api/administration/personality-tags/{personalityTagId}/edit", changes);
+        personalityTag = await response.Content.ReadFromJsonAsync<DTOAdminPersonalityTagView>();   
+    }
+
+    public async Task deletePersonalityTag()
+    {
+        await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/personality-tags/{personalityTagId}/delete");
+
+        NavManager.NavigateTo("/admin/personality-tags/all");
+    }
+
+}

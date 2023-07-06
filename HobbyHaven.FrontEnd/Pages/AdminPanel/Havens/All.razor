@@ -1,0 +1,77 @@
+﻿@page "/admin/havens/all"
+@inject NavigationManager NavManager
+@layout AdminLayout
+@using System.Net.Http.Json
+
+@inject HttpClient HttpClient
+
+
+<!-- https://mudblazor.com/components/table#table-with-pagination-and-filtering -->
+
+<div style="width:80%;margin:auto;margin-top:50px;">
+    <MudTable Items="@Elements" Dense="false" Bordered="true" Striped="true" Filter="(Element => FilterFunc(Element))" @bind-SelectedItem="selectedItem1" OnRowClick="@OpenHaven" T="DTOAdminHavenView">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Hobbies</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh>ID</MudTh>
+            <MudTh>Owner</MudTh>
+            <MudTh>Address</MudTh>
+            <MudTh>Total users</MudTh>
+            <MudTh>Total hobbies</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Description">@(context.Description.Length < 30 ? context.Description : context.Description.Substring(0, 30)+"...")</MudTd>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="Owner">@context.OwnerID</MudTd>
+                <MudTd DataLabel="Address">@(context.Address.Length < 30 ? context.Address : context.Address.Substring(0, 30) + "...")</MudTd>
+            <MudTd DataLabel="Total Users">@context.TotalUsers</MudTd>
+            <MudTd DataLabel="Total hobbies">@context.Hobbies.Count()</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</div>
+
+@code {
+    private string token;
+    private string searchString1 = "";
+    private DTOAdminHavenView selectedItem1 = null;
+    private HashSet<DTOAdminHavenView> selectedItems = new HashSet<DTOAdminHavenView>();
+
+
+
+
+    private IEnumerable<DTOAdminHavenView> Elements = new List<DTOAdminHavenView>();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/havens/all");
+
+        Elements = await response.Content.ReadFromJsonAsync<List<DTOAdminHavenView>>();
+    }
+
+    private bool FilterFunc(DTOAdminHavenView element)
+    {
+        if (string.IsNullOrWhiteSpace(searchString1)) return true;
+        if (element.Id.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
+        if (element.Name.Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
+        if (element.OwnerID.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
+        if (element.Description.Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
+
+        return false;
+    }
+
+    public void OpenHaven(TableRowClickEventArgs<DTOAdminHavenView> ev)
+    {
+        NavManager.NavigateTo($"/admin/havens/view?ID={ev.Item.Id}");
+    }
+
+}

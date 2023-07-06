@@ -1,0 +1,50 @@
+﻿@page "/admin/hobbies/create"
+@inject NavigationManager NavManager
+@layout AdminLayout
+@using System.Net.Http.Json
+
+@inject HttpClient HttpClient
+
+<PageTitle>Create a hobby</PageTitle>
+
+<div style="width:30%;margin:auto;margin-top:50px;">
+	<h1>Hobby</h1>
+	<MudCard>
+		<MudForm Model="@hobby">
+			<MudCardContent>
+				<MudTextField @bind-Value="hobby.Name"
+							  For="@(() => hobby.Name)"
+							  Immediate="true"
+							  Label="Name" />
+
+				<MudTextField @bind-Value="hobby.Description"
+							  For="@(() => hobby.Description)"
+							  Immediate="true"
+							  Label="Description" 
+							  Lines="5" />
+
+			</MudCardContent>
+		</MudForm>
+		<MudCardActions>
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await Submit())">Create</MudButton>
+		</MudCardActions>
+	</MudCard>
+</div>
+
+
+@code {
+	DTOAdminCreateHobby hobby = new()
+	{
+		Name = "",
+		Description = ""
+	};
+
+	private async Task Submit()
+	{
+
+		HttpResponseMessage response = await HttpClient.PostAsJsonAsync<DTOAdminCreateHobby>($"https://localhost:44357/api/administration/hobbies/create", hobby);
+		DTOAdminHobbyView tag = await response.Content.ReadFromJsonAsync<DTOAdminHobbyView>();
+		NavManager.NavigateTo($"/admin/hobbies/view/?ID={tag.Id}");
+	}
+
+}
