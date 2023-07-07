@@ -9,8 +9,6 @@ using HobbyHaven.BackEnd.Database.Models;
 namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 {
 
-	// Endpoints for viewing personality tags
-
 	[ApiController]
 	public class AdministrationHobbies : ControllerBase, IDataController
 	{
@@ -34,13 +32,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 
             (await _context.Hobbies.ToListAsync()).ForEach(x =>
             {
-                revisedList.Add(new DTOAdminHobbyView
-                {
-                    Id = x.HobbyID,
-                    Name = x.Name,
-                    Description = x.Description,
-
-                });
+                revisedList.Add(x.ToAdminDTO());
             });
 
             return Ok(revisedList);
@@ -54,15 +46,12 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
         public async Task<ActionResult> Post([FromBody] DTOAdminCreateHobby hobbyDTO)
         {
 
-            await _context.Hobbies.AddAsync(new()
-            {
-                Name = hobbyDTO.Name,
-                Description = hobbyDTO.Description
-            });
+            Hobby hobby = new(hobbyDTO);
 
+            await _context.Hobbies.AddAsync(hobby);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(hobby.ToAdminDTO());
         }
 
         // Endpoint for viewing a specific hobby as an administrator
@@ -78,12 +67,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
             if (hobby == null) return NotFound();
             else
             {
-                return Ok(new DTOAdminHobbyView()
-                {
-                    Id = hobby.HobbyID,
-                    Name = hobby.Name,
-                    Description = hobby.Description
-                });
+                return Ok(hobby.ToAdminDTO());
             }
 
         }
@@ -147,12 +131,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
             await _context.SaveChangesAsync();
 
             // Return the updated personality tag as a DTOAdminPersonalityTag
-            return Ok(new DTOAdminHobbyView()
-            {
-                Id = hobby.HobbyID,
-                Name = hobby.Name,
-                Description = hobby.Description
-            });
+            return Ok(hobby.ToAdminDTO());
 
         }
 

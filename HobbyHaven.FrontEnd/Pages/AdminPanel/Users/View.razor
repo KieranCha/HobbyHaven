@@ -19,8 +19,8 @@
     <MudCard>
         <MudForm Model="@user">
             <MudCardContent>
-                <MudTextField @bind-Value="user.Id"
-                              For="@(() => user.Id)"
+                <MudTextField @bind-Value="user.UserID"
+                              For="@(() => user.UserID)"
                               Immediate="true"
                               Label="ID"
                               ReadOnly="true" />
@@ -147,7 +147,7 @@
 
     DTOAdminUserView user = new()
     {
-        Id = null
+            UserID = null
     };
 
     // Personality tag management
@@ -208,7 +208,7 @@
         } else
         {
 
-            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.Id}/profile/personality-tags/{chosen.Id}/add", null);
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.UserID}/profile/personality-tags/{chosen.Id}/add", null);
 
             user.PersonalityTags.Add(chosen);
 
@@ -221,7 +221,7 @@
 
         if (selectedPersonalityTag!=null)
         {
-            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.Id}/profile/personality-tags/{selectedPersonalityTag.Id}/remove", null);
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.UserID}/profile/personality-tags/{selectedPersonalityTag.Id}/remove", null);
             user.PersonalityTags.Remove(selectedPersonalityTag);
             StateHasChanged();
         }
@@ -296,7 +296,7 @@
         else
         {
 
-            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.Id}/profile/hobbies/{chosen.Id}/add", null);
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.UserID}/profile/hobbies/{chosen.Id}/add", null);
 
             user.Hobbies.Add(chosen);
 
@@ -309,7 +309,7 @@
 
         if (selectedHobby != null)
         {
-            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.Id}/profile/hobbies/{selectedHobby.Id}/remove", null);
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/user/{user.UserID}/profile/hobbies/{selectedHobby.Id}/remove", null);
             user.Hobbies.Remove(selectedHobby);
             StateHasChanged();
         }

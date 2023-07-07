@@ -9,16 +9,6 @@ namespace HobbyHaven.BackEnd.Database.Models
     {
         public Haven() { }
 
-        public Haven(DTOHaven haven)
-        {
-            HavenID = haven.Id;
-            Name = haven.Name;
-            Description = haven.Description;
-            Location = haven.Location;
-            Address = haven.Address;
-            OwnerID = haven.OwnerID;
-        }
-
         public Haven(DTOAdminCreateHaven haven)
         {
             Name = haven.Name;

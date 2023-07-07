@@ -11,8 +11,6 @@ using HobbyHaven.Shared.DTOs.Administration.Users;
 namespace HobbyHaven.BackEnd.Controllers.Administration.Users
 {
 
-	// Endpoints for viewing personality tags
-
 	[ApiController]
 	public class AdministrationUsers : ControllerBase, IDataController
 	{
@@ -36,11 +34,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
 
             (await _context.Users.ToListAsync()).ForEach(x =>
             {
-                revisedList.Add(new DTOAdminUserView
-				{
-                    Id = x.UserID,
-                    Admin = x.Admin
-                });
+                revisedList.Add(x.ToAdminDTO());
             });
 
             return Ok(revisedList);
@@ -59,11 +53,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
             if (user == null) return NotFound();
             else
             {
-                return Ok(new DTOAdminUserView()
-                {
-					Id = user.UserID,
-					Admin = user.Admin
-				});
+                return Ok(user.ToAdminDTO());
             }
 
         }
@@ -127,11 +117,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
             await _context.SaveChangesAsync();
 
             // Return the updated personality tag as a DTOAdminPersonalityTag
-            return Ok(new DTOAdminUserView()
-            {
-				Id = user.UserID,
-                Admin = user.Admin
-			});
+            return Ok(user.ToAdminDTO());
 
         }
 

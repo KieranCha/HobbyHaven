@@ -13,7 +13,7 @@ namespace HobbyHaven.Shared.DTOs.Administration.Users
     }
 
 	public class DTOAdminUserView    {
-        public string? Id { get; set; }
+        public string? UserID { get; set; }
         public bool Admin { get; set; } = false;
         public List<DTOHobby> Hobbies { get; set; } = new();
         public List<DTOHaven> Havens { get; set; } = new();

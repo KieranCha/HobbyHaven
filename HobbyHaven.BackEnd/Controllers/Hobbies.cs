@@ -30,12 +30,7 @@ namespace HobbyHaven.BackEnd.Controllers.Hobbies
 
 			(await _context.Hobbies.ToListAsync()).ForEach(x =>
 			{
-				revisedList.Add(new DTOHobby
-				{
-					Id = x.HobbyID,
-					Name = x.Name,
-					Description = x.Description,
-				});
+				revisedList.Add(x.ToDTO());
 			});
 
 			return Ok(revisedList);

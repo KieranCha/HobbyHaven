@@ -51,7 +51,7 @@
 		HttpResponseMessage response = await client.PostAsJsonAsync<DTOAdminCreateUser>($"https://localhost:44357/api/administration/users/create", user);
 		DTOUser rsp = await response.Content.ReadFromJsonAsync<DTOUser>();
 
-		NavManager.NavigateTo($"/admin/users/view/?ID={rsp.Id}");
+		NavManager.NavigateTo($"/admin/users/view/?ID={rsp.UserID}");
 	}
 
 }

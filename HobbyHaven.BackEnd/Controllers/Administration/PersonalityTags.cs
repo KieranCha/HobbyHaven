@@ -8,8 +8,6 @@ using HobbyHaven.BackEnd.Database.Models;
 namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 {
 
-	// Endpoints for viewing personality tags
-
 	[ApiController]
 	public class AdministrationPersonalityTags : ControllerBase, IDataController
 	{
@@ -32,12 +30,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 
 			(await _context.PersonalityTags.ToListAsync()).ForEach(x =>
 			{
-				revisedList.Add(new DTOAdminPersonalityTagView
-				{
-					Id = x.PersonalityTagID,
-					Name = x.Name,
-					Description = x.Description,
-				});
+				revisedList.Add(x.ToAdminDTO());
 			});
 
 			return Ok(revisedList);
@@ -52,15 +45,12 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		[HttpPost]
 		public async Task<ActionResult> Post([FromBody] DTOAdminCreatePersonalityTag personalityTagDTO)
 		{
-			await _context.PersonalityTags.AddAsync(new()
-			{
-				Name = personalityTagDTO.Name,
-				Description = personalityTagDTO.Description
-			});
+			PersonalityTag tag = new(personalityTagDTO);
 
+            await _context.PersonalityTags.AddAsync(tag);
 			await _context.SaveChangesAsync();
 
-			return Ok();
+			return Ok(tag.ToAdminDTO());
 
 		}
 
@@ -77,12 +67,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 			if (tag == null) return NotFound(); 
 			else
 			{
-				return Ok(new DTOAdminPersonalityTagView()
-				{
-					Id = tag.PersonalityTagID,
-					Name = tag.Name,
-					Description = tag.Description
-				});
+				return Ok(tag.ToAdminDTO());
 			}
 
 		}
@@ -146,12 +131,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 			await _context.SaveChangesAsync();
 
 			// Return the updated personality tag as a DTOAdminPersonalityTag
-			return Ok(new DTOAdminPersonalityTagView()
-			{
-				Id=tag.PersonalityTagID,
-				Name=tag.Name,
-				Description=tag.Description
-			});
+			return Ok(tag.ToAdminDTO());
 
 		}
 

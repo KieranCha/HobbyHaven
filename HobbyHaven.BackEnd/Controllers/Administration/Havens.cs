@@ -8,8 +8,6 @@ using HobbyHaven.BackEnd.Database.Models;
 namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 {
 
-	// Endpoints for viewing personality tags
-
 	[ApiController]
 	public class AdministrationHavens : ControllerBase, IDataController
 	{
@@ -49,11 +47,12 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 
             if (havenDTO.OwnerID == null) { return StatusCode(403, "Please specify an OwnerID."); }
 
-            await _context.Havens.AddAsync(new(havenDTO));
+            Haven haven = new(havenDTO);
 
+            await _context.Havens.AddAsync(haven);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(haven.ToAdminDTO());
         }
 
 		// Endpoint for viewing a specific haven as an administrator

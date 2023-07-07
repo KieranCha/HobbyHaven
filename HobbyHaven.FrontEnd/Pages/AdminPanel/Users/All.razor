@@ -29,7 +29,7 @@
             <MudTh>Personality tags</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="Id">@context.UserID</MudTd>
             <MudTd DataLabel="Admin">@context.Admin</MudTd>
             <MudTd DataLabel="Total hobbies">@context.Hobbies.Count</MudTd>
             <MudTd DataLabel="Total havens">@context.Havens.Count</MudTd>
@@ -65,13 +65,13 @@
     private bool FilterFunc(DTOAdminUserView element)
     {
         if (string.IsNullOrWhiteSpace(searchString1)) return true;
-        if (element.Id.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
+        if (element.UserID.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
         return false;
     }
 
     public void OpenUser(TableRowClickEventArgs<DTOAdminUserView> ev)
     {
-        NavigationManager.NavigateTo($"/admin/users/view?ID={ev.Item.Id}");
+        NavigationManager.NavigateTo($"/admin/users/view?ID={ev.Item.UserID}");
     }
 
 }

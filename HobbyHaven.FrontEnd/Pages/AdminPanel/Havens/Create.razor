@@ -87,7 +87,7 @@
 
 		List<string> ids = new();
 
-		foreach (DTOAdminUserView user in allUsers) { ids.Add(Convert.ToString(user.Id)); }
+		foreach (DTOAdminUserView user in allUsers) { ids.Add(Convert.ToString(user.UserID)); }
 
 		if (string.IsNullOrEmpty(value)) return ids;
 
