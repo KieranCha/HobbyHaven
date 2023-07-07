@@ -36,7 +36,7 @@ namespace HobbyHaven.BackEnd.Database.Models
             };
         }
 
-        public long HobbyID { get; set; }
+        public Guid HobbyID { get; set; }
 		public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 	}

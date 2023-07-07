@@ -47,21 +47,16 @@
 
 
 @code {
-    public long? hobbyID = null;
+    public Guid hobbyID;
 
-    DTOAdminHobbyView hobby = new()
-        {
-            Name = "",
-            Id = null,
-            Description = ""
-        };
+    DTOAdminHobbyView hobby = new();
 
     protected override async Task OnInitializedAsync()
     {
 
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
 
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _hobby)) hobbyID = long.Parse(_hobby);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _hobby)) hobbyID = Guid.Parse(_hobby);
 
         if (hobbyID == null) NavManager.NavigateTo("/admin/hobbies/all");
 

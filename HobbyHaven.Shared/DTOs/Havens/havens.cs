@@ -7,7 +7,7 @@ namespace HobbyHaven.Shared.DTOs.Havens
     {
         public string Name { get; set; }
         public List<DTOHobby> AssociatedHobbies { get; set; } = new(); // List of hobbies havens the haven is enrolled in.
-        public long Id { get; set; } // Unique id for the hobby haven
+        public Guid Id { get; set; } // Unique id for the hobby haven
         public string Location { get; set; }
 		public string? Address { get; set; } = null; // Address
 		public string Description { get; set; }

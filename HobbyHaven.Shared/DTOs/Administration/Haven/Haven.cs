@@ -8,7 +8,7 @@ namespace HobbyHaven.Shared.DTOs.Administration.Havens
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string? OwnerID { get; set; }
         public int TotalUsers { get; set; }
         public string Location { get; set; }

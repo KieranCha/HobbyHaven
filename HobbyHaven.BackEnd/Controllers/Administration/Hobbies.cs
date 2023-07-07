@@ -59,7 +59,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
         [Route("api/administration/hobbies/{hobbyID}/view")]
 		[AuthenticationLink]
 		[HttpGet]
-        public async Task<ActionResult<DTOAdminHobbyView>> Get(long hobbyID)
+        public async Task<ActionResult<DTOAdminHobbyView>> Get(Guid hobbyID)
         {
 
             Hobby? hobby = await _context.Hobbies.FindAsync(hobbyID);
@@ -77,7 +77,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
         [Route("api/administration/hobbies/{hobbyID}/delete")]
 		[AuthenticationLink]
 		[HttpDelete]
-        public async Task<IActionResult> Delete(long hobbyID)
+        public async Task<IActionResult> Delete(Guid hobbyID)
         {
 
             Hobby? hobby = await _context.Hobbies.FindAsync(hobbyID);
@@ -98,7 +98,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
         [Route("api/administration/hobbies/{hobbyID}/edit")]
 		[AuthenticationLink]
 		[HttpPost]
-        public async Task<ActionResult<DTOAdminHobbyView>> Post(long hobbyID, [FromBody] Dictionary<string, string> changes)
+        public async Task<ActionResult<DTOAdminHobbyView>> Post(Guid hobbyID, [FromBody] Dictionary<string, string> changes)
         {
 
             // Define permitted changes allowed

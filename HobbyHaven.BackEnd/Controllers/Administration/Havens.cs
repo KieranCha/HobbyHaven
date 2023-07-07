@@ -60,7 +60,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 		[Route("api/administration/havens/{havenID}/view")]
 		[AuthenticationLink]
 		[HttpGet]
-        public async Task<ActionResult<DTOAdminHavenView>> Get(long havenID)
+        public async Task<ActionResult<DTOAdminHavenView>> Get(Guid havenID)
         {
 
             Haven? haven = await _context.Havens.FindAsync(havenID);
@@ -78,7 +78,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 		[Route("api/administration/havens/{havenID}/delete")]
 		[AuthenticationLink]
 		[HttpDelete]
-        public async Task<IActionResult> Delete(long havenID)
+        public async Task<IActionResult> Delete(Guid havenID)
         {
 
             Haven? haven = await _context.Havens.FindAsync(havenID);
@@ -99,7 +99,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
         [Route("api/administration/havens/{havenID}/edit")]
 		[AuthenticationLink]
 		[HttpPost]
-        public async Task<ActionResult<DTOAdminHavenView>> Post(long havenID, [FromBody] Dictionary<string, string> changes)
+        public async Task<ActionResult<DTOAdminHavenView>> Post(Guid havenID, [FromBody] Dictionary<string, string> changes)
         {
 
             // Define permitted changes allowed

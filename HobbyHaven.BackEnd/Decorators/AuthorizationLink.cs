@@ -18,20 +18,24 @@ namespace HobbyHaven.BackEnd.Decorators
 			JwtSecurityTokenHandler tokenHandler = new();
 
 			string? token = context.HttpContext.Request.Headers["authorization"];
-			string? Auth0UserID = tokenHandler.ReadJwtToken(token.Split(" ")[1]).Claims.Where(x => x.Type == "sub").FirstOrDefault().Value;
 
-			User? currentUser = databaseContext.Users.Find(Auth0UserID);
-
-			if (currentUser == null)
+			if (token != null)
 			{
-				databaseContext.Users.Add(new User()
-				{
-					UserID = Auth0UserID,
-					Admin = false
-				});
+				string? Auth0UserID = tokenHandler.ReadJwtToken(token.Split(" ")[1]).Claims.Where(x => x.Type == "sub").FirstOrDefault().Value;
 
-				databaseContext.SaveChanges();
-			} 
+				User? currentUser = databaseContext.Users.Find(Auth0UserID);
+
+				if (currentUser == null)
+				{
+					databaseContext.Users.Add(new User()
+					{
+						UserID = Auth0UserID,
+						Admin = false
+					});
+
+					databaseContext.SaveChanges();
+				}
+			}
 
 			base.OnActionExecuting(context);
 		}

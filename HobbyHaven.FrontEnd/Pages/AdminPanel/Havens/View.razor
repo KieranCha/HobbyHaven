@@ -53,23 +53,16 @@
 
 
 @code {
-    public long? havenID = null;
+	public Guid havenID;
 
-	DTOAdminHavenView haven = new()
-	{
-		Name = "",
-		Description = "",
-		Location = "",
-		Address = null,
-		OwnerID = null
-	};
+	DTOAdminHavenView haven;
 
     protected override async Task OnInitializedAsync()
     {
 
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
 
-		if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _hobby)) havenID = long.Parse(_hobby);
+		if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _hobby)) havenID = Guid.Parse(_hobby);
 
 		if (havenID == null) NavManager.NavigateTo("/admin/hobbies/all");
 

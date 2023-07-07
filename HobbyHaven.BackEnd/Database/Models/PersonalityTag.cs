@@ -35,7 +35,7 @@ namespace HobbyHaven.BackEnd.Database.Models
 			};
 		}
 
-        public long PersonalityTagID { get; set; }
+        public Guid PersonalityTagID { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 	}

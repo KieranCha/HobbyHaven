@@ -49,20 +49,15 @@
 
 
 @code {
-    public long? personalityTagId = null;
+    public Guid? personalityTagId;
 
-    DTOAdminPersonalityTagView personalityTag = new()
-    {
-        Name = "",
-        Id = null,
-        Description = ""
-    };
+    DTOAdminPersonalityTagView personalityTag;
 
     protected override async Task OnInitializedAsync()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
 
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _personalityTag)) { personalityTagId = long.Parse(_personalityTag); }
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _personalityTag)) { personalityTagId = Guid.Parse(_personalityTag); }
 
         if (personalityTagId == null) { NavManager.NavigateTo("/admin/personality-tags/all"); }
 

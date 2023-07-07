@@ -59,7 +59,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		[Route("api/administration/personality-tags/{PersonalityTagID}/view")]
 		[AuthenticationLink]
 		[HttpGet]
-		public async Task<ActionResult<DTOAdminPersonalityTagView>> Get(long PersonalityTagID)
+		public async Task<ActionResult<DTOAdminPersonalityTagView>> Get(Guid PersonalityTagID)
 		{
 
 			PersonalityTag? tag = await _context.PersonalityTags.FindAsync(PersonalityTagID);
@@ -77,7 +77,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		[Route("api/administration/personality-tags/{PersonalityTagID}/delete")]
 		[AuthenticationLink]
 		[HttpDelete]
-		public async Task<IActionResult> Delete(long PersonalityTagID)
+		public async Task<IActionResult> Delete(Guid PersonalityTagID)
 		{
 
 			PersonalityTag? tag = await _context.PersonalityTags.FindAsync(PersonalityTagID);
@@ -98,7 +98,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		[Route("api/administration/personality-tags/{PersonalityTagID}/edit")]
 		[AuthenticationLink]
 		[HttpPost]
-		public async Task<ActionResult<DTOAdminPersonalityTagView>> Post(long PersonalityTagID, [FromBody] Dictionary<string, string> changes)
+		public async Task<ActionResult<DTOAdminPersonalityTagView>> Post(Guid PersonalityTagID, [FromBody] Dictionary<string, string> changes)
 		{
 
 			// Define permitted changes allowed
