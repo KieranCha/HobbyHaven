@@ -1,9 +1,87 @@
 ﻿@page "/hobbies"
 @attribute [Authorize]
+@inject NavigationManager NavManager
 @layout MainLayout
-<PageTitle> Hobbies </PageTitle>
-<MudText Typo="Typo.h1"> Placeholder </MudText>
 
+<PageTitle> Hobbies </PageTitle>
+<MudGrid> 
+    <MudItem Class="mb-8">
+        <MudText Typo="Typo.h1"> Subscribed <span style="color:orange;font-weight:bold;font-style:italic">Hobbies</span> </MudText>
+    </MudItem>
+</MudGrid>
+<MudGrid Justify="Justify.FlexStart">
+    <MudItem xs="8">
+        <MudGrid Spacing="3" Justify="Justify.FlexStart">
+            @if (subscribedHobbies.Count > 0)
+            {
+                @foreach (string _hobby in subscribedHobbies)
+                {
+                    <MudItem xs="12">
+                        <MudPaper Outlined="true">
+                            <MudContainer>
+                                <MudGrid>
+                                    <MudItem xs="12" sm="3">
+                                        <MudPaper Square="true" Class="pa-16 ma-2">image</MudPaper>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="9">
+                                        <MudGrid Justify="Justify.FlexEnd">
+                                            <MudItem xs="12" sm="12">
+                                                <MudText Typo="Typo.h6"> @_hobby </MudText>
+                                                <MudText Typo="Typo.subtitle1"> hobby short description </MudText>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="3">
+                                                <MudButton EndIcon="@Icons.Material.Outlined.Info" Color="Color.Warning" FullWidth="true" Variant="Variant.Outlined" Href="@constructURL(_hobby)">
+                                                    Learn more 
+                                                </MudButton>
+                                                <MudButton EndIcon="@Icons.Material.Filled.Block" Color="Color.Error" FullWidth="true" Variant="Variant.Outlined" OnClick="@((e)=> unsubscribeHobby(_hobby))"> 
+                                                    Unsubcribe 
+                                                </MudButton>
+                                            </MudItem>
+                                        </MudGrid>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudContainer>
+                        </MudPaper>
+                    </MudItem>
+                }
+            }
+            else {
+                <MudItem xs="12">
+                    <MudGrid Justify="Justify.Center">
+                        <MudItem>
+                            <MudImage Src="https://bluemoji.io/emoji/Blue/256/30.png"/>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudText Align="Align.Center" Typo="Typo.h3"> You're currently not subscribed to any hobbies! </MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h4"> Find some <MudLink Href="/search-hobbies" Typo="Typo.h4"> here! </MudLink></MudText>
+                        </MudItem>
+                    </MudGrid>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudItem>
+</MudGrid>
+ 
 @code {
+    List<string> subscribedHobbies;
+
+
+    // Get query string of hobby being viewed, if no query string, display view of hobbies user is subscribed too
+    protected override void OnInitialized()
+    {
+        // call to get all hobbies user is subscribed too
+        // populate list with data from api
+        subscribedHobbies = new() {"hobby1", "hobby2", "hobby3"};
+    }
+
+    public string constructURL(string name)
+    {
+        return "/hobby?hobby=" + name;
+    }
+    public void unsubscribeHobby(string hobbyToRemove)
+    {
+        subscribedHobbies.Remove(hobbyToRemove);
+        // remove from list, future add api to remove hobby from users subscribed hobbies
+    }
 
 }

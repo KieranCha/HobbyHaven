@@ -13,7 +13,9 @@
             </Authorized>
         </AuthorizeView>
         <MudSpacer />
-        <MudButton Variant="Variant.Text" Style="color:floralwhite;width:240px;height:60px;font-size:24px;" Href="/"> Hobby Haven </MudButton>
+        <MudButton Variant="Variant.Text" Href="/"> 
+            <MudText Style="color:floralwhite;font-weight:bold;" Typo="Typo.h4" Align="Align.Center" > HOBBY HAVEN </MudText>
+        </MudButton>
     </MudAppBar>
     <MudDrawer @bind-Open="@openNavMenu">
         <NavMenu/>

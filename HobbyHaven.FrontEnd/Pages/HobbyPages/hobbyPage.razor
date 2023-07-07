@@ -1,0 +1,67 @@
+﻿@page "/hobby"
+@attribute [Authorize]
+@inject NavigationManager NavManager
+@layout MainLayout
+
+<MudGrid>
+    <MudItem xs="2">
+        <MudPaper Square="true" Class="pa-16 ma-2">image</MudPaper>
+    </MudItem>
+    <MudItem xs="10">
+        <MudPaper>
+            <MudGrid Justify="Justify.FlexEnd">
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h1" Color="Color.Warning">@hobby</MudText>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudButton EndIcon="@buttonIcon" Color="@buttonColour" FullWidth="true" Variant="Variant.Outlined" OnClick="((e)=> subscribeState(true))">
+                        @buttonText
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <MudPaper>
+            <MudText Typo="Typo.h6"> Description </MudText>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Parameter]
+    public string hobbyName { get; set; } = "hobby";
+
+    bool displayDefault, hobbySubscribed;
+    string hobby, buttonText, buttonIcon;
+    Color buttonColour;
+
+    protected override void OnInitialized()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        if ((QueryHelpers.ParseQuery(uri.Query).TryGetValue("hobby", out var _hobby)))
+        {
+            displayDefault = true;
+            hobby = Convert.ToString(_hobby);
+            hobbySubscribed = true;
+            subscribeState();
+            // call to get hobby information here
+        }
+        else
+        {
+            displayDefault = false;
+        }
+    }
+
+
+    public void subscribeState(bool change = false)
+    {
+        if (change)
+        {
+            hobbySubscribed = !hobbySubscribed;
+        }
+        buttonColour = hobbySubscribed ? Color.Success : Color.Error;
+        buttonIcon = hobbySubscribed ? Icons.Material.Filled.Check : Icons.Material.Filled.Block;
+        buttonText = hobbySubscribed ? "Subscribe" : "Unsubscribe";
+    }
+}

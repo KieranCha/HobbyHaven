@@ -18,6 +18,15 @@
                 <MudText Typo="Typo.h6"> @context.name </MudText>
                 <MudText Typo="Typo.subtitle1"> @context.name is @context.PTs[0], @context.PTs[1]</MudText>
             </MudTd>
+            <MudTd>
+                <MudGrid Justify="Justify.FlexEnd">
+                    <MudItem>
+                        <MudButton EndIcon="@Icons.Material.Outlined.Info" Color="Color.Warning" Size="Size.Small" Variant="Variant.Outlined" Href="@constructURL(context.name)">
+                             Learn more 
+                        </MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudTd>
         </RowTemplate>
     </MudTable>
 </MudPaper>
@@ -67,5 +76,10 @@
     {
         if (searchQuery == null && searchQuery != string.Empty) return hobbies;
         return hobbies.Where(x => x.name.ToLower().Contains(searchQuery.ToLower()) || x.PTs.Contains(searchQuery.ToLower()));
+    }
+
+    public string constructURL(string name)
+    {
+        return "/hobby?hobby="+name;
     }
 }
