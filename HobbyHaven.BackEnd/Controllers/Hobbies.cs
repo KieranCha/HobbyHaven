@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using HobbyHaven.Shared.DTOs.Hobbies;
 using HobbyHaven.BackEnd.Database.Models;
 using HobbyHaven.Shared.DTOs.Administration.Hobbies;
+using Microsoft.Extensions.Options;
 
 namespace HobbyHaven.BackEnd.Controllers.Hobbies
 {
@@ -17,9 +18,13 @@ namespace HobbyHaven.BackEnd.Controllers.Hobbies
 		// Set the datacontext object
 
 		public DataContext _context { get; set; }
+		public AuthenticationLinkSettings _authenticationLinkSettings { get; set; }
+		public Hobbies(DataContext context, IOptions<AuthenticationLinkSettings> authSettings)
+		{
+			_context = context;
+			_authenticationLinkSettings = authSettings.Value;
+		}
 
-		public Hobbies(DataContext context) { _context = context; }
-		
 
 		// Endpoint for getting all hobbies.
 

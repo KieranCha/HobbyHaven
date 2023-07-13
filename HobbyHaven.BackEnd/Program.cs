@@ -1,8 +1,10 @@
 global using HobbyHaven.BackEnd.Database;
 global using HobbyHaven.BackEnd.Decorators.Authentication;
 
+using HobbyHaven.BackEnd.Decorators.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,8 @@ builder.Services.AddAuthentication(options =>
     options.Authority = "https://dev-xtwg53poupip80c5.us.auth0.com/";
     options.Audience = "https://localhost:44357/api/";
 });
+
+builder.Services.Configure<AuthenticationLinkSettings>(builder.Configuration.GetSection("AuthorizationLinkSettings"));
 
 var app = builder.Build();
 

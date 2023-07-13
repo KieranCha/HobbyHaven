@@ -75,7 +75,7 @@
         // return hobbies.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()) || x.PersonalityTags.Contains(searchQuery.ToLower()));
     }
 
-    public string constructURL(long hobbyID)
+    public string constructURL(Guid hobbyID)
     {
         return "/hobby?hobby="+hobbyID;
     }

@@ -5,6 +5,7 @@ using System.Reflection;
 using HobbyHaven.Shared.DTOs.Administration.Havens;
 using HobbyHaven.BackEnd.Database.Models;
 using HobbyHaven.BackEnd.Decorators.Authentication;
+using Microsoft.Extensions.Options;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 {
@@ -14,10 +15,13 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 	{
 
 		// Set the datacontext object
-
 		public DataContext _context { get; set; }
-
-		public AdministrationHavens(DataContext context) { _context = context; }
+		public AuthenticationLinkSettings _authenticationLinkSettings { get; set; }
+		public AdministrationHavens(DataContext context, IOptions<AuthenticationLinkSettings> authSettings)
+		{
+			_context = context;
+			_authenticationLinkSettings = authSettings.Value;
+		}
 
 
 		// Endpoint for viewing all havens as a administrator.

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using HobbyHaven.Shared.DTOs.Administration.Users;
 using HobbyHaven.BackEnd.Decorators.Authentication;
+using Microsoft.Extensions.Options;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Users
 {
@@ -19,8 +20,12 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
 		// Set the datacontext object
 
 		public DataContext _context { get; set; }
-
-		public AdministrationUsers(DataContext context) { _context = context; }
+		public AuthenticationLinkSettings _authenticationLinkSettings { get; set; }
+		public AdministrationUsers(DataContext context, IOptions<AuthenticationLinkSettings> authSettings)
+		{
+			_context = context;
+			_authenticationLinkSettings = authSettings.Value;
+		}
 
 
 		// Endpoint for viewing all user as a administrator.

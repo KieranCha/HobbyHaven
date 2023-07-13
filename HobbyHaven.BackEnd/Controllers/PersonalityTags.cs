@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using HobbyHaven.Shared.DTOs.PersonalityTag;
 using HobbyHaven.BackEnd.Decorators.Authentication;
+using Microsoft.Extensions.Options;
 
 namespace HobbyHaven.BackEnd.Controllers.PersonalityTags
 {
@@ -16,9 +17,13 @@ namespace HobbyHaven.BackEnd.Controllers.PersonalityTags
 		// Set the datacontext object
 
 		public DataContext _context { get; set; }
+		public AuthenticationLinkSettings _authenticationLinkSettings { get; set; }
+		public PersonalityTags(DataContext context, IOptions<AuthenticationLinkSettings> authSettings)
+		{
+			_context = context;
+			_authenticationLinkSettings = authSettings.Value;
+		}
 
-		public PersonalityTags(DataContext context) { _context = context; }
-		
 
 		// Endpoint for getting all personality tags.
 

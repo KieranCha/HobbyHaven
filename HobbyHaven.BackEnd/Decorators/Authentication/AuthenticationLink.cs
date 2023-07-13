@@ -9,6 +9,7 @@ namespace HobbyHaven.BackEnd.Decorators.Authentication
     public class AuthenticationLink : ActionFilterAttribute
 	{
         private bool _IsAdminEndpoint;
+
         public AuthenticationLink(bool IsAdminEndpoint = false)
         {
             _IsAdminEndpoint = IsAdminEndpoint;
@@ -16,11 +17,18 @@ namespace HobbyHaven.BackEnd.Decorators.Authentication
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-			// OnActionExecutionAsync
+			
+            IDataController controller = (IDataController)context.Controller;
+
+            if (!controller._authenticationLinkSettings.EnforceAuthorization)
+            {
+                base.OnActionExecuting(context);
+                return;
+            };
 
             // Get the database context object from the controller, by casting it to an interface so the compiler knows the controller has that funky attribute.
 
-            DataContext databaseContext = ((IDataController)context.Controller)._context;
+            DataContext databaseContext = controller._context;
 
             // Predefine a succesfullAuthentication as false, if false do not complete the request. Only flip to true when all authentication and authorization has been complete without throwing an error.
 
@@ -59,6 +67,10 @@ namespace HobbyHaven.BackEnd.Decorators.Authentication
 				context.ModelState.AddModelError("Unauthorized", "You are not authorized for this endpoint.");
 				context.Result = new UnauthorizedObjectResult(context.ModelState);
 			}
+            catch (InvalidAuthorizationHeader exc) {
+                context.ModelState.AddModelError("Invalid authorization header", "You have an invalid authorization header.");
+                context.Result = new BadRequestObjectResult(context.ModelState);
+            }
 
 
 			if (succesfullAuthentication) base.OnActionExecuting(context);
@@ -97,7 +109,16 @@ namespace HobbyHaven.BackEnd.Decorators.Authentication
 			if (token == null) throw new MissingAuthorizationHeader();
 
 			JwtSecurityTokenHandler tokenHandler = new();
-			string? Auth0UserID = tokenHandler.ReadJwtToken(token.Split(" ")[1]).Claims.Where(x => x.Type == "sub").FirstOrDefault().Value;
+
+            string? Auth0UserID;
+
+            try
+            {
+				Auth0UserID = tokenHandler.ReadJwtToken(token.Split(" ")[1]).Claims.Where(x => x.Type == "sub").FirstOrDefault().Value;
+			} catch (IndexOutOfRangeException)
+            {
+                throw new InvalidAuthorizationHeader();
+			}
 
             if (Auth0UserID == null) throw new MissingAuthorizationHeader();
 

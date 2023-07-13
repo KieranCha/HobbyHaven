@@ -6,6 +6,7 @@ using System.Reflection;
 using HobbyHaven.Shared.DTOs.Administration.Hobbies;
 using HobbyHaven.BackEnd.Database.Models;
 using HobbyHaven.BackEnd.Decorators.Authentication;
+using Microsoft.Extensions.Options;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 {
@@ -17,13 +18,17 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 		// Set the datacontext object
 
 		public DataContext _context { get; set; }
+		public AuthenticationLinkSettings _authenticationLinkSettings { get; set; }
+		public AdministrationHobbies(DataContext context, IOptions<AuthenticationLinkSettings> authSettings)
+		{
+			_context = context;
+			_authenticationLinkSettings = authSettings.Value;
+		}
 
-		public AdministrationHobbies(DataContext context) { _context = context; }
 
+		// Endpoint for viewing all hobbies as a administrator.
 
-        // Endpoint for viewing all hobbies as a administrator.
-
-        [Route("api/administration/hobbies/all")]
+		[Route("api/administration/hobbies/all")]
 		[AuthenticationLink]
 		[HttpGet]
         public async Task<ActionResult<List<DTOAdminHobbyView>>> Get()

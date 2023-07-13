@@ -19,5 +19,9 @@ namespace HobbyHaven.BackEnd.Decorators.Authentication
         public MissingAuthorizationPermissions() { }
     }
 
+    public class InvalidAuthorizationHeader : Exception {
+        public InvalidAuthorizationHeader() { }
+    }
+
 
 }
