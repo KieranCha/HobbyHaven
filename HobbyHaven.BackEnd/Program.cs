@@ -1,6 +1,5 @@
 global using HobbyHaven.BackEnd.Database;
-global using HobbyHaven.BackEnd.Decorators;
-global using HobbyHaven.BackEnd.Interfaces;
+global using HobbyHaven.BackEnd.Decorators.Authentication;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

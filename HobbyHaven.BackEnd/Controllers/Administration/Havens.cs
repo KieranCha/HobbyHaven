@@ -4,11 +4,12 @@ using System.Reflection;
 
 using HobbyHaven.Shared.DTOs.Administration.Havens;
 using HobbyHaven.BackEnd.Database.Models;
+using HobbyHaven.BackEnd.Decorators.Authentication;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 {
 
-	[ApiController]
+    [ApiController]
 	public class AdministrationHavens : ControllerBase, IDataController
 	{
 

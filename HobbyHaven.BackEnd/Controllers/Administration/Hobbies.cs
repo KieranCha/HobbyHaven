@@ -5,11 +5,12 @@ using System.Reflection;
 
 using HobbyHaven.Shared.DTOs.Administration.Hobbies;
 using HobbyHaven.BackEnd.Database.Models;
+using HobbyHaven.BackEnd.Decorators.Authentication;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 {
 
-	[ApiController]
+    [ApiController]
 	public class AdministrationHobbies : ControllerBase, IDataController
 	{
 

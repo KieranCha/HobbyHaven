@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 
 using HobbyHaven.Shared.DTOs.PersonalityTag;
+using HobbyHaven.BackEnd.Decorators.Authentication;
 
 namespace HobbyHaven.BackEnd.Controllers.PersonalityTags
 {
 
-	// Endpoints for viewing personality tags
+    // Endpoints for viewing personality tags
 
-	[ApiController]
+    [ApiController]
 	public class PersonalityTags : ControllerBase, IDataController
 	{
 

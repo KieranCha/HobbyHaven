@@ -4,11 +4,12 @@ using System.Reflection;
 
 using HobbyHaven.Shared.DTOs.Administration.PersonalityTags;
 using HobbyHaven.BackEnd.Database.Models;
+using HobbyHaven.BackEnd.Decorators.Authentication;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 {
 
-	[ApiController]
+    [ApiController]
 	public class AdministrationPersonalityTags : ControllerBase, IDataController
 	{
 
@@ -22,7 +23,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for getting all personality tags as an administrator.
 
 		[Route("api/administration/personality-tags/all")]
-		[AuthenticationLink]
+		[AuthenticationLink(true)]
 		[HttpGet]
 		public async Task<ActionResult<List<DTOAdminPersonalityTagView>>> Get()
 		{
@@ -41,7 +42,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for creating a personality tag by an administrator
 
 		[Route("api/administration/personality-tags/create")]
-		[AuthenticationLink]
+		[AuthenticationLink(true)]
 		[HttpPost]
 		public async Task<ActionResult> Post([FromBody] DTOAdminCreatePersonalityTag personalityTagDTO)
 		{
@@ -57,7 +58,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for viewing a specific personality tag as an administrator
 
 		[Route("api/administration/personality-tags/{PersonalityTagID}/view")]
-		[AuthenticationLink]
+		[AuthenticationLink(true)]
 		[HttpGet]
 		public async Task<ActionResult<DTOAdminPersonalityTagView>> Get(Guid PersonalityTagID)
 		{
@@ -75,7 +76,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for deleting a personality tag from the database
 
 		[Route("api/administration/personality-tags/{PersonalityTagID}/delete")]
-		[AuthenticationLink]
+		[AuthenticationLink(true)]
 		[HttpDelete]
 		public async Task<IActionResult> Delete(Guid PersonalityTagID)
 		{
@@ -96,7 +97,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for editing a personality tag
 
 		[Route("api/administration/personality-tags/{PersonalityTagID}/edit")]
-		[AuthenticationLink]
+		[AuthenticationLink(true)]
 		[HttpPost]
 		public async Task<ActionResult<DTOAdminPersonalityTagView>> Post(Guid PersonalityTagID, [FromBody] Dictionary<string, string> changes)
 		{

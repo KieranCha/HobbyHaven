@@ -7,11 +7,12 @@ using HobbyHaven.BackEnd.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using HobbyHaven.Shared.DTOs.Administration.Users;
+using HobbyHaven.BackEnd.Decorators.Authentication;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Users
 {
 
-	[ApiController]
+    [ApiController]
 	public class AdministrationUsers : ControllerBase, IDataController
 	{
 
