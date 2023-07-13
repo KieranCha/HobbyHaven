@@ -1,6 +1,8 @@
 ﻿@page "/search-hobbies"
 @attribute [Authorize]
 @layout MainLayout
+@inject HttpClient HttpClient
+@using HobbyHaven.Shared.DTOs.Hobbies
 
 
 <MudText Typo="Typo.h2" Align="Align.Center"> Here's all the <span style="color:orange;font-weight:bold;font-style:italic">Hobbies</span> we've got!</MudText>
@@ -15,13 +17,12 @@
 
         <RowTemplate>
             <MudTd>
-                <MudText Typo="Typo.h6"> @context.name </MudText>
-                <MudText Typo="Typo.subtitle1"> @context.name is @context.PTs[0], @context.PTs[1]</MudText>
+                <MudText Typo="Typo.h6"> @context.Name </MudText>
             </MudTd>
             <MudTd>
                 <MudGrid Justify="Justify.FlexEnd">
                     <MudItem>
-                        <MudButton EndIcon="@Icons.Material.Outlined.Info" Color="Color.Warning" Size="Size.Small" Variant="Variant.Outlined" Href="@constructURL(context.name)">
+                        <MudButton EndIcon="@Icons.Material.Outlined.Info" Color="Color.Warning" Size="Size.Small" Variant="Variant.Outlined" Href="@constructURL(context.Id)">
                              Learn more 
                         </MudButton>
                     </MudItem>
@@ -33,53 +34,49 @@
 
 
 @code {
-    protected override void OnInitialized()
-    {
-        createHobbies();
-    }
-
-
-    Random ran = new Random();
+    List<DTOHobby> hobbies = new List<DTOHobby>();
     string searchQuery;
 
-    // lists to hold examples
-    List<string> exampleHobbies = new()
+    protected override async Task OnInitializedAsync()
     {
-        "Skating", "Camping", "Kayaking", "Climbing", "Golf", "Football", "Basketball", "Running", "Cycling", "Bodybuilding", "Swimming", "Machining", "Scuba Diving", "Collecting ", "LARPing", "Music listening", "Music playing", "Modern films", "Old films", "Exploration"
-    };
-    List<string> examplePTs = new()
-    {
-        "fun", "lighthearted", "serious", "longterm", "unserious", "social", "energetic", "calm", "amatuer", "professional"
-    };
 
-    List<hobby> hobbies = new List<hobby>();
-
-    class hobby
-    {
-        public string name;
-        public List<string> PTs = new();
+        HttpClient.DefaultRequestHeaders.Add("authorization", "replacemelater");
+        var response = await HttpClient.GetAsync($"https://localhost:44357/api/hobbies/all");
+        hobbies = await response.Content.ReadFromJsonAsync<List<DTOHobby>>();
     }
 
-    public void createHobbies()
-    {
-        for (int x = 0; x < exampleHobbies.Count; x++)
-        {
-            // populate hobbies list with hobby objects to be searched for
-            hobby newHobby = new hobby();
-            newHobby.name = exampleHobbies[x];
-            for (int y = 0; y < 2; y++) newHobby.PTs.Add(examplePTs[ran.Next(examplePTs.Count)]);
-            hobbies.Add(newHobby);
-        }
-    }
-
-    private IEnumerable<hobby> searchHobbies()
+    private IEnumerable<DTOHobby> searchHobbies()
     {
         if (searchQuery == null && searchQuery != string.Empty) return hobbies;
-        return hobbies.Where(x => x.name.ToLower().Contains(searchQuery.ToLower()) || x.PTs.Contains(searchQuery.ToLower()));
+
+        List<DTOHobby> revisedHobbies = new();
+        searchQuery = searchQuery.ToLower();
+
+        // checks each hobbies name and personality tags to check if they match the search query
+        hobbies.ForEach(hobby =>
+        {
+            if (hobby.Name.ToLower().Contains(searchQuery))
+            {
+                revisedHobbies.Add(hobby);
+            } else
+            {
+                bool found = false;
+                hobby.PersonalityTags.ForEach(tag =>
+                {
+                    if (tag.Name.ToLower().Contains(searchQuery) && !found)
+                    {
+                        revisedHobbies.Add(hobby);
+                        found = true;
+                    }
+                });
+            }
+        });
+        return revisedHobbies;
+        // return hobbies.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()) || x.PersonalityTags.Contains(searchQuery.ToLower()));
     }
 
-    public string constructURL(string name)
+    public string constructURL(long hobbyID)
     {
-        return "/hobby?hobby="+name;
+        return "/hobby?hobby="+hobbyID;
     }
 }

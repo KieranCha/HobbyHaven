@@ -2,6 +2,8 @@
 @attribute [Authorize]
 @inject NavigationManager NavManager
 @layout MainLayout
+@inject HttpClient HttpClient
+@using HobbyHaven.Shared.DTOs.Hobbies
 
 <MudGrid>
     <MudItem xs="2">
@@ -11,7 +13,7 @@
         <MudPaper>
             <MudGrid Justify="Justify.FlexEnd">
                 <MudItem xs="12">
-                    <MudText Typo="Typo.h1" Color="Color.Warning">@hobby</MudText>
+                    <MudText Typo="Typo.h1" Color="Color.Warning">@hobby.Name</MudText>
                 </MudItem>
                 <MudItem xs="3">
                     <MudButton EndIcon="@buttonIcon" Color="@buttonColour" FullWidth="true" Variant="Variant.Outlined" OnClick="((e)=> subscribeState(true))">
@@ -23,7 +25,7 @@
     </MudItem>
     <MudItem xs="12">
         <MudPaper>
-            <MudText Typo="Typo.h6"> Description </MudText>
+            <MudText Typo="Typo.h6"> @hobby.Description </MudText>
         </MudPaper>
     </MudItem>
 </MudGrid>
@@ -32,20 +34,27 @@
     [Parameter]
     public string hobbyName { get; set; } = "hobby";
 
+    DTOHobby? hobby = new()
+    {
+        Name = "",
+        Description = ""
+    };
     bool displayDefault, hobbySubscribed;
-    string hobby, buttonText, buttonIcon;
+    string buttonText, buttonIcon;
     Color buttonColour;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         if ((QueryHelpers.ParseQuery(uri.Query).TryGetValue("hobby", out var _hobby)))
         {
             displayDefault = true;
-            hobby = Convert.ToString(_hobby);
             hobbySubscribed = true;
             subscribeState();
-            // call to get hobby information here
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/hobbies/{_hobby}/view");
+            hobby = await response.Content.ReadFromJsonAsync<DTOHobby>();
+            if (hobby == null) displayDefault = false;
         }
         else
         {

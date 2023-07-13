@@ -2,14 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 
 using HobbyHaven.Shared.DTOs.Hobbies;
-using HobbyHaven.BackEnd.Decorators.Authentication;
+using HobbyHaven.BackEnd.Database.Models;
+using HobbyHaven.Shared.DTOs.Administration.Hobbies;
 
 namespace HobbyHaven.BackEnd.Controllers.Hobbies
 {
 
-    // Endpoints for viewing personality tags
+	// Endpoints for viewing personality tags
 
-    [ApiController]
+	[ApiController]
 	public class Hobbies : ControllerBase, IDataController
 	{
 
@@ -37,7 +38,22 @@ namespace HobbyHaven.BackEnd.Controllers.Hobbies
 			return Ok(revisedList);
 		}
 
+        [Route("api/hobbies/{hobbyID}/view")]
+        [AuthenticationLink]
+        [HttpGet]
+        public async Task<ActionResult<DTOHobby>> Get(long hobbyID)
+        {
 
-	}
+            Hobby? hobby = await _context.Hobbies.FindAsync(hobbyID);
+
+            if (hobby == null) return NotFound();
+            else
+            {
+                return Ok(hobby.ToDTO());
+            }
+
+        }
+
+    }
 
 }
