@@ -13,23 +13,45 @@ namespace HobbyHaven.BackEnd.Database.Models
 
 		public DTOAdminUserView ToAdminDTO()
 		{
+			List<DTOPersonalityTag> revisedTags = new();
+			PersonalityTags.ForEach(tag => revisedTags.Add(tag.ToDTO()));
+
 			return new()
 			{
 				UserID = UserID,
-				Admin = Admin
+				Admin = Admin,
+				PersonalityTags = revisedTags,
+			};
+		}
+
+		public DTOAdminUserViewBasic ToAdminDTOBasic()
+		{
+			List<DTOPersonalityTag> revisedTags = new();
+			PersonalityTags.ForEach(tag => revisedTags.Add(tag.ToDTO()));
+
+			return new()
+			{
+				UserID = UserID,
+				Admin = Admin,
+				TotalPersonalityTags = revisedTags.Count,
 			};
 		}
 
 		public DTOUser ToDTO()
 		{
+			List<DTOPersonalityTag> revisedTags = new();
+			PersonalityTags.ForEach(tag => revisedTags.Add(tag.ToDTO()));
+
 			return new()
 			{
-				UserID = UserID
+				UserID = UserID,
+				PersonalityTags = revisedTags,
 			};
 		}
 
         public string UserID { get; set; }
         public bool Admin { get; set; } = false;
+		public List<PersonalityTag> PersonalityTags { get; set; } = new();
     }
 
 }

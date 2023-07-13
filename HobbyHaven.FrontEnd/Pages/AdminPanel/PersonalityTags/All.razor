@@ -8,7 +8,7 @@
 <!-- https://mudblazor.com/components/table#table-with-pagination-and-filtering -->
 
 <div style="width:80%;margin:auto;margin-top:50px;">
-    <MudTable Items="@Elements" Dense="false" Bordered="true" Striped="true" Filter="(Element => FilterFunc(Element))" @bind-SelectedItem="selectedItem1" OnRowClick="@OpenPersonalityTag" T="DTOAdminPersonalityTagView">
+    <MudTable Items="@Elements" Dense="false" Bordered="true" Striped="true" Filter="(Element => FilterFunc(Element))" @bind-SelectedItem="selectedItem1" OnRowClick="@OpenPersonalityTag" T="DTOAdminPersonalityTagViewBasic">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Personality tags</MudText>
             <MudSpacer />
@@ -36,21 +36,21 @@
 
 @code {
     private string searchString1 = "";
-    private DTOAdminPersonalityTagView selectedItem1 = null;
-    private HashSet<DTOAdminPersonalityTagView> selectedItems = new HashSet<DTOAdminPersonalityTagView>();
+    private DTOAdminPersonalityTagViewBasic selectedItem1 = null;
+    private HashSet<DTOAdminPersonalityTagViewBasic> selectedItems = new HashSet<DTOAdminPersonalityTagViewBasic>();
 
 
 
 
-    private IEnumerable<DTOAdminPersonalityTagView> Elements = new List<DTOAdminPersonalityTagView>();
+    private IEnumerable<DTOAdminPersonalityTagViewBasic> Elements = new List<DTOAdminPersonalityTagViewBasic>();
 
     protected override async Task OnInitializedAsync()
     {
         HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/personality-tags/all");
-        Elements = await response.Content.ReadFromJsonAsync<List<DTOAdminPersonalityTagView>>();
+        Elements = await response.Content.ReadFromJsonAsync<List<DTOAdminPersonalityTagViewBasic>>();
     }
 
-    private bool FilterFunc(DTOAdminPersonalityTagView element)
+    private bool FilterFunc(DTOAdminPersonalityTagViewBasic element)
     {
         if (string.IsNullOrWhiteSpace(searchString1)) return true;
         if (element.Id.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
@@ -60,7 +60,7 @@
         return false;
     }
 
-    public void OpenPersonalityTag(TableRowClickEventArgs<DTOAdminPersonalityTagView> ev)
+    public void OpenPersonalityTag(TableRowClickEventArgs<DTOAdminPersonalityTagViewBasic> ev)
     {
         NavManager.NavigateTo($"/admin/personality-tags/view?ID={ev.Item.Id}");
     }

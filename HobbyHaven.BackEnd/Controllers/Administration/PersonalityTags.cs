@@ -28,15 +28,15 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for getting all personality tags as an administrator.
 
 		[Route("api/administration/personality-tags/all")]
-		[AuthenticationLink(true)]
+		[AuthenticationLink]
 		[HttpGet]
-		public async Task<ActionResult<List<DTOAdminPersonalityTagView>>> Get()
+		public async Task<ActionResult<List<DTOAdminPersonalityTagViewBasic>>> Get()
 		{
-			List<DTOAdminPersonalityTagView> revisedList = new() { };
+			List<DTOAdminPersonalityTagViewBasic> revisedList = new() { };
 
-			(await _context.PersonalityTags.ToListAsync()).ForEach(x =>
+			(await _context.PersonalityTags.Include(t => t.Users).ToListAsync()).ForEach(x =>
 			{
-				revisedList.Add(x.ToAdminDTO());
+				revisedList.Add(x.ToAdminDTOBasic());
 			});
 
 			return Ok(revisedList);
@@ -47,7 +47,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for creating a personality tag by an administrator
 
 		[Route("api/administration/personality-tags/create")]
-		[AuthenticationLink(true)]
+		[AuthenticationLink]
 		[HttpPost]
 		public async Task<ActionResult> Post([FromBody] DTOAdminCreatePersonalityTag personalityTagDTO)
 		{
@@ -63,12 +63,13 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for viewing a specific personality tag as an administrator
 
 		[Route("api/administration/personality-tags/{PersonalityTagID}/view")]
-		[AuthenticationLink(true)]
+		[AuthenticationLink]
 		[HttpGet]
 		public async Task<ActionResult<DTOAdminPersonalityTagView>> Get(Guid PersonalityTagID)
 		{
 
-			PersonalityTag? tag = await _context.PersonalityTags.FindAsync(PersonalityTagID);
+			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
+
 
 			if (tag == null) return NotFound(); 
 			else
@@ -81,12 +82,12 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for deleting a personality tag from the database
 
 		[Route("api/administration/personality-tags/{PersonalityTagID}/delete")]
-		[AuthenticationLink(true)]
+		[AuthenticationLink]
 		[HttpDelete]
 		public async Task<IActionResult> Delete(Guid PersonalityTagID)
 		{
 
-			PersonalityTag? tag = await _context.PersonalityTags.FindAsync(PersonalityTagID);
+			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
 
 			if (tag == null) return NotFound();
 			else
@@ -102,7 +103,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		// Endpoint for editing a personality tag
 
 		[Route("api/administration/personality-tags/{PersonalityTagID}/edit")]
-		[AuthenticationLink(true)]
+		[AuthenticationLink]
 		[HttpPost]
 		public async Task<ActionResult<DTOAdminPersonalityTagView>> Post(Guid PersonalityTagID, [FromBody] Dictionary<string, string> changes)
 		{
@@ -111,7 +112,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 			List<string> permitted_changes = new List<string>() { "Description", "Name" };
 
 			// Get the tag from the database
-			PersonalityTag? tag = await _context.PersonalityTags.FindAsync(PersonalityTagID);
+			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
 
 			if (tag == null) return NotFound();
 

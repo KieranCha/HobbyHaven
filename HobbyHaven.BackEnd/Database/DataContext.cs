@@ -11,6 +11,13 @@ namespace HobbyHaven.BackEnd.Database
 
 		}
 
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.PersonalityTags)
+				.WithMany(tag => tag.Users);
+		}
+
 		public DbSet<Haven> Havens { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<Hobby> Hobbies { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HobbyHaven.BackEnd.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateInitial : Migration
+    public partial class UserTagRelatanships : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,6 +64,35 @@ namespace HobbyHaven.BackEnd.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "PersonalityTagUser",
+                columns: table => new
+                {
+                    PersonalityTagsPersonalityTagID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UsersUserID = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonalityTagUser", x => new { x.PersonalityTagsPersonalityTagID, x.UsersUserID });
+                    table.ForeignKey(
+                        name: "FK_PersonalityTagUser_PersonalityTags_PersonalityTagsPersonalityTagID",
+                        column: x => x.PersonalityTagsPersonalityTagID,
+                        principalTable: "PersonalityTags",
+                        principalColumn: "PersonalityTagID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PersonalityTagUser_Users_UsersUserID",
+                        column: x => x.UsersUserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PersonalityTagUser_UsersUserID",
+                table: "PersonalityTagUser",
+                column: "UsersUserID");
         }
 
         /// <inheritdoc />
@@ -74,6 +103,9 @@ namespace HobbyHaven.BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Hobbies");
+
+            migrationBuilder.DropTable(
+                name: "PersonalityTagUser");
 
             migrationBuilder.DropTable(
                 name: "PersonalityTags");

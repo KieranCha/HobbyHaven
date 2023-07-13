@@ -25,7 +25,18 @@ namespace HobbyHaven.BackEnd.Database.Models
 			};
 		}
 
-		public DTOPersonalityTag ToDTO()
+        public DTOAdminPersonalityTagViewBasic ToAdminDTOBasic()
+        {
+            return new()
+            {
+                Name = Name,
+                Description = Description,
+                Id = PersonalityTagID,
+				TotalUsers = Users.Count
+            };
+        }
+
+        public DTOPersonalityTag ToDTO()
 		{
 			return new()
 			{
@@ -38,6 +49,7 @@ namespace HobbyHaven.BackEnd.Database.Models
         public Guid PersonalityTagID { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+		public List<User> Users { get; set; } = new();
 	}
 
 }

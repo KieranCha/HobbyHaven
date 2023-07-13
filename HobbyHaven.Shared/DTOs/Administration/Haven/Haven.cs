@@ -6,7 +6,7 @@ namespace HobbyHaven.Shared.DTOs.Administration.Havens
     public class DTOAdminHavenView
     {
 
-        public string Name { get; set; }
+        public string Name { get; set; } = "undefined";
         public string Description { get; set; }
         public Guid Id { get; set; }
         public string? OwnerID { get; set; }
@@ -19,7 +19,7 @@ namespace HobbyHaven.Shared.DTOs.Administration.Havens
 
     public class DTOAdminCreateHaven
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "undefined";
         public string Description { get; set; }
         public string Location { get; set; } // GPS location
         public string? OwnerID { get; set; } // As ID

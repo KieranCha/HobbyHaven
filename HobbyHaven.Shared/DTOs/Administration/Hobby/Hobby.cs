@@ -5,7 +5,7 @@ namespace HobbyHaven.Shared.DTOs.Administration.Hobbies
 
     public class DTOAdminHobbyView
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "undefined";
         public string Description { get; set; } = "";
         public Guid Id { get; set; }
         public List<DTOPersonalityTag> PersonalityTags { get; set; } = new(); // Tags used to match the users personality/characteristics to a hobby.

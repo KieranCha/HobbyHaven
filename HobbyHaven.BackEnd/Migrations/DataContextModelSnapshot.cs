@@ -15,7 +15,7 @@ namespace HobbyHaven.BackEnd.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
 
             modelBuilder.Entity("HobbyHaven.BackEnd.Database.Models.Haven", b =>
                 {
@@ -97,6 +97,36 @@ namespace HobbyHaven.BackEnd.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("PersonalityTagUser", b =>
+                {
+                    b.Property<Guid>("PersonalityTagsPersonalityTagID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UsersUserID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PersonalityTagsPersonalityTagID", "UsersUserID");
+
+                    b.HasIndex("UsersUserID");
+
+                    b.ToTable("PersonalityTagUser");
+                });
+
+            modelBuilder.Entity("PersonalityTagUser", b =>
+                {
+                    b.HasOne("HobbyHaven.BackEnd.Database.Models.PersonalityTag", null)
+                        .WithMany()
+                        .HasForeignKey("PersonalityTagsPersonalityTagID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HobbyHaven.BackEnd.Database.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -36,11 +36,11 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
         public async Task<ActionResult<List<DTOAdminUserView>>> Get()
         {
 
-            List<DTOAdminUserView> revisedList = new() { };
+            List<DTOAdminUserViewBasic> revisedList = new() { };
 
-            (await _context.Users.ToListAsync()).ForEach(x =>
+            (await _context.Users.Include(u => u.PersonalityTags).ToListAsync()).ForEach(x =>
             {
-                revisedList.Add(x.ToAdminDTO());
+                revisedList.Add(x.ToAdminDTOBasic());
             });
 
             return Ok(revisedList);
@@ -54,14 +54,10 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
         public async Task<ActionResult<DTOAdminUserView>> Get(string userID)
         {
 
-            User? user = await _context.Users.FindAsync(userID);
+            User? user = await _context.Users.Include(u => u.PersonalityTags).FirstAsync(u => u.UserID == userID);
 
             if (user == null) return NotFound();
-            else
-            {
-                return Ok(user.ToAdminDTO());
-            }
-
+            return Ok(user.ToAdminDTO());
         }
 
 		// Endpoint for deleting a user from the database
@@ -72,18 +68,15 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
         public async Task<IActionResult> Delete(string userID)
         {
 
-            User? user = await _context.Users.FindAsync(userID);
+            User? user = await _context.Users.Include(u => u.PersonalityTags).FirstAsync(u => u.UserID == userID);
 
-            if (user == null) return NotFound();
-            else
-            {
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
+			if (user == null) return NotFound();
 
-                return Ok();
-            }
+			_context.Users.Remove(user);
+			await _context.SaveChangesAsync();
 
-        }
+			return Ok();
+		}
 
         // Endpoint for editing a user
 
@@ -97,9 +90,9 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
             List<string> permitted_changes = new List<string>() { "Admin" };
 
             // Get the tag from the database
-            User? user = await _context.Users.FindAsync(userID);
+            User? user = await _context.Users.Include(u => u.PersonalityTags).FirstAsync(u => u.UserID == userID);
 
-            if (user == null) return NotFound();
+			if (user == null) return NotFound();
 
             // Get the type of the DatabasePersonalityTag so that it can overwrite the attributes
             Type type = typeof(User);
