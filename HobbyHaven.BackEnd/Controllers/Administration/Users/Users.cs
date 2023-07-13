@@ -38,7 +38,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
 
             List<DTOAdminUserViewBasic> revisedList = new() { };
 
-            (await _context.Users.Include(u => u.PersonalityTags).ToListAsync()).ForEach(x =>
+            (await _context.Users.Include(u => u.PersonalityTags).Include(u => u.Hobbies).ToListAsync()).ForEach(x =>
             {
                 revisedList.Add(x.ToAdminDTOBasic());
             });
@@ -54,7 +54,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
         public async Task<ActionResult<DTOAdminUserView>> Get(string userID)
         {
 
-            User? user = await _context.Users.Include(u => u.PersonalityTags).FirstAsync(u => u.UserID == userID);
+            User? user = await _context.Users.Include(u => u.PersonalityTags).Include(u => u.Hobbies).FirstAsync(u => u.UserID == userID);
 
             if (user == null) return NotFound();
             return Ok(user.ToAdminDTO());
@@ -68,7 +68,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
         public async Task<IActionResult> Delete(string userID)
         {
 
-            User? user = await _context.Users.Include(u => u.PersonalityTags).FirstAsync(u => u.UserID == userID);
+            User? user = await _context.Users.Include(u => u.PersonalityTags).Include(u => u.Hobbies).FirstAsync(u => u.UserID == userID);
 
 			if (user == null) return NotFound();
 
@@ -90,7 +90,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
             List<string> permitted_changes = new List<string>() { "Admin" };
 
             // Get the tag from the database
-            User? user = await _context.Users.Include(u => u.PersonalityTags).FirstAsync(u => u.UserID == userID);
+            User? user = await _context.Users.Include(u => u.PersonalityTags).Include(u => u.Hobbies).FirstAsync(u => u.UserID == userID);
 
 			if (user == null) return NotFound();
 

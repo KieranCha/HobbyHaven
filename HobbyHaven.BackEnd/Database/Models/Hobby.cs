@@ -36,9 +36,21 @@ namespace HobbyHaven.BackEnd.Database.Models
             };
         }
 
+        public DTOAdminHobbyViewBasic ToAdminDTOBasic()
+        {
+            return new()
+            {
+                Name = Name,
+                Description = Description,
+                Id = HobbyID,
+                TotalUsers = Users.Count
+            };
+        }
+
         public Guid HobbyID { get; set; }
 		public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public List<User> Users { get; set; } = new();
 	}
 
 }

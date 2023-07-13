@@ -7,6 +7,7 @@ using HobbyHaven.Shared.DTOs.Administration.Hobbies;
 using HobbyHaven.BackEnd.Database.Models;
 using HobbyHaven.BackEnd.Decorators.Authentication;
 using Microsoft.Extensions.Options;
+using HobbyHaven.BackEnd.Controllers.PersonalityTags;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 {
@@ -31,14 +32,14 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 		[Route("api/administration/hobbies/all")]
 		[AuthenticationLink]
 		[HttpGet]
-        public async Task<ActionResult<List<DTOAdminHobbyView>>> Get()
+        public async Task<ActionResult<List<DTOAdminHobbyViewBasic>>> Get()
         {
 
-            List<DTOAdminHobbyView> revisedList = new() { };
+            List<DTOAdminHobbyViewBasic> revisedList = new() { };
 
-            (await _context.Hobbies.ToListAsync()).ForEach(x =>
+            (await _context.Hobbies.Include(h => h.Users).ToListAsync()).ForEach(x =>
             {
-                revisedList.Add(x.ToAdminDTO());
+                revisedList.Add(x.ToAdminDTOBasic());
             });
 
             return Ok(revisedList);
@@ -68,14 +69,13 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
         public async Task<ActionResult<DTOAdminHobbyView>> Get(Guid hobbyID)
         {
 
-            Hobby? hobby = await _context.Hobbies.FindAsync(hobbyID);
+            Hobby? hobby = await _context.Hobbies.Include(h => h.Users).FirstAsync(h => h.HobbyID == hobbyID);
 
             if (hobby == null) return NotFound();
             else
             {
                 return Ok(hobby.ToAdminDTO());
             }
-
         }
 
         // Endpoint for deleting a hobby from the database
@@ -86,7 +86,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
         public async Task<IActionResult> Delete(Guid hobbyID)
         {
 
-            Hobby? hobby = await _context.Hobbies.FindAsync(hobbyID);
+            Hobby? hobby = await _context.Hobbies.Include(h => h.Users).FirstAsync(h => h.HobbyID == hobbyID);
 
             if (hobby == null) return NotFound();
             else
@@ -111,7 +111,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
             List<string> permitted_changes = new List<string>() { "Description", "Name" };
 
             // Get the tag from the database
-            Hobby? hobby = await _context.Hobbies.FindAsync(hobbyID);
+            Hobby? hobby = await _context.Hobbies.Include(h => h.Users).FirstAsync(h => h.HobbyID == hobbyID);
 
             if (hobby == null) return NotFound();
 

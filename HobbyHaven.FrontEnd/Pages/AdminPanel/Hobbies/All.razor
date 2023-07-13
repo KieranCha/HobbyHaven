@@ -8,7 +8,7 @@
 <!-- https://mudblazor.com/components/table#table-with-pagination-and-filtering -->
 
 <div style="width:80%;margin:auto;margin-top:50px;">
-    <MudTable Items="@Elements" Dense="false" Bordered="true" Striped="true" Filter="(Element => FilterFunc(Element))" @bind-SelectedItem="selectedItem1" OnRowClick="@OpenHobby" T="DTOAdminHobbyView">
+    <MudTable Items="@Elements" Dense="false" Bordered="true" Striped="true" Filter="(Element => FilterFunc(Element))" @bind-SelectedItem="selectedItem1" OnRowClick="@OpenHobby" T="DTOAdminHobbyViewBasic">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Hobbies</MudText>
             <MudSpacer />
@@ -26,7 +26,7 @@
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Description">@(context.Description.Length < 30 ? context.Description : context.Description.Substring(0, 30)+"...")</MudTd>
             <MudTd DataLabel="Id">@context.Id</MudTd>
-            <MudTd DataLabel="Total personality tags">@context.PersonalityTags.Count()</MudTd>
+            <MudTd DataLabel="Total personality tags">@context.TotalPersonalityTags</MudTd>
             <MudTd DataLabel="Total Havens">@context.TotalHavens</MudTd>
             <MudTd DataLabel="Total Users">@context.TotalUsers</MudTd>
         </RowTemplate>
@@ -38,21 +38,21 @@
 
 @code {
     private string searchString1 = "";
-    private DTOAdminHobbyView selectedItem1 = null;
-    private HashSet<DTOAdminHobbyView> selectedItems = new HashSet<DTOAdminHobbyView>();
+    private DTOAdminHobbyViewBasic selectedItem1 = null;
+    private HashSet<DTOAdminHobbyViewBasic> selectedItems = new HashSet<DTOAdminHobbyViewBasic>();
 
 
 
 
-    private IEnumerable<DTOAdminHobbyView> Elements = new List<DTOAdminHobbyView>();
+    private IEnumerable<DTOAdminHobbyViewBasic> Elements = new List<DTOAdminHobbyViewBasic>();
     
 	protected override async Task OnInitializedAsync()
 	{
         HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/hobbies/all");
-        Elements = await response.Content.ReadFromJsonAsync<List<DTOAdminHobbyView>>();
+        Elements = await response.Content.ReadFromJsonAsync<List<DTOAdminHobbyViewBasic>>();
 	}
 
-    private bool FilterFunc(DTOAdminHobbyView element)
+    private bool FilterFunc(DTOAdminHobbyViewBasic element)
     {
         if (string.IsNullOrWhiteSpace(searchString1)) return true;
         if (element.Id.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase)) return true;
@@ -61,7 +61,7 @@
         return false;
     }
 
-    public void OpenHobby(TableRowClickEventArgs<DTOAdminHobbyView> ev)
+    public void OpenHobby(TableRowClickEventArgs<DTOAdminHobbyViewBasic> ev)
     {
         NavManager.NavigateTo($"/admin/hobbies/view?ID={ev.Item.Id}");
     }
