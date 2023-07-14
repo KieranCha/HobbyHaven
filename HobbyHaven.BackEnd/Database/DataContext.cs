@@ -20,6 +20,11 @@ namespace HobbyHaven.BackEnd.Database
             modelBuilder.Entity<User>()
                 .HasMany(user => user.Hobbies)
                 .WithMany(hobby => hobby.Users);
+
+
+            modelBuilder.Entity<Hobby>()
+                .HasMany(hobby => hobby.PersonalityTags)
+                .WithMany(tag => tag.Hobbies);
         }
 
 		public DbSet<Haven> Havens { get; set; }

@@ -34,7 +34,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		{
 			List<DTOAdminPersonalityTagViewBasic> revisedList = new() { };
 
-			(await _context.PersonalityTags.Include(t => t.Users).ToListAsync()).ForEach(x =>
+			(await _context.PersonalityTags.Include(t => t.Users).Include(t => t.Hobbies).ToListAsync()).ForEach(x =>
 			{
 				revisedList.Add(x.ToAdminDTOBasic());
 			});
@@ -68,7 +68,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		public async Task<ActionResult<DTOAdminPersonalityTagView>> Get(Guid PersonalityTagID)
 		{
 
-			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
+			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).Include(t => t.Hobbies).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
 
 
 			if (tag == null) return NotFound(); 
@@ -87,7 +87,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 		public async Task<IActionResult> Delete(Guid PersonalityTagID)
 		{
 
-			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
+			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).Include(t => t.Hobbies).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
 
 			if (tag == null) return NotFound();
 			else
@@ -112,7 +112,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.PersonalityTags
 			List<string> permitted_changes = new List<string>() { "Description", "Name" };
 
 			// Get the tag from the database
-			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
+			PersonalityTag? tag = await _context.PersonalityTags.Include(t => t.Users).Include(t => t.Hobbies).FirstAsync(t => t.PersonalityTagID == PersonalityTagID);
 
 			if (tag == null) return NotFound();
 

@@ -27,8 +27,8 @@
             <MudTd DataLabel="Description">@(context.Description.Length < 30 ? context.Description : context.Description.Substring(0, 30)+"...")</MudTd>
             <MudTd DataLabel="Id">@context.Id</MudTd>
             <MudTd DataLabel="Total personality tags">@context.TotalPersonalityTags</MudTd>
-            <MudTd DataLabel="Total Havens">@context.TotalHavens</MudTd>
-            <MudTd DataLabel="Total Users">@context.TotalUsers</MudTd>
+            <MudTd DataLabel="Total Havens">@context.TotalUsers</MudTd>
+            <MudTd DataLabel="Total Users">@context.TotalHavens</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager />

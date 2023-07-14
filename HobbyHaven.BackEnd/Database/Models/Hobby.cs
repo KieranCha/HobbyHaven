@@ -1,7 +1,9 @@
-﻿using HobbyHaven.Shared.DTOs.Administration.Havens;
+﻿using HobbyHaven.BackEnd.Controllers.Hobbies;
+using HobbyHaven.Shared.DTOs.Administration.Havens;
 using HobbyHaven.Shared.DTOs.Administration.Hobbies;
 using HobbyHaven.Shared.DTOs.Havens;
 using HobbyHaven.Shared.DTOs.Hobbies;
+using HobbyHaven.Shared.DTOs.PersonalityTag;
 
 namespace HobbyHaven.BackEnd.Database.Models
 {
@@ -18,21 +20,30 @@ namespace HobbyHaven.BackEnd.Database.Models
 
         public DTOAdminHobbyView ToAdminDTO()
         {
+            List<DTOPersonalityTag> revisedTags = new();
+            PersonalityTags.ForEach(t => revisedTags.Add(t.ToDTO()));
+
             return new()
             {
                 Name = Name,
                 Description = Description,
-                Id = HobbyID
+                Id = HobbyID,
+                PersonalityTags = revisedTags
             };
         }
 
         public DTOHobby ToDTO()
         {
+
+            List<DTOPersonalityTag> revisedTags = new();
+            PersonalityTags.ForEach(t => revisedTags.Add(t.ToDTO()));
+
             return new()
             {
                 Name = Name,
                 Description = Description,
-                Id = HobbyID
+                Id = HobbyID,
+                PersonalityTags = revisedTags
             };
         }
 
@@ -43,7 +54,8 @@ namespace HobbyHaven.BackEnd.Database.Models
                 Name = Name,
                 Description = Description,
                 Id = HobbyID,
-                TotalUsers = Users.Count
+                TotalUsers = Users.Count,
+                TotalPersonalityTags = PersonalityTags.Count
             };
         }
 
@@ -51,6 +63,7 @@ namespace HobbyHaven.BackEnd.Database.Models
 		public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public List<User> Users { get; set; } = new();
+        public List<PersonalityTag> PersonalityTags { get; set; } = new();
 	}
 
 }

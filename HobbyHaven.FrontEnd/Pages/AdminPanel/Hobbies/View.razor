@@ -32,6 +32,25 @@
 
             </MudCardContent>
         </MudForm>
+
+            <MudExpansionPanel Text="Personality Tags">
+                <MudAutocomplete T="string" Label="Personality Tag" @bind-Value="addPersonalityTagValue" SearchFunc="@searchPersonalityTag" AdornmentIcon="@Icons.Material.Filled.Add" AdornmentColor="Color.Primary" OnAdornmentClick="@(async() => await addPersonalityTag())"></MudAutocomplete>
+                <MudTable Items="@hobby.PersonalityTags" Dense="false" Bordered="true" Striped="true" Style="margin-top: 10px;" @bind-SelectedItem="@selectedPersonalityTag">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>ID</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                    <MudTd DataLabel="Name" Style="@($"color:{((selectedPersonalityTag != null && selectedPersonalityTag.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Name</MudTd>
+                    <MudTd DataLabel="ID" Style="@($"color:{((selectedPersonalityTag != null && selectedPersonalityTag.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Id</MudTd>
+                    </RowTemplate>
+                </MudTable>
+                <div style="margin-top: 10px;">
+                    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(async () => {removePersonalityTag(); })">Remove</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="" OnClick="@(() => {openPersonalityTag(); })">View</MudButton>
+                </div>
+            </MudExpansionPanel>
+
         <MudCardActions>
             <MudButton Variant="Variant.Filled" Color="Color.Error" Class="" OnClick="@(async () => await deleteHobby())">Delete</MudButton>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await editHobby())">Confirm edit</MudButton>
@@ -66,6 +85,20 @@
 
         if (hobby == null) NavManager.NavigateTo("/admin/hobbies/all");
 
+
+
+
+        // Load personality tags
+
+        response = await HttpClient.GetAsync($"https://localhost:44357/api/personality-tags/all");
+
+        allPersonalityTags = await response.Content.ReadFromJsonAsync<List<DTOPersonalityTag>>();
+
+        if (hobby.PersonalityTags.Count >= 1)
+        {
+            selectedPersonalityTag = hobby.PersonalityTags[0];
+        }
+
     }
 
     public async Task editHobby()
@@ -86,5 +119,101 @@
         HttpResponseMessage response = await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/hobbies/{hobbyID}/delete");
         NavManager.NavigateTo("/admin/hobbies/all");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<DTOPersonalityTag> allPersonalityTags;
+    public string addPersonalityTagValue;
+    public DTOPersonalityTag selectedPersonalityTag;
+
+
+
+    private async Task<IEnumerable<string>> searchPersonalityTag(string value)
+    {
+
+        List<string> names = new();
+        List<string> ids = new();
+
+        foreach (DTOPersonalityTag tag in allPersonalityTags) { names.Add(tag.Name); ids.Add(Convert.ToString(tag.Id)); }
+
+        if (string.IsNullOrEmpty(value)) return names;
+
+        names.AddRange(ids);
+        return names.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private void openPersonalityTag()
+    {
+        if (selectedPersonalityTag != null)
+        {
+            NavManager.NavigateTo($"/admin/personality-tags/view?ID={selectedPersonalityTag.Id}");
+        }
+    }
+
+    private async Task addPersonalityTag()
+    {
+
+        DTOPersonalityTag? chosen = null;
+        foreach (DTOPersonalityTag tag in allPersonalityTags)
+        {
+            if (tag.Name == addPersonalityTagValue || Convert.ToString(tag.Id) == addPersonalityTagValue)
+            {
+                chosen = tag;
+                break;
+            }
+        }
+
+        bool alreadyExists = false;
+
+        foreach (DTOPersonalityTag tag in hobby.PersonalityTags)
+        {
+            if (tag.Id == chosen.Id)
+            {
+                alreadyExists = true;
+                break;
+            }
+        }
+
+        if (chosen == null || alreadyExists)
+        {
+            return;
+        }
+        else
+        {
+
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/hobbies/{hobby.Id}/personality-tags/{chosen.Id}/add", null);
+
+            hobby.PersonalityTags.Add(chosen);
+
+        };
+
+    }
+
+    private async Task removePersonalityTag()
+    {
+
+        if (selectedPersonalityTag != null)
+        {
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/hobbies/{hobby.Id}/personality-tags/{selectedPersonalityTag.Id}/remove", null);
+            hobby.PersonalityTags.Remove(selectedPersonalityTag);
+            StateHasChanged();
+        }
+
+    }
+
 
 }
