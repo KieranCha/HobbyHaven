@@ -46,7 +46,7 @@ namespace HobbyHaven.BackEnd.Controllers.Hobbies
         [Route("api/hobbies/{hobbyID}/view")]
         [AuthenticationLink]
         [HttpGet]
-        public async Task<ActionResult<DTOHobby>> Get(long hobbyID)
+        public async Task<ActionResult<DTOHobby>> Get(Guid hobbyID)
         {
 
             Hobby? hobby = await _context.Hobbies.FindAsync(hobbyID);

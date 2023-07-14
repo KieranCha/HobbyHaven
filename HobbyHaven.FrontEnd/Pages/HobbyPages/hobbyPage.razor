@@ -1,9 +1,11 @@
 ﻿@page "/hobby"
 @attribute [Authorize]
-@inject NavigationManager NavManager
 @layout MainLayout
+@inject NavigationManager NavManager
 @inject HttpClient HttpClient
+@inject ISnackbar Snackbar
 @using HobbyHaven.Shared.DTOs.Hobbies
+
 
 <MudGrid>
     <MudItem xs="2">
@@ -30,6 +32,7 @@
     </MudItem>
 </MudGrid>
 
+
 @code {
     [Parameter]
     public string hobbyName { get; set; } = "hobby";
@@ -39,26 +42,33 @@
         Name = "",
         Description = ""
     };
-    bool displayDefault, hobbySubscribed;
+    bool hobbySubscribed;
     string buttonText, buttonIcon;
     Color buttonColour;
 
     protected override async Task OnInitializedAsync()
     {
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
         if ((QueryHelpers.ParseQuery(uri.Query).TryGetValue("hobby", out var _hobby)))
         {
-            displayDefault = true;
             hobbySubscribed = true;
             subscribeState();
 
             HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/hobbies/{_hobby}/view");
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest) 
+            {
+                
+                Snackbar.Add("Hobby does not exsist, try again with valid hobbyID", Severity.Error);
+                NavManager.NavigateTo("/search-hobbies");
+            }
             hobby = await response.Content.ReadFromJsonAsync<DTOHobby>();
-            if (hobby == null) displayDefault = false;
+
         }
-        else
+        else 
         {
-            displayDefault = false;
+            Snackbar.Add("No hobbyID provided, try again with valid hobbyID", Severity.Error);
+            NavManager.NavigateTo("/search-hobbies");
         }
     }
 

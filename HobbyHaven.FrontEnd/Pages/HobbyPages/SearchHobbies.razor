@@ -40,7 +40,6 @@
     protected override async Task OnInitializedAsync()
     {
 
-        HttpClient.DefaultRequestHeaders.Add("authorization", "replacemelater");
         var response = await HttpClient.GetAsync($"https://localhost:44357/api/hobbies/all");
         hobbies = await response.Content.ReadFromJsonAsync<List<DTOHobby>>();
     }
