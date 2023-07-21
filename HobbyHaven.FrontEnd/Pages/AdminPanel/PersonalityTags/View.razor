@@ -6,6 +6,7 @@
 
 @inject HttpClient HttpClient
 @inject IAccessTokenProvider AccessTokenProvider
+@inject IDialogService DialogService 
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 <!-- https://chrissainty.com/working-with-query-strings-in-blazor/ -->
@@ -82,9 +83,16 @@
 
     public async Task deletePersonalityTag()
     {
-        await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/personality-tags/{personalityTagId}/delete");
+        var dialog = await DialogService.ShowAsync<DialogConfirmService>();
+        var result = await dialog.Result;
 
-        NavManager.NavigateTo("/admin/personality-tags/all");
+        if (!result.Cancelled)
+        {
+            await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/personality-tags/{personalityTagId}/delete");
+            NavManager.NavigateTo("/admin/personality-tags/all");
+        }
+
+        
     }
 
 }

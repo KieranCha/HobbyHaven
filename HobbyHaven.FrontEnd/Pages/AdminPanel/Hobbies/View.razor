@@ -1,8 +1,10 @@
 ﻿@page "/admin/hobbies/view"
 @inject NavigationManager NavManager
+@inject IDialogService DialogService
 @layout AdminLayout
 @using Microsoft.AspNetCore.WebUtilities
 @using Newtonsoft.Json
+@using HobbyHaven.FrontEnd.Shared
 
 @inject HttpClient HttpClient
 
@@ -116,8 +118,14 @@
 
     public async Task deleteHobby()
     {
-        HttpResponseMessage response = await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/hobbies/{hobbyID}/delete");
-        NavManager.NavigateTo("/admin/hobbies/all");
+        var dialog = await DialogService.ShowAsync<DialogConfirmService>();
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            HttpResponseMessage response = await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/hobbies/{hobbyID}/delete");
+            NavManager.NavigateTo("/admin/hobbies/all");
+        }
     }
 
 

@@ -2,3 +2,22 @@
 @inject NavigationManager NavigationManager
 @layout AdminLayout
 
+<MudGrid>
+    <MudItem>
+        <MudImage Src="https://uploads-ssl.webflow.com/646218c67da47160c64a84d5/646349e580a208f3afa9a23c_79.png" Height="256" Width="256"/>
+    </MudItem>
+    <MudItem>
+        <MudText Typo="Typo.h1" Color="Color.Warning" Style="font-weight:bold;">Hobby Haven</MudText>
+        <MudText Typo="Typo.h2">Admin panel</MudText>
+        <MudText Typo="Typo.h6">
+            <a href="/admin/users/all"> • Users </a>
+            <a href="/admin/personality-tags/all"> • Personality tags </a>
+            <a href="/admin/hobbies/all"> • Hobbies </a>
+            <a href="/admin/havens/all"> • Havens </a>
+        </MudText>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+}
