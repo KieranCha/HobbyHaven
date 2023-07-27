@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\BluMojis\withFear.png" />
+    <None Include="wwwroot\BluMojis\withGlassesCool.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Majorsoft.Blazor.Components.Maps" Version="1.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="7.0.4" />

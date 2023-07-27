@@ -1,5 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
+@inject HttpClient HttpClient
+@inject IAccessTokenProvider AccessTokenProvider
+@inject NavigationManager navManager
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 <MudThemeProvider Theme="newFont" @bind-IsDarkMode="@darkModeToggle" @ref="@ThemeProvider" />
 <MudDialogProvider />
@@ -30,6 +34,8 @@
     bool darkModeToggle;
     bool openNavMenu = false;
     string menuIcon = Icons.Material.Filled.Menu;
+    string token;
+
     private void menuToggle()
     {
         openNavMenu = !openNavMenu;
@@ -45,6 +51,13 @@
             StateHasChanged();
         }
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if ((await AccessTokenProvider.RequestAccessToken()).TryGetToken(out var _token)) token = _token.Value;
+        HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+    }
+
     MudTheme newFont = new MudTheme()
         {
             Typography = new Typography()
