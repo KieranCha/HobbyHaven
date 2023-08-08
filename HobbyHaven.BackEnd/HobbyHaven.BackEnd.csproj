@@ -28,4 +28,8 @@
     <ProjectReference Include="..\HobbyHaven.Shared\HobbyHaven.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\Hobbies\" />
+  </ItemGroup>
+
 </Project>

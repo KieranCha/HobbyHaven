@@ -36,23 +36,58 @@
             </MudCardContent>
         </MudForm>
 
-            <MudExpansionPanel Text="Personality Tags">
-                <MudAutocomplete T="string" Label="Personality Tag" @bind-Value="addPersonalityTagValue" SearchFunc="@searchPersonalityTag" AdornmentIcon="@Icons.Material.Filled.Add" AdornmentColor="Color.Primary" OnAdornmentClick="@(async() => await addPersonalityTag())"></MudAutocomplete>
-                <MudTable Items="@hobby.PersonalityTags" Dense="false" Bordered="true" Striped="true" Style="margin-top: 10px;" @bind-SelectedItem="@selectedPersonalityTag">
-                    <HeaderContent>
-                        <MudTh>Name</MudTh>
-                        <MudTh>ID</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
+        <MudExpansionPanel Text="Image">
+
+            <div Class="d-flex justify-center">
+
+                @if (hobby.HasImage)
+                {
+                    <MudImage Src="@hobbyImageSrc" Alt="Hobby image" Elevation="25" Fluid="true"></MudImage>
+                }
+                else
+                {
+                    <div>
+                        No image has been uploaded for this hobby.
+                    </div>
+                }
+
+            </div>
+
+            <MudStack Class="align-center" Row="true" Spacing="1" AlignItems="AlignItems.Center" Style="height:60px;">
+                <MudFileUpload T="IBrowserFile" Accept=".png" MaximumFileCount="1" FilesChanged="@(async (IBrowserFile file) => await setHobbyImage(file))">
+                    <ButtonTemplate>
+                        <MudButton HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="@context">
+                            Set .png image
+                        </MudButton>
+                    </ButtonTemplate>
+                </MudFileUpload>
+
+                <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(async () => {removeImage(); })" Class="ml-auto">Remove</MudButton>
+            </MudStack>
+
+        </MudExpansionPanel>
+
+        <MudExpansionPanel Text="Personality Tags">
+            <MudAutocomplete T="string" Label="Personality Tag" @bind-Value="addPersonalityTagValue" SearchFunc="@searchPersonalityTag" AdornmentIcon="@Icons.Material.Filled.Add" AdornmentColor="Color.Primary" OnAdornmentClick="@(async() => await addPersonalityTag())"></MudAutocomplete>
+            <MudTable Items="@hobby.PersonalityTags" Dense="false" Bordered="true" Striped="true" Style="margin-top: 10px;" @bind-SelectedItem="@selectedPersonalityTag">
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>ID</MudTh>
+                </HeaderContent>
+                <RowTemplate>
                     <MudTd DataLabel="Name" Style="@($"color:{((selectedPersonalityTag != null && selectedPersonalityTag.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Name</MudTd>
                     <MudTd DataLabel="ID" Style="@($"color:{((selectedPersonalityTag != null && selectedPersonalityTag.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Id</MudTd>
-                    </RowTemplate>
-                </MudTable>
-                <div style="margin-top: 10px;">
-                    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(async () => {removePersonalityTag(); })">Remove</MudButton>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="" OnClick="@(() => {openPersonalityTag(); })">View</MudButton>
-                </div>
-            </MudExpansionPanel>
+                </RowTemplate>
+            </MudTable>
+            <div style="margin-top: 10px;">
+                <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(async () => {removePersonalityTag(); })">Remove</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="" OnClick="@(() => {openPersonalityTag(); })">View</MudButton>
+            </div>
+        </MudExpansionPanel>
 
         <MudCardActions>
             <MudButton Variant="Variant.Filled" Color="Color.Error" Class="" OnClick="@(async () => await deleteHobby())">Delete</MudButton>
@@ -88,8 +123,10 @@
 
         if (hobby == null) NavManager.NavigateTo("/admin/hobbies/all");
 
+        // Set hobby image
 
-
+        hobbyImagePath = $"https://localhost:44357/api/images/hobbies/{hobbyID}";
+        await loadImage();
 
         // Load personality tags
 
@@ -222,6 +259,71 @@
             StateHasChanged();
         }
 
+    }
+
+
+
+
+
+
+
+
+
+    public string hobbyImagePath;
+    public byte[] hobbyImageBytes;
+    public string hobbyImageBase64;
+    public string hobbyImageSrc = "";
+
+    private async Task setHobbyImage(IBrowserFile file)
+    {
+
+
+        if (file.ContentType != "image/png") return;
+
+        using var formContent = new MultipartFormDataContent();
+
+        var fileContent = new StreamContent(file.OpenReadStream(2097152));
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+
+        formContent.Add(
+            content: fileContent,
+            name: "file",
+            fileName: file.Name
+        );
+
+        await HttpClient.PostAsync($"https://localhost:44357/api/administration/hobbies/{hobby.Id}/image/set", formContent);
+
+        hobbyImagePath = $"https://localhost:44357/api/images/hobbies/{hobbyID}";
+        hobby.HasImage = true;
+
+        await loadImage();
+    }
+
+    private async Task loadImage()
+    {
+        HttpResponseMessage response = await HttpClient.GetAsync(hobbyImagePath);
+
+        Console.WriteLine("abc");
+
+        if (false)
+        {
+            hobby.HasImage = false;
+        } else
+        {
+            hobbyImageBytes = await response.Content.ReadAsByteArrayAsync();
+            hobbyImageBase64 = Convert.ToBase64String(hobbyImageBytes);
+            hobbyImageSrc = $"data:image/png;base64,{hobbyImageBase64}";
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task removeImage()
+    {
+        hobby.HasImage = false;
+        StateHasChanged();
+
+        await HttpClient.DeleteAsync($"https://localhost:44357/api/administration/hobbies/{hobby.Id}/image/remove");
     }
 
 

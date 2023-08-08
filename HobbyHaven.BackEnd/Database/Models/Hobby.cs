@@ -28,6 +28,7 @@ namespace HobbyHaven.BackEnd.Database.Models
                 Name = Name,
                 Description = Description,
                 Id = HobbyID,
+                HasImage = HasImage,
                 PersonalityTags = revisedTags
             };
         }
@@ -43,6 +44,7 @@ namespace HobbyHaven.BackEnd.Database.Models
                 Name = Name,
                 Description = Description,
                 Id = HobbyID,
+                HasImage = HasImage,
                 PersonalityTags = revisedTags
             };
         }
@@ -54,6 +56,7 @@ namespace HobbyHaven.BackEnd.Database.Models
                 Name = Name,
                 Description = Description,
                 Id = HobbyID,
+                HasImage= HasImage,
                 TotalUsers = Users.Count,
                 TotalPersonalityTags = PersonalityTags.Count
             };
@@ -62,8 +65,11 @@ namespace HobbyHaven.BackEnd.Database.Models
         public Guid HobbyID { get; set; }
 		public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public bool HasImage { get; set; } = false;
         public List<User> Users { get; set; } = new();
         public List<PersonalityTag> PersonalityTags { get; set; } = new();
 	}
 
 }
+
+

@@ -8,6 +8,7 @@ using HobbyHaven.BackEnd.Database.Models;
 using HobbyHaven.BackEnd.Decorators.Authentication;
 using Microsoft.Extensions.Options;
 using HobbyHaven.BackEnd.Controllers.PersonalityTags;
+using HobbyHaven.BackEnd.Images;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 {
@@ -16,20 +17,21 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
 	public class AdministrationHobbies : ControllerBase, IDataController
 	{
 
-		// Set the datacontext object
+        // Set the datacontext object
+        public DataContext _context { get; set; }
+        public AuthenticationLinkSettings _authenticationLinkSettings { get; set; }
+        public ImageSettings _imageSettings { get; set; }
+        public AdministrationHobbies(DataContext context, IOptions<AuthenticationLinkSettings> authSettings, IOptions<ImageSettings> imageSettings)
+        {
+            _context = context;
+            _authenticationLinkSettings = authSettings.Value;
+            _imageSettings = imageSettings.Value;
+        }
 
-		public DataContext _context { get; set; }
-		public AuthenticationLinkSettings _authenticationLinkSettings { get; set; }
-		public AdministrationHobbies(DataContext context, IOptions<AuthenticationLinkSettings> authSettings)
-		{
-			_context = context;
-			_authenticationLinkSettings = authSettings.Value;
-		}
 
+        // Endpoint for viewing all hobbies as a administrator.
 
-		// Endpoint for viewing all hobbies as a administrator.
-
-		[Route("api/administration/hobbies/all")]
+        [Route("api/administration/hobbies/all")]
 		[AuthenticationLink]
 		[HttpGet]
         public async Task<ActionResult<List<DTOAdminHobbyViewBasic>>> Get()
@@ -93,6 +95,10 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Hobbies
             {
                 _context.Hobbies.Remove(hobby);
                 await _context.SaveChangesAsync();
+
+                string filePath = $"{_imageSettings.hobbyImagePath}{hobbyID}.png";
+
+                if (System.IO.File.Exists(filePath)) System.IO.File.Delete(filePath);
 
                 return Ok();
             }

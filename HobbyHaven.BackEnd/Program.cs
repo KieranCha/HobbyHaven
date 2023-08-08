@@ -1,10 +1,9 @@
 global using HobbyHaven.BackEnd.Database;
 global using HobbyHaven.BackEnd.Decorators.Authentication;
 
-using HobbyHaven.BackEnd.Decorators.Authentication;
+using HobbyHaven.BackEnd.Images;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +32,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.Configure<AuthenticationLinkSettings>(builder.Configuration.GetSection("AuthorizationLinkSettings"));
+builder.Services.Configure<ImageSettings>(builder.Configuration.GetSection("ResourceSettings"));
 
 var app = builder.Build();
 
