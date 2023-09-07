@@ -13,8 +13,7 @@ namespace HobbyHaven.Shared.DTOs.Administration.Hobbies
         public Guid Id { get; set; }
         public bool HasImage { get; set; } = false;
         public List<DTOPersonalityTag> PersonalityTags { get; set; } = new(); // Tags used to match the users personality/characteristics to a hobby.
-        public List<DTOHaven> TotalHavens { get; set; } = new();
-        public List<DTOUser> TotalUsers { get; set; } = new();
+        public List<DTOHaven> Havens { get; set; } = new();
     }
 
     public class DTOAdminHobbyViewBasic

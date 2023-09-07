@@ -53,6 +53,18 @@ namespace HobbyHaven.BackEnd.Database.Models
 			};
 		}
 
+        public DTOUserBasic ToDTOBasic()
+        {
+            List<Guid> revisedTags = new();
+            PersonalityTags.ForEach(tag => revisedTags.Add(tag.PersonalityTagID));
+
+            return new()
+            {
+                UserID = UserID,
+                PersonalityTags = revisedTags,
+            };
+        }
+
         public string UserID { get; set; }
         public bool Admin { get; set; } = false;
 		public List<PersonalityTag> PersonalityTags { get; set; } = new();

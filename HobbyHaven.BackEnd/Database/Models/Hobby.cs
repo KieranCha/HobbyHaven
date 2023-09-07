@@ -23,13 +23,17 @@ namespace HobbyHaven.BackEnd.Database.Models
             List<DTOPersonalityTag> revisedTags = new();
             PersonalityTags.ForEach(t => revisedTags.Add(t.ToDTO()));
 
+            List<DTOHaven> revisedHavens = new();
+            Havens.ForEach(h => revisedHavens.Add(h.ToDTO()));
+
             return new()
             {
                 Name = Name,
                 Description = Description,
                 Id = HobbyID,
-                HasImage = HasImage,
-                PersonalityTags = revisedTags
+                PersonalityTags = revisedTags,
+                Havens = revisedHavens,
+                HasImage = HasImage
             };
         }
 
@@ -39,13 +43,37 @@ namespace HobbyHaven.BackEnd.Database.Models
             List<DTOPersonalityTag> revisedTags = new();
             PersonalityTags.ForEach(t => revisedTags.Add(t.ToDTO()));
 
+            List<DTOHavenBasic> revisedHavens = new();
+            Havens.ForEach(h => revisedHavens.Add(h.ToDTOBasic()));
+
             return new()
             {
                 Name = Name,
                 Description = Description,
                 Id = HobbyID,
-                HasImage = HasImage,
-                PersonalityTags = revisedTags
+                PersonalityTags = revisedTags,
+                Havens = revisedHavens,
+                HasImage = HasImage
+            };
+        }
+
+        public DTOHobbyBasic ToDTOBasic()
+        {
+
+            List<Guid> revisedTags = new();
+            PersonalityTags.ForEach(t => revisedTags.Add(t.PersonalityTagID));
+
+            List<Guid> revisedHavens = new();
+            Havens.ForEach(h => revisedHavens.Add(h.HavenID));
+
+            return new()
+            {
+                Name = Name,
+                Description = Description,
+                Id = HobbyID,
+                PersonalityTags = revisedTags,
+                Havens = revisedHavens,
+                HasImage = HasImage
             };
         }
 
@@ -56,9 +84,10 @@ namespace HobbyHaven.BackEnd.Database.Models
                 Name = Name,
                 Description = Description,
                 Id = HobbyID,
-                HasImage= HasImage,
+                HasImage = HasImage,
                 TotalUsers = Users.Count,
-                TotalPersonalityTags = PersonalityTags.Count
+                TotalPersonalityTags = PersonalityTags.Count,
+                TotalHavens = Havens.Count
             };
         }
 
@@ -68,7 +97,8 @@ namespace HobbyHaven.BackEnd.Database.Models
         public bool HasImage { get; set; } = false;
         public List<User> Users { get; set; } = new();
         public List<PersonalityTag> PersonalityTags { get; set; } = new();
-	}
+        public List<Haven> Havens { get; set; } = new();
+    }
 
 }
 

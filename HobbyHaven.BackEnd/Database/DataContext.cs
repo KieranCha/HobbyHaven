@@ -25,6 +25,11 @@ namespace HobbyHaven.BackEnd.Database
             modelBuilder.Entity<Hobby>()
                 .HasMany(hobby => hobby.PersonalityTags)
                 .WithMany(tag => tag.Hobbies);
+
+            modelBuilder.Entity<Haven>()
+                .HasMany(haven => haven.Hobbies)
+                .WithMany(hobby => hobby.Havens);
+
         }
 
 		public DbSet<Haven> Havens { get; set; }

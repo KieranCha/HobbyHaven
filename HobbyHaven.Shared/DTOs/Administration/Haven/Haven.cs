@@ -13,8 +13,19 @@ namespace HobbyHaven.Shared.DTOs.Administration.Havens
         public int TotalUsers { get; set; }
         public string Location { get; set; }
 		public string? Address { get; set; } = null; // Address
+		public List<DTOHobbyBasic> Hobbies { get; set; } = new();
+    }
+    public class DTOAdminHavenViewBasic
+    {
 
-		public List<DTOHobby> Hobbies = new();
+        public string Name { get; set; } = "undefined";
+        public string Description { get; set; }
+        public Guid Id { get; set; }
+        public string? OwnerID { get; set; }
+        public int TotalUsers { get; set; }
+        public string Location { get; set; }
+        public string? Address { get; set; } = null; // Address
+        public int TotalHobbies = 0;
     }
 
     public class DTOAdminCreateHaven

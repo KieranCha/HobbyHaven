@@ -1,6 +1,10 @@
-﻿using HobbyHaven.Shared.DTOs.Administration.Havens;
+﻿using HobbyHaven.BackEnd.Controllers.Hobbies;
+using HobbyHaven.BackEnd.Controllers.PersonalityTags;
+using HobbyHaven.Shared.DTOs.Administration.Havens;
 using HobbyHaven.Shared.DTOs.Havens;
 using HobbyHaven.Shared.DTOs.Hobbies;
+using HobbyHaven.Shared.DTOs.PersonalityTag;
+using System.Collections.Generic;
 
 namespace HobbyHaven.BackEnd.Database.Models
 {
@@ -20,6 +24,9 @@ namespace HobbyHaven.BackEnd.Database.Models
 
         public DTOAdminHavenView ToAdminDTO()
         {
+            List<DTOHobbyBasic> revisedHobbies = new();
+            Hobbies.ForEach(h => revisedHobbies.Add(h.ToDTOBasic()));
+
             return new()
             {
                 Id = HavenID,
@@ -27,11 +34,12 @@ namespace HobbyHaven.BackEnd.Database.Models
                 Description = Description,
                 Location = Location,
                 Address = Address,
-                OwnerID = OwnerID
+                OwnerID = OwnerID,
+                Hobbies = revisedHobbies
             };
         }
 
-        public DTOHaven ToDTO()
+        public DTOAdminHavenViewBasic ToAdminDTOBasic()
         {
             return new()
             {
@@ -40,7 +48,42 @@ namespace HobbyHaven.BackEnd.Database.Models
                 Description = Description,
                 Location = Location,
                 Address = Address,
-                OwnerID = OwnerID
+                OwnerID = OwnerID,
+                TotalHobbies = Hobbies.Count
+            };
+        }
+
+        public DTOHaven ToDTO()
+        {
+            List<DTOHobbyBasic> revisedHobbies = new();
+            Hobbies.ForEach(h => revisedHobbies.Add(h.ToDTOBasic()));
+
+            return new()
+            {
+                Id = HavenID,
+                Name = Name,
+                Description = Description,
+                Location = Location,
+                Address = Address,
+                OwnerID = OwnerID,
+                Hobbies = revisedHobbies
+            };
+        }
+
+        public DTOHavenBasic ToDTOBasic()
+        {
+            List<Guid> revisedHobbies = new();
+            Hobbies.ForEach(h => revisedHobbies.Add(h.HobbyID));
+
+            return new()
+            {
+                Id = HavenID,
+                Name = Name,
+                Description = Description,
+                Location = Location,
+                Address = Address,
+                OwnerID = OwnerID,
+                Hobbies = revisedHobbies
             };
         }
 
@@ -49,7 +92,8 @@ namespace HobbyHaven.BackEnd.Database.Models
         public string Description { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
-		public string OwnerID { get; set; } 
+		public string OwnerID { get; set; }
+        public List<Hobby> Hobbies { get; set; } = new();
 
     }
 

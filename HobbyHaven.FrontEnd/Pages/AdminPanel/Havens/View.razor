@@ -44,6 +44,25 @@
 
 			</MudCardContent>
 		</MudForm>
+
+            <MudExpansionPanel Text="Hobbies">
+                <MudAutocomplete T="string" Label="Personality Tag" @bind-Value="addHobbyValue" SearchFunc="@searchHobby" AdornmentIcon="@Icons.Material.Filled.Add" AdornmentColor="Color.Primary" OnAdornmentClick="@(async() => await addHobby())"></MudAutocomplete>
+                <MudTable Items="@haven.Hobbies" Dense="false" Bordered="true" Striped="true" Style="margin-top: 10px;" @bind-SelectedItem="@selectedHobby">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>ID</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                    <MudTd DataLabel="Name" Style="@($"color:{((selectedHobby != null && selectedHobby.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Name</MudTd>
+                    <MudTd DataLabel="ID" Style="@($"color:{((selectedHobby != null && selectedHobby.Id == context.Id) ? Colors.DeepOrange.Default : Colors.Shades.Black)};")">@context.Id</MudTd>
+                    </RowTemplate>
+                </MudTable>
+                <div style="margin-top: 10px;">
+                    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(async () => {removeHobby(); })">Remove</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="" OnClick="@(() => {openHobby(); })">View</MudButton>
+                </div>
+            </MudExpansionPanel>
+
 	</MudCard>
 
 	<MudCard Style="margin-top: 70px;padding:10px;">
@@ -54,25 +73,137 @@
 
 
 @code {
-	public Guid havenID;
+    public Guid havenID;
 
-	DTOAdminHavenView haven;
+    DTOAdminHavenView haven;
 
     protected override async Task OnInitializedAsync()
     {
 
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
 
-		if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _hobby)) havenID = Guid.Parse(_hobby);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("ID", out var _hobby)) havenID = Guid.Parse(_hobby);
 
-		if (havenID == null) NavManager.NavigateTo("/admin/hobbies/all");
+        if (havenID == null) NavManager.NavigateTo("/admin/hobbies/all");
 
 
         HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/administration/havens/{havenID}/view");
-		haven = await response.Content.ReadFromJsonAsync<DTOAdminHavenView>();
+        haven = await response.Content.ReadFromJsonAsync<DTOAdminHavenView>();
 
-		if (haven == null) NavManager.NavigateTo("/admin/havens/all");
+        if (haven == null) NavManager.NavigateTo("/admin/havens/all");
+
+
+
+        // Load hobbies
+
+        response = await HttpClient.GetAsync($"https://localhost:44357/api/hobbies/all");
+
+        allHobbies = await response.Content.ReadFromJsonAsync<List<DTOHobby>>();
+
+        if (haven.Hobbies.Count >= 1) selectedHobby = haven.Hobbies[0];
 
     }
 
+
+
+
+
+
+
+
+
+
+    public List<DTOHobby> allHobbies;
+    public string addHobbyValue;
+    public DTOHobbyBasic selectedHobby;
+
+
+
+    private async Task<IEnumerable<string>> searchHobby(string value)
+    {
+
+        List<string> names = new();
+        List<string> ids = new();
+
+        foreach (DTOHobby hobby in allHobbies) { names.Add(hobby.Name); ids.Add(Convert.ToString(hobby.Id)); }
+
+        if (string.IsNullOrEmpty(value)) return names;
+
+        names.AddRange(ids);
+        return names.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private void openHobby()
+    {
+        if (selectedHobby != null)
+        {
+            NavManager.NavigateTo($"/admin/hobbies/view?ID={selectedHobby.Id}");
+        }
+    }
+
+    private async Task addHobby()
+    {
+
+        DTOHobby? chosen = null;
+        foreach (DTOHobby hobby in allHobbies)
+        {
+            if (hobby.Name == addHobbyValue || Convert.ToString(hobby.Id) == addHobbyValue)
+            {
+                chosen = hobby;
+                break;
+            }
+        }
+
+        bool alreadyExists = false;
+
+        foreach (DTOHobbyBasic tag in haven.Hobbies)
+        {
+            if (tag.Id == chosen.Id)
+            {
+                alreadyExists = true;
+                break;
+            }
+        }
+
+        if (chosen == null || alreadyExists)
+        {
+            return;
+        }
+
+        else
+        {
+
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/havens/{haven.Id}/hobbies/{chosen.Id}/add", null);
+
+            List<Guid> revisedHavens = new();
+            List<Guid> revisedTags = new();
+
+            chosen.PersonalityTags.ForEach(t => revisedTags.Add(t.Id));
+            chosen.Havens.ForEach(h => revisedHavens.Add(h.Id));
+
+            haven.Hobbies.Add(new()
+                {
+                    Name = chosen.Name,
+                    Id = chosen.Id,
+                    Description = chosen.Description,
+                    PersonalityTags = revisedTags,
+                    Havens = revisedHavens
+                });
+
+
+        };
+
+    }
+
+    private async Task removeHobby()
+    {
+
+        if (selectedHobby != null)
+        {
+            HttpResponseMessage response = await HttpClient.PostAsync($"https://localhost:44357/api/administration/havens/{haven.Id}/hobbies/{selectedHobby.Id}/remove", null);
+            haven.Hobbies.Remove(selectedHobby);
+            StateHasChanged();
+        }
+
+    }
 }

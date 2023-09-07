@@ -29,7 +29,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
         [HttpPost]
         public async Task<ActionResult<DTOAdminHobbyView>> AddTag(Guid hobbyID, Guid tagID)
         {
-            Hobby? hobby = await _context.Hobbies.Include(h => h.PersonalityTags).Include(h => h.Users).FirstAsync(h => h.HobbyID == hobbyID);
+            Hobby? hobby = await _context.Hobbies.Include(h => h.PersonalityTags).Include(h => h.Users).Include(h => h.Havens).FirstAsync(h => h.HobbyID == hobbyID);
 
             if (hobby == null) return NotFound();
 
@@ -53,7 +53,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Users
         [HttpPost]
         public async Task<ActionResult<DTOAdminHobbyView>> RemoveTag(Guid hobbyID, Guid tagID)
         {
-            Hobby? hobby = await _context.Hobbies.Include(h => h.PersonalityTags).Include(h => h.Users).FirstAsync(h => h.HobbyID == hobbyID);
+            Hobby? hobby = await _context.Hobbies.Include(h => h.PersonalityTags).Include(h => h.Users).Include(h => h.Havens).FirstAsync(h => h.HobbyID == hobbyID);
 
             if (hobby == null) return NotFound();
 

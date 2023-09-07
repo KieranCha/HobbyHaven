@@ -6,6 +6,7 @@ using HobbyHaven.Shared.DTOs.Administration.Havens;
 using HobbyHaven.BackEnd.Database.Models;
 using HobbyHaven.BackEnd.Decorators.Authentication;
 using Microsoft.Extensions.Options;
+using HobbyHaven.BackEnd.Controllers.Hobbies;
 
 namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 {
@@ -29,14 +30,14 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
 		[Route("api/administration/havens/all")]
         [AuthenticationLink]
         [HttpGet]
-        public async Task<ActionResult<List<DTOAdminHavenView>>> Get()
+        public async Task<ActionResult<List<DTOAdminHavenViewBasic>>> Get()
         {
 
-            List<DTOAdminHavenView> revisedList = new() { };
+            List<DTOAdminHavenViewBasic> revisedList = new() { };
 
-            (await _context.Havens.ToListAsync()).ForEach(x =>
+            (await _context.Havens.Include(h => h.Hobbies).ToListAsync()).ForEach(x =>
             {
-                revisedList.Add(x.ToAdminDTO());
+                revisedList.Add(x.ToAdminDTOBasic());
             });
 
             return Ok(revisedList);
@@ -68,12 +69,13 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
         public async Task<ActionResult<DTOAdminHavenView>> Get(Guid havenID)
         {
 
-            Haven? haven = await _context.Havens.FindAsync(havenID);
+           Haven? haven = await _context.Havens.Include(h => h.Hobbies).FirstAsync(h => h.HavenID == havenID);
 
             if (haven == null) return NotFound();
             else
             {
-                return Ok(haven.ToAdminDTO());
+                DTOAdminHavenView result = haven.ToAdminDTO();
+                return Ok(result);
             }
 
         }
@@ -86,7 +88,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
         public async Task<IActionResult> Delete(Guid havenID)
         {
 
-            Haven? haven = await _context.Havens.FindAsync(havenID);
+            Haven? haven = await _context.Havens.Include(h => h.Hobbies).FirstAsync(h => h.HavenID == havenID);
 
             if (haven == null) return NotFound();
             else
@@ -111,7 +113,7 @@ namespace HobbyHaven.BackEnd.Controllers.Administration.Havens
             List<string> permitted_changes = new List<string>() { "Description", "Name", "Location", "Address", "OwnerID" };
 
             // Get the tag from the database
-            Haven? haven = await _context.Havens.FindAsync(havenID);
+            Haven? haven = await _context.Havens.Include(h => h.Hobbies).FirstAsync(h => h.HavenID == havenID);
 
             if (haven == null) return NotFound();
 
