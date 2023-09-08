@@ -1,6 +1,8 @@
 ﻿@page "/hobbies"
 @attribute [Authorize]
 @inject NavigationManager NavManager
+@inject HttpClient httpClient
+@inject URIservice URIservice
 @layout MainLayout
 
 <PageTitle> Hobbies </PageTitle>
@@ -14,7 +16,7 @@
         <MudGrid Spacing="3" Justify="Justify.FlexStart">
             @if (subscribedHobbies.Count > 0)
             {
-                @foreach (string _hobby in subscribedHobbies)
+                @foreach (DTOHobby _hobby in subscribedHobbies)
                 {
                     <MudItem xs="12">
                         <MudPaper Outlined="true">
@@ -26,11 +28,11 @@
                                     <MudItem xs="12" sm="9">
                                         <MudGrid Justify="Justify.FlexEnd">
                                             <MudItem xs="12" sm="12">
-                                                <MudText Typo="Typo.h6"> @_hobby </MudText>
-                                                <MudText Typo="Typo.subtitle1"> hobby short description </MudText>
+                                                <MudText Typo="Typo.h6"> @_hobby.Name </MudText>
+                                                <MudText Typo="Typo.subtitle1"> @_hobby.Description </MudText>
                                             </MudItem>
                                             <MudItem xs="12" sm="3">
-                                                <MudButton EndIcon="@Icons.Material.Outlined.Info" Color="Color.Warning" FullWidth="true" Variant="Variant.Outlined" Href="@constructURL(_hobby)">
+                                                <MudButton EndIcon="@Icons.Material.Outlined.Info" Color="Color.Warning" FullWidth="true" Variant="Variant.Outlined" Href="@constructURL(_hobby.Id)">
                                                     Learn more 
                                                 </MudButton>
                                                 <MudButton EndIcon="@Icons.Material.Filled.Block" Color="Color.Error" FullWidth="true" Variant="Variant.Outlined" OnClick="@((e)=> unsubscribeHobby(_hobby))"> 
@@ -49,7 +51,7 @@
                 <MudItem xs="12">
                     <MudGrid Justify="Justify.Center">
                         <MudItem>
-                            <MudImage Src="https://bluemoji.io/emoji/Blue/256/30.png"/>
+                            <MudImage Src="https://localhost:44362/BluMojis/withUncertainty.png" />
                         </MudItem>
                         <MudItem xs="12">
                             <MudText Align="Align.Center" Typo="Typo.h3"> You're currently not subscribed to any hobbies! </MudText>
@@ -63,25 +65,23 @@
 </MudGrid>
  
 @code {
-    List<string> subscribedHobbies;
-
-
-    // Get query string of hobby being viewed, if no query string, display view of hobbies user is subscribed too
-    protected override void OnInitialized()
+    List<DTOHobby>? subscribedHobbies = new() { };
+    protected override async Task OnInitializedAsync()
     {
-        // call to get all hobbies user is subscribed too
-        // populate list with data from api
-        subscribedHobbies = new() {"hobby1", "hobby2", "hobby3"};
+        // api/users/profile/hobbies/all
+        HttpResponseMessage result = await httpClient.GetAsync($"{URIservice.APIaddress}api/users/profile/hobbies/all");
+        if (result.IsSuccessStatusCode) subscribedHobbies = await result.Content.ReadFromJsonAsync<List<DTOHobby>>();
+        else subscribedHobbies = new() { };
     }
 
-    public string constructURL(string name)
+    public string constructURL(Guid name)
     {
         return "/hobby?hobby=" + name;
     }
-    public void unsubscribeHobby(string hobbyToRemove)
+    public async Task unsubscribeHobby(DTOHobby hobbyToRemove)
     {
-        subscribedHobbies.Remove(hobbyToRemove);
-        // remove from list, future add api to remove hobby from users subscribed hobbies
+        HttpResponseMessage response = await httpClient.GetAsync($"{URIservice.APIaddress}api/users/profile/hobbies/{hobbyToRemove.Id}/remove");
+        if (response.IsSuccessStatusCode) subscribedHobbies.Remove(hobbyToRemove);
     }
 
 }

@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @layout MainLayout
 @inject HttpClient HttpClient
+@inject URIservice URIservice
 @using HobbyHaven.Shared.DTOs.Hobbies
 
 
@@ -40,7 +41,7 @@
     protected override async Task OnInitializedAsync()
     {
 
-        var response = await HttpClient.GetAsync($"https://localhost:44357/api/hobbies/all");
+        var response = await HttpClient.GetAsync($"{URIservice.APIaddress}api/hobbies/all");
         hobbies = await response.Content.ReadFromJsonAsync<List<DTOHobby>>();
     }
 

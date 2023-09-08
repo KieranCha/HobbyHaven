@@ -1,9 +1,13 @@
 ﻿@page "/hobby"
 @attribute [Authorize]
 @layout MainLayout
+
 @inject NavigationManager NavManager
 @inject HttpClient HttpClient
 @inject ISnackbar Snackbar
+@inject URIservice URIservice
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
 @using HobbyHaven.Shared.DTOs.Hobbies
 
 
@@ -18,7 +22,7 @@
                     <MudText Typo="Typo.h1" Color="Color.Warning">@hobby.Name</MudText>
                 </MudItem>
                 <MudItem xs="3">
-                    <MudButton EndIcon="@buttonIcon" Color="@buttonColour" FullWidth="true" Variant="Variant.Outlined" OnClick="((e)=> subscribeState(true))">
+                    <MudButton EndIcon="@buttonIcon" Color="@buttonColour" FullWidth="true" Variant="Variant.Outlined" OnClick="((e)=> changeSubscribeState())">
                         @buttonText
                     </MudButton>
                 </MudItem>
@@ -46,41 +50,57 @@
     string buttonText, buttonIcon;
     Color buttonColour;
 
+    
     protected override async Task OnInitializedAsync()
     {
-        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
-        if ((QueryHelpers.ParseQuery(uri.Query).TryGetValue("hobby", out var _hobby)))
-        {
-            hobbySubscribed = true;
-            subscribeState();
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"https://localhost:44357/api/hobbies/{_hobby}/view");
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest) 
-            {
-                
+        var url = NavManager.ToAbsoluteUri(NavManager.Uri);
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
+        if ((QueryHelpers.ParseQuery(url.Query).TryGetValue("hobby", out var _hobby)))
+        {
+
+            HttpResponseMessage response = await HttpClient.GetAsync($"{URIservice.APIaddress}api/hobbies/{_hobby}/view");
+            if (!response.IsSuccessStatusCode) 
+            {   
                 Snackbar.Add("Hobby does not exsist, try again with valid hobbyID", Severity.Error);
                 NavManager.NavigateTo("/search-hobbies");
             }
             hobby = await response.Content.ReadFromJsonAsync<DTOHobby>();
-
+            hobbySubscribed = await subscribeState(_hobby);
         }
         else 
         {
             Snackbar.Add("No hobbyID provided, try again with valid hobbyID", Severity.Error);
             NavManager.NavigateTo("/search-hobbies");
         }
+        buttonColour = hobbySubscribed ? Color.Error : Color.Success;
+        buttonIcon = hobbySubscribed ? Icons.Material.Filled.Block : Icons.Material.Filled.Check;
+        buttonText = hobbySubscribed ? "Unsubscribe" : "Subscribe";
     }
 
-
-    public void subscribeState(bool change = false)
+    public async Task<bool> subscribeState(string hobbyId)
     {
-        if (change)
+        // api/users/profile/hobbies/subscribeCheck/{hobbyID}
+        var response = await HttpClient.GetAsync($"{URIservice.APIaddress}api/users/profile/hobbies/subscribeCheck/{hobbyId}");
+        var toConvert = await response.Content.ReadAsStringAsync();
+
+        return Boolean.Parse(toConvert);
+    }
+
+    public async Task changeSubscribeState()
+    {
+        // "api/users/profile/hobbies/{hobbyID}/remove"
+        // "api/users/profile/hobbies/{hobbyID}/add"
+        string method = (hobbySubscribed) ? "remove" : "add";
+        string hobbyID = hobby.Id.ToString();
+
+        var response = await HttpClient.GetAsync($"{URIservice.APIaddress}api/users/profile/hobbies/{hobbyID}/{method}");
+        if (response.IsSuccessStatusCode)
         {
             hobbySubscribed = !hobbySubscribed;
+            buttonColour = hobbySubscribed ? Color.Error : Color.Success;
+            buttonIcon = hobbySubscribed ? Icons.Material.Filled.Block : Icons.Material.Filled.Check;
+            buttonText = hobbySubscribed ? "Unsubscribe" : "Subscribe";
         }
-        buttonColour = hobbySubscribed ? Color.Success : Color.Error;
-        buttonIcon = hobbySubscribed ? Icons.Material.Filled.Check : Icons.Material.Filled.Block;
-        buttonText = hobbySubscribed ? "Subscribe" : "Unsubscribe";
     }
 }

@@ -5,6 +5,7 @@ using HobbyHaven.Shared.DTOs.Hobbies;
 using HobbyHaven.BackEnd.Database.Models;
 using HobbyHaven.Shared.DTOs.Administration.Hobbies;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 namespace HobbyHaven.BackEnd.Controllers.Hobbies
 {
@@ -58,6 +59,21 @@ namespace HobbyHaven.BackEnd.Controllers.Hobbies
             }
 
         }
+
+		[Route("api/hobbies/subscribeCheck/{hobbyID}/{userID}")]
+		[AuthenticationLink]
+		[HttpGet]
+		public async Task<ActionResult<bool>> subscribeCheck(Guid hobbyID, string userID)
+		{
+            User? user = await _context.Users.Include(u => u.PersonalityTags).Include(u => u.Hobbies).FirstAsync(u => u.UserID == userID);
+			if (user == null) return NoContent();
+
+			Hobby? hobby = await _context.Hobbies.FindAsync(hobbyID);
+			if (hobby == null) return NoContent();
+
+			if (user.Hobbies.Any<Hobby>(x => x == hobby)) return Ok(true);
+			else return Ok(false);
+		}
 
     }
 
