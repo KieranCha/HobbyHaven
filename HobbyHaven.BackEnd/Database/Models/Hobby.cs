@@ -16,6 +16,7 @@ namespace HobbyHaven.BackEnd.Database.Models
         {
             Name = hobby.Name;
             Description = hobby.Description;
+            HasImage = false;
         }
 
         public DTOAdminHobbyView ToAdminDTO()
