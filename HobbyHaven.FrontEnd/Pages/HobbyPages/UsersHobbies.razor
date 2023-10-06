@@ -85,22 +85,10 @@
     {
         return "/hobby?hobby=" + name;
     }
-    public async void unsubscribeHobby(DTOHobby hobbyToRemove)
+    public async Task unsubscribeHobby(DTOHobby hobbyToRemove)
     {
         HttpResponseMessage response = await httpClient.GetAsync($"{URIservice.APIaddress}api/users/profile/hobbies/{hobbyToRemove.Id}/remove");
         if (response.IsSuccessStatusCode) subscribedHobbies.Remove(hobbyToRemove);
-    }
-
-    public async Task<string> getHobbyImage(DTOHobby hobby)
-    {
-        if (hobby.HasImage)
-        {
-            HttpResponseMessage responseImage = await httpClient.GetAsync($"{URIservice.APIaddress}api/images/hobbies/{hobby.Id}");
-            byte[] hobbyImageBytes = await responseImage.Content.ReadAsByteArrayAsync();
-            string hobbyImageBase64 = Convert.ToBase64String(hobbyImageBytes);
-            return $"data:image/png;base64,{hobbyImageBase64}";
-        }
-        return "https://localhost:44362/BluMojis/defaultLoad.jpg";
     }
 
 }
