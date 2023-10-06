@@ -18,7 +18,21 @@
 
         <RowTemplate>
             <MudTd>
-                <MudText Typo="Typo.h6"> @context.Name </MudText>
+                <MudGrid>
+                    <MudItem xs="4" sm="3">
+                        @if (@context.HasImage)
+                        {
+                            <MudImage Src="@($"https://localhost:44357/api/images/hobbies/{@context.Id}")" Alt="Hobby image" Fluid="true" Width="125" />
+                        }
+                        else
+                        {
+                            <MudImage Src="https://localhost:44362/BluMojis/defaultLoad.jpg" Alt="Hobby image" Fluid="true" Width="125" />
+                        }
+                    </MudItem>
+                    <MudItem >
+                        <MudText Typo="Typo.h5" Style="line-height: 125px;"> @context.Name </MudText>
+                    </MudItem>
+                </MudGrid>
             </MudTd>
             <MudTd>
                 <MudGrid Justify="Justify.FlexEnd">

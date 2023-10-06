@@ -23,7 +23,14 @@
                             <MudContainer>
                                 <MudGrid>
                                     <MudItem xs="12" sm="3">
-                                        <MudPaper Square="true" Class="pa-16 ma-2">image</MudPaper>
+                                        @if (_hobby.HasImage)
+                                        {
+                                            <MudImage Src="@($"https://localhost:44357/api/images/hobbies/{_hobby.Id}")" Alt="Hobby image" Fluid="true" />
+                                        }
+                                        else
+                                        {
+                                            <MudImage Src="https://localhost:44362/BluMojis/defaultLoad.jpg" Alt="Hobby image" Fluid="true" />
+                                        }
                                     </MudItem>
                                     <MudItem xs="12" sm="9">
                                         <MudGrid Justify="Justify.FlexEnd">
@@ -78,10 +85,22 @@
     {
         return "/hobby?hobby=" + name;
     }
-    public async Task unsubscribeHobby(DTOHobby hobbyToRemove)
+    public async void unsubscribeHobby(DTOHobby hobbyToRemove)
     {
         HttpResponseMessage response = await httpClient.GetAsync($"{URIservice.APIaddress}api/users/profile/hobbies/{hobbyToRemove.Id}/remove");
         if (response.IsSuccessStatusCode) subscribedHobbies.Remove(hobbyToRemove);
+    }
+
+    public async Task<string> getHobbyImage(DTOHobby hobby)
+    {
+        if (hobby.HasImage)
+        {
+            HttpResponseMessage responseImage = await httpClient.GetAsync($"{URIservice.APIaddress}api/images/hobbies/{hobby.Id}");
+            byte[] hobbyImageBytes = await responseImage.Content.ReadAsByteArrayAsync();
+            string hobbyImageBase64 = Convert.ToBase64String(hobbyImageBytes);
+            return $"data:image/png;base64,{hobbyImageBase64}";
+        }
+        return "https://localhost:44362/BluMojis/defaultLoad.jpg";
     }
 
 }

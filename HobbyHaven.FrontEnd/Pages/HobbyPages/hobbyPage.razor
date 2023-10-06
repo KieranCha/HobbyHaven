@@ -13,12 +13,23 @@
 
 <MudGrid>
     <MudItem xs="2">
-        <MudPaper Square="true" Class="pa-16 ma-2">image</MudPaper>
+        @if (!hobby.HasImage)
+        {
+            <MudPaper Class="pa-2" Height="200" Width="200">
+                <MudImage Src="https://localhost:44362/BluMojis/defaultLoad.jpg" Alt="Hobby image" Fluid="true"/>
+            </MudPaper>
+        }
+        else
+        {
+            <MudPaper Class="pa-2" Height="200" Width="200">
+                <MudImage Src="@hobbyImageSrc" Alt="Hobby image" Fluid="true"/>
+            </MudPaper>
+        }
     </MudItem>
     <MudItem xs="10">
-        <MudPaper>
+        <MudPaper Height="300">
             <MudGrid Justify="Justify.FlexEnd">
-                <MudItem xs="12">
+                <MudItem xs="12" Class="pa-25 ma-2">
                     <MudText Typo="Typo.h1" Color="Color.Warning">@hobby.Name</MudText>
                 </MudItem>
                 <MudItem xs="3">
@@ -42,31 +53,39 @@
     public string hobbyName { get; set; } = "hobby";
 
     DTOHobby? hobby = new()
-    {
-        Name = "",
-        Description = ""
+        {
+            Name = "",
+            Description = "",
+            HasImage = false
     };
     bool hobbySubscribed;
-    string buttonText, buttonIcon;
+    string buttonText, buttonIcon, hobbyImageSrc;
     Color buttonColour;
 
-    
+
     protected override async Task OnInitializedAsync()
     {
 
         var url = NavManager.ToAbsoluteUri(NavManager.Uri);
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
-        if ((QueryHelpers.ParseQuery(url.Query).TryGetValue("hobby", out var _hobby)))
+        if ((QueryHelpers.ParseQuery(url.Query).TryGetValue("hobby", out var _hobbyID)))
         {
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{URIservice.APIaddress}api/hobbies/{_hobby}/view");
-            if (!response.IsSuccessStatusCode) 
+            HttpResponseMessage responseHobby = await HttpClient.GetAsync($"{URIservice.APIaddress}api/hobbies/{_hobbyID}/view");
+            if (!responseHobby.IsSuccessStatusCode) 
             {   
                 Snackbar.Add("Hobby does not exsist, try again with valid hobbyID", Severity.Error);
                 NavManager.NavigateTo("/search-hobbies");
             }
-            hobby = await response.Content.ReadFromJsonAsync<DTOHobby>();
-            hobbySubscribed = await subscribeState(_hobby);
+            hobby = await responseHobby.Content.ReadFromJsonAsync<DTOHobby>();
+            hobbySubscribed = await subscribeState(_hobbyID);
+            if (hobby.HasImage)
+            {
+                HttpResponseMessage responseImage = await HttpClient.GetAsync($"{URIservice.APIaddress}api/images/hobbies/{_hobbyID}");
+                byte[] hobbyImageBytes = await responseImage.Content.ReadAsByteArrayAsync();
+                string hobbyImageBase64 = Convert.ToBase64String(hobbyImageBytes);
+                hobbyImageSrc = $"data:image/png;base64,{hobbyImageBase64}";
+            }
         }
         else 
         {
