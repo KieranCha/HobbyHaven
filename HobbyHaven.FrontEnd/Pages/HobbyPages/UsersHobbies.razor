@@ -85,10 +85,11 @@
     {
         return "/hobby?hobby=" + name;
     }
-    public async Task unsubscribeHobby(DTOHobby hobbyToRemove)
+    public async Task<HttpResponseMessage> unsubscribeHobby(DTOHobby hobbyToRemove)
     {
         HttpResponseMessage response = await httpClient.GetAsync($"{URIservice.APIaddress}api/users/profile/hobbies/{hobbyToRemove.Id}/remove");
         if (response.IsSuccessStatusCode) subscribedHobbies.Remove(hobbyToRemove);
+        return response;
     }
 
 }
